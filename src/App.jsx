@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import heroImage from "../images/hero-illustration.svg";
+import ApplicationsSection from "./components/ApplicationsSection";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -318,6 +319,8 @@ function App() {
             ))}
           </motion.div>
         </section>
+
+        <ApplicationsSection />
 
         <section id="how-it-works" className="py-10">
           <SectionHeading eyebrow="HOW IT WORKS" title="A clean 3-step delivery flow." />
