@@ -11,8 +11,11 @@
 <body>
   <header class="site-header">
     <div class="container nav-wrap">
-      <a href="#" class="brand">Solution360</a>
-      <nav class="top-nav">
+      <a href="#top" class="brand">Solution360</a>
+      <button id="menuToggle" class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="topNav">
+        Menu
+      </button>
+      <nav id="topNav" class="top-nav">
         <a href="#products">Products</a>
         <a href="#about">About</a>
         <a href="#features">Features</a>
@@ -22,7 +25,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="top">
     <section class="hero">
       <div class="container hero-grid">
         <div>
@@ -59,16 +62,19 @@
         <h2>Product Suite</h2>
         <div class="grid cards">
           <article class="card">
-            <h3>GreenEnergy Optimizer</h3>
-            <p>Forecasting and optimization for renewable energy assets.</p>
+            <h3>Energy Intelligence Platform</h3>
+            <p>Optimize renewable performance, demand planning, and operational reporting.</p>
+            <a class="btn btn-ghost btn-small" href="#contact">Request Product Brief</a>
           </article>
           <article class="card">
-            <h3>CarbonTrack Pro</h3>
-            <p>Automated carbon accounting and ESG reporting workflows.</p>
+            <h3>Sustainability Reporting Suite</h3>
+            <p>Centralize emissions data collection and compliance-ready reporting workflows.</p>
+            <a class="btn btn-ghost btn-small" href="#contact">Request Product Brief</a>
           </article>
           <article class="card">
-            <h3>DisasterResponse Hub</h3>
-            <p>Real-time coordination and resource planning during emergencies.</p>
+            <h3>Resilience & Response Console</h3>
+            <p>Support risk monitoring and coordinated response planning for critical operations.</p>
+            <a class="btn btn-ghost btn-small" href="#contact">Request Product Brief</a>
           </article>
         </div>
       </div>
@@ -90,9 +96,10 @@
       <div class="container">
         <h2>Built for Growth and Funding Readiness</h2>
         <p>
-          This website acts as our startup portfolio and product narrative for demos, investor conversations,
-          and partnership outreach.
+          This website is prepared as a professional startup portfolio for investor demos, partnership discussions,
+          and future product storytelling with real customer data.
         </p>
+        <a class="btn btn-ghost cta-secondary" href="#contact">Schedule an Intro Call</a>
       </div>
     </section>
 
@@ -102,9 +109,9 @@
           <h2>Get In Touch</h2>
           <p class="section-text">Interested in partnership, pilot projects, or investment discussions? Contact us.</p>
           <ul class="contact-list">
-            <li>Email: contact@solution360.com</li>
-            <li>LinkedIn: linkedin.com/company/solution360</li>
-            <li>GitHub: github.com/solution360</li>
+            <li>Email: <a href="mailto:contact@solution360.com">contact@solution360.com</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">linkedin.com</a></li>
+            <li>GitHub: <a href="https://github.com/shanu222/Website" target="_blank" rel="noopener noreferrer">github.com/shanu222/Website</a></li>
           </ul>
         </div>
         <form id="contactForm" class="contact-form">
@@ -114,7 +121,7 @@
           <input id="email" name="email" type="email" required>
           <label for="message">Message</label>
           <textarea id="message" name="message" rows="5" required></textarea>
-          <button class="btn btn-primary" type="submit">Send Message</button>
+          <button id="sendButton" class="btn btn-primary" type="submit">Send Message</button>
           <p id="formStatus" class="form-status" aria-live="polite"></p>
         </form>
       </div>

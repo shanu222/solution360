@@ -38,6 +38,7 @@ body {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 0;
+  flex-wrap: wrap;
 }
 
 .brand {
@@ -54,6 +55,15 @@ body {
 .top-nav a {
   color: var(--muted);
   text-decoration: none;
+}
+
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  color: var(--text);
 }
 
 .btn {
@@ -78,6 +88,12 @@ body {
   border-color: var(--line);
   color: var(--text);
   background: #fff;
+}
+
+.btn-small {
+  margin-top: 0.75rem;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.9rem;
 }
 
 .hero {
@@ -160,6 +176,10 @@ h2 {
   padding: 1rem;
 }
 
+.card p {
+  margin-bottom: 0.5rem;
+}
+
 .features {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -173,6 +193,10 @@ h2 {
   color: #e2e8f0;
 }
 
+.cta-secondary {
+  margin-top: 0.75rem;
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -182,6 +206,10 @@ h2 {
 .contact-list {
   padding-left: 1rem;
   color: var(--muted);
+}
+
+.contact-list a {
+  color: var(--primary-dark);
 }
 
 .contact-form {
@@ -221,7 +249,18 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .menu-toggle {
+    display: inline-block;
+  }
+
   .top-nav {
     display: none;
+    width: 100%;
+    flex-direction: column;
+    padding-top: 0.5rem;
+  }
+
+  .top-nav.open {
+    display: flex;
   }
 }
