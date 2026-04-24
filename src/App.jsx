@@ -3,11 +3,14 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import {
   ArrowRight,
   Bot,
+  BriefcaseBusiness,
   ChartNoAxesCombined,
   CheckCircle2,
   Globe,
   Layers3,
+  Mail,
   Menu,
+  Phone,
   ShieldCheck,
   Sparkles,
   Workflow,
@@ -81,6 +84,13 @@ const testimonials = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 400], [0, -30]);
 
@@ -96,6 +106,35 @@ function App() {
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     setMenuOpen(false);
+  };
+
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+    if (submitMessage) {
+      setSubmitMessage("");
+    }
+  };
+
+  const handleContactSubmit = async (event) => {
+    event.preventDefault();
+
+    const { name, email, message } = formState;
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setSubmitMessage("Please complete all fields before submitting.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    await new Promise((resolve) => window.setTimeout(resolve, 900));
+    setIsSubmitting(false);
+    setSubmitMessage("Thanks. Your message is ready - sending through your email app.");
+
+    const subject = encodeURIComponent("Website Inquiry - Solution360");
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    window.location.href = `mailto:shanu1998end@gmail.com?subject=${subject}&body=${body}`;
+
+    setFormState({ name: "", email: "", message: "" });
   };
 
   return (
@@ -199,7 +238,7 @@ function App() {
           </div>
         </motion.section>
 
-        <section id="products" className="py-16">
+        <section id="products" className="py-12">
           <SectionHeading eyebrow="OUR PRODUCTS" title="Enterprise platforms that scale with your impact." />
           <motion.div
             variants={staggerContainer}
@@ -212,17 +251,19 @@ function App() {
               <motion.article
                 key={card.title}
                 variants={staggerItem}
-                whileHover={{ y: -8, scale: 1.01 }}
-                className="group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-cyan-300/50 hover:shadow-glow"
+                whileHover={{ y: -8, scale: 1.03 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-cyan-300/60 hover:shadow-glow"
               >
+                <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-blue-400 via-cyan-300 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
                 <card.icon className="text-cyan-300" size={20} />
-                <h3 className="mt-4 text-lg font-semibold text-white">{card.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-300">{card.description}</p>
+                <h3 className="mt-4 text-xl font-semibold text-white">{card.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-300">{card.description}</p>
                 <button
                   onClick={() => scrollToSection("contact")}
-                  className="mt-5 inline-flex items-center gap-2 text-sm text-cyan-200 transition group-hover:text-cyan-100"
+                  className="mt-6 inline-flex items-center gap-2 text-sm text-cyan-200 transition group-hover:gap-3 group-hover:text-cyan-100"
                 >
-                  Request product brief <ArrowRight size={14} />
+                  View Details <ArrowRight size={14} />
                 </button>
               </motion.article>
             ))}
@@ -253,21 +294,48 @@ function App() {
           </motion.div>
         </section>
 
-        <section className="py-10">
+        <section className="rounded-3xl border border-white/10 bg-slate-900/45 py-10">
           <SectionHeading eyebrow="WHY CHOOSE US" title="Product quality that meets business reality." />
-          <motion.div {...fadeInUp} className="grid gap-4 sm:grid-cols-2">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid gap-4 sm:grid-cols-2"
+          >
             {[
-              "Fast implementation with senior product ownership",
-              "Modern interface design with accessibility in mind",
-              "AI-assisted workflows that stay human-readable",
-              "Clear metrics for leadership and investors",
-            ].map((point) => (
-              <div key={point} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-slate-200">
-                <span className="flex items-center gap-2">
-                  <CheckCircle2 size={16} className="text-cyan-300" />
-                  {point}
-                </span>
-              </div>
+              {
+                icon: BriefcaseBusiness,
+                title: "Senior Product Execution",
+                desc: "Hands-on delivery from strategy to implementation with zero handoff friction.",
+              },
+              {
+                icon: Sparkles,
+                title: "Modern UX Standards",
+                desc: "Polished interfaces inspired by best-in-class SaaS products and accessibility practices.",
+              },
+              {
+                icon: Bot,
+                title: "Practical AI Workflows",
+                desc: "Automation that supports decision-making without reducing transparency.",
+              },
+              {
+                icon: ChartNoAxesCombined,
+                title: "Investor-Ready Visibility",
+                desc: "Track outcomes with clean metrics and reporting your leadership can present confidently.",
+              },
+            ].map((item) => (
+              <motion.div
+                key={item.title}
+                variants={staggerItem}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.4 }}
+                className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-slate-200"
+              >
+                <item.icon size={18} className="text-cyan-300" />
+                <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm text-slate-300">{item.desc}</p>
+              </motion.div>
             ))}
           </motion.div>
         </section>
@@ -292,56 +360,154 @@ function App() {
 
         <motion.section
           {...fadeInUp}
-          id="contact"
-          className="my-14 rounded-3xl bg-brand-gradient p-8 text-white shadow-glow md:p-12"
+          className="relative my-12 overflow-hidden rounded-3xl border border-blue-300/30 bg-brand-gradient p-8 text-white shadow-glow md:p-10"
         >
-          <h2 className="text-3xl font-semibold">Ready to build your next climate-tech advantage?</h2>
-          <p className="mt-3 max-w-2xl text-white/90">
-            Let us design a premium, data-powered product experience for your team, partners, and investors.
+          <motion.div
+            aria-hidden="true"
+            animate={{ x: ["-10%", "8%", "-10%"], opacity: [0.35, 0.5, 0.35] }}
+            transition={{ duration: 7, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+            className="pointer-events-none absolute -top-10 left-0 h-40 w-40 rounded-full bg-cyan-200/40 blur-3xl"
+          />
+          <motion.div
+            aria-hidden="true"
+            animate={{ x: ["10%", "-8%", "10%"], opacity: [0.2, 0.35, 0.2] }}
+            transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+            className="pointer-events-none absolute bottom-0 right-0 h-44 w-44 rounded-full bg-blue-200/40 blur-3xl"
+          />
+          <h2 className="relative text-3xl font-semibold md:text-4xl">Built for growth and funding readiness.</h2>
+          <p className="relative mt-3 max-w-2xl text-sm text-white/90 md:text-base">
+            Position your platform with a premium story, clear product value, and execution quality that builds trust
+            from customers to investors.
           </p>
-          <div className="mt-6 flex flex-wrap gap-4">
-            <a
-              href="mailto:shanu1998end@gmail.com"
-              className="rounded-xl bg-white px-6 py-3 font-semibold text-blue-700 transition hover:scale-[1.02]"
+          <div className="relative mt-6 flex flex-wrap gap-4">
+            <button
+              onClick={() => scrollToSection("contact")}
+              className="rounded-xl bg-white px-6 py-3 font-semibold text-blue-700 transition duration-200 hover:scale-[1.03] hover:shadow-[0_16px_40px_rgba(255,255,255,0.35)]"
             >
-              Book Intro Call
-            </a>
-            <a
-              href="https://www.linkedin.com/in/shahnawaz-2b9025130"
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl border border-white/50 px-6 py-3 font-medium text-white transition hover:bg-white/10"
-            >
-              Connect on LinkedIn
-            </a>
+              Schedule Intro Call
+            </button>
           </div>
+          <p className="relative mt-4 text-sm text-cyan-100">Built for investors, startups, and enterprises.</p>
+        </motion.section>
+
+        <motion.section id="contact" {...fadeInUp} className="grid gap-6 pb-12 md:grid-cols-2">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Contact</p>
+            <h3 className="mt-3 text-2xl font-semibold text-white">Talk to the founder</h3>
+            <p className="mt-3 text-sm leading-relaxed text-slate-300">
+              Interested in partnerships, pilot programs, or investment discussions? Reach out directly and we can
+              schedule a focused intro.
+            </p>
+            <div className="mt-6 space-y-3 text-sm text-slate-200">
+              <a
+                href="mailto:shanu1998end@gmail.com"
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition hover:border-cyan-300/50 hover:bg-cyan-300/10"
+              >
+                <Mail size={16} className="text-cyan-300" />
+                shanu1998end@gmail.com
+              </a>
+              <a
+                href="tel:+923403318127"
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition hover:border-cyan-300/50 hover:bg-cyan-300/10"
+              >
+                <Phone size={16} className="text-cyan-300" />
+                +92 340 3318127
+              </a>
+              <a
+                href="https://www.linkedin.com/in/shahnawaz-2b9025130"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition hover:border-cyan-300/50 hover:bg-cyan-300/10"
+              >
+                <Globe size={16} className="text-cyan-300" />
+                Founder LinkedIn
+              </a>
+              <a
+                href="https://github.com/shanu222"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition hover:border-cyan-300/50 hover:bg-cyan-300/10"
+              >
+                <Globe size={16} className="text-cyan-300" />
+                github.com/shanu222
+              </a>
+            </div>
+          </div>
+
+          <form onSubmit={handleContactSubmit} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+            <h3 className="text-xl font-semibold text-white">Send a message</h3>
+            <p className="mt-2 text-sm text-slate-300">We usually respond within 24 hours.</p>
+            <div className="mt-5 space-y-4">
+              <input
+                name="name"
+                value={formState.name}
+                onChange={handleFormChange}
+                placeholder="Your name"
+                className="w-full rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-400 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(103,232,249,0.18)]"
+              />
+              <input
+                type="email"
+                name="email"
+                value={formState.email}
+                onChange={handleFormChange}
+                placeholder="Work email"
+                className="w-full rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-400 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(103,232,249,0.18)]"
+              />
+              <textarea
+                name="message"
+                rows={5}
+                value={formState.message}
+                onChange={handleFormChange}
+                placeholder="Tell us about your project"
+                className="w-full rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-400 outline-none transition focus:border-cyan-300/70 focus:shadow-[0_0_0_4px_rgba(103,232,249,0.18)]"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-gradient px-6 py-3 text-sm font-semibold text-white shadow-glow transition duration-200 hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-80"
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+            <p className={`mt-3 text-sm ${submitMessage.includes("Please") ? "text-rose-300" : "text-cyan-200"}`}>
+              {submitMessage}
+            </p>
+          </form>
         </motion.section>
       </main>
 
-      <footer className="border-t border-white/10 bg-slate-950/90">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-sm text-slate-400 sm:px-6 lg:px-8">
-          <p>© {year} Solution360. All rights reserved.</p>
-          <div className="flex gap-5">
-            <a className="transition hover:text-cyan-200" href="mailto:shanu1998end@gmail.com">
-              Email
-            </a>
-            <a
-              className="transition hover:text-cyan-200"
-              href="https://github.com/shanu222"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
-            <a
-              className="transition hover:text-cyan-200"
-              href="https://www.linkedin.com/in/solutions-three-sixty-degree-a32913405/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn
-            </a>
+      <footer className="relative border-t border-white/10 bg-slate-950/95">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 text-sm sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
+          <div>
+            <p className="text-base font-semibold text-white">Solution360</p>
+            <p className="mt-2 text-slate-400">Premium climate-tech products designed for growth.</p>
           </div>
+          <div>
+            <p className="font-medium text-slate-200">Product</p>
+            <ul className="mt-3 space-y-2 text-slate-400">
+              <li><button onClick={() => scrollToSection("products")} className="transition hover:text-cyan-200">Product Suite</button></li>
+              <li><button onClick={() => scrollToSection("how-it-works")} className="transition hover:text-cyan-200">How It Works</button></li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-slate-200">Company</p>
+            <ul className="mt-3 space-y-2 text-slate-400">
+              <li><button onClick={() => scrollToSection("about")} className="transition hover:text-cyan-200">Who We Are</button></li>
+              <li><button onClick={() => scrollToSection("contact")} className="transition hover:text-cyan-200">Contact</button></li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-slate-200">Social</p>
+            <ul className="mt-3 space-y-2 text-slate-400">
+              <li><a href="mailto:shanu1998end@gmail.com" className="transition hover:text-cyan-200">Email</a></li>
+              <li><a href="https://github.com/shanu222" target="_blank" rel="noreferrer" className="transition hover:text-cyan-200">GitHub</a></li>
+              <li><a href="https://www.linkedin.com/in/solutions-three-sixty-degree-a32913405/" target="_blank" rel="noreferrer" className="transition hover:text-cyan-200">LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="mx-auto max-w-6xl px-4 pb-6 text-xs text-slate-500 sm:px-6 lg:px-8">
+          © {year} Solution360. All rights reserved.
         </div>
       </footer>
     </div>
