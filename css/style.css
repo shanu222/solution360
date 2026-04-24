@@ -6,6 +6,7 @@
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
   --line: #e2e8f0;
+  --glow: 0 10px 30px rgba(37, 99, 235, 0.2);
 }
 
 * {
@@ -16,8 +17,33 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background: radial-gradient(circle at top left, #f0f9ff 0%, var(--bg) 40%, #eef2ff 100%);
   line-height: 1.5;
+  overflow-x: hidden;
+}
+
+.bg-blur {
+  position: fixed;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(50px);
+  opacity: 0.22;
+}
+
+.bg-blur-1 {
+  width: 320px;
+  height: 320px;
+  background: #60a5fa;
+  top: -100px;
+  right: -80px;
+}
+
+.bg-blur-2 {
+  width: 260px;
+  height: 260px;
+  background: #818cf8;
+  bottom: 10%;
+  left: -80px;
 }
 
 .container {
@@ -28,8 +54,10 @@ body {
 .site-header {
   position: sticky;
   top: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
+  z-index: 100;
 }
 
 .nav-wrap {
@@ -45,6 +73,7 @@ body {
   font-weight: 700;
   text-decoration: none;
   color: var(--text);
+  font-size: 1.15rem;
 }
 
 .top-nav {
@@ -55,6 +84,11 @@ body {
 .top-nav a {
   color: var(--muted);
   text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.top-nav a:hover {
+  color: var(--primary-dark);
 }
 
 .menu-toggle {
@@ -70,9 +104,21 @@ body {
   display: inline-block;
   text-decoration: none;
   border-radius: 8px;
-  padding: 0.7rem 1rem;
+  padding: 0.75rem 1.1rem;
   border: 1px solid transparent;
   font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transform-style: preserve-3d;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
 }
 
 .btn-primary {
@@ -87,7 +133,7 @@ body {
 .btn-ghost {
   border-color: var(--line);
   color: var(--text);
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .btn-small {
@@ -97,7 +143,7 @@ body {
 }
 
 .hero {
-  padding: 4rem 0 2rem;
+  padding: 4.5rem 0 2.5rem;
 }
 
 .hero-grid {
@@ -139,11 +185,41 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
+  box-shadow: var(--glow);
+  transform: perspective(1000px) rotateY(-2deg);
+}
+
+.hero-image-card:hover {
+  transform: perspective(1000px) rotateY(0deg) translateY(-4px);
 }
 
 .hero-image-card img {
   width: 100%;
   display: block;
+}
+
+.hero-metrics {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.metric-card {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 0.8rem;
+}
+
+.metric-card strong {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.metric-card span {
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 .section {
@@ -174,6 +250,13 @@ h2 {
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover,
+.feature-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--glow);
 }
 
 .card p {
@@ -210,6 +293,11 @@ h2 {
 
 .contact-list a {
   color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.contact-list a:hover {
+  text-decoration: underline;
 }
 
 .contact-form {
@@ -226,6 +314,14 @@ h2 {
   padding: 0.65rem;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
 }
 
 .form-status {
@@ -241,11 +337,32 @@ h2 {
   background: #fff;
 }
 
+.back-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--primary-dark);
+  border-radius: 999px;
+  width: 42px;
+  height: 42px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: none;
+  box-shadow: var(--glow);
+}
+
+.back-to-top.show {
+  display: inline-block;
+}
+
 @media (max-width: 900px) {
   .hero-grid,
   .contact-grid,
   .cards,
-  .features {
+  .features,
+  .hero-metrics {
     grid-template-columns: 1fr;
   }
 
