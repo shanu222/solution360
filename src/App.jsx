@@ -44,7 +44,7 @@ function App() {
       <BackgroundVideo />
       <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} onNavigate={routeTo} theme={theme} onToggleTheme={toggleTheme} />
 
-      <main id="main-content" className="min-h-screen w-full pb-16 pt-20">
+      <main id="main-content" className="relative z-10 min-h-screen w-full pb-16 pt-20">
         <AnimatePresence mode="wait">
           <motion.div key={location.pathname} initial={pageTransition.initial} animate={pageTransition.animate} exit={pageTransition.exit} transition={pageTransition.transition}>
             <Routes location={location}>

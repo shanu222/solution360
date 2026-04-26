@@ -20,6 +20,16 @@ body {
   transition: background-color 300ms ease, color 300ms ease;
 }
 
+@media (max-width: 768px) {
+  .background-video-element {
+    display: none;
+  }
+
+  body {
+    background: linear-gradient(to bottom, #0f172a, #1e293b);
+  }
+}
+
 .nav-link {
   position: relative;
   transition: color 0.2s ease;
