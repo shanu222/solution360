@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 
 const navItems = [
   { id: "products", label: "Products" },
@@ -8,19 +8,26 @@ const navItems = [
   { id: "contact", label: "Contact" },
 ];
 
-function Navbar({ menuOpen, setMenuOpen, onNavigate }) {
+function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/65 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/65">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <button onClick={() => onNavigate("top")} className="text-lg font-semibold tracking-tight text-white">
+        <button onClick={() => onNavigate("top")} className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">
           SustainableSolution360
         </button>
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
-            <button key={item.id} onClick={() => onNavigate(item.id)} className="nav-link text-sm text-slate-300">
+            <button key={item.id} onClick={() => onNavigate(item.id)} className="nav-link text-sm text-slate-700 transition-colors duration-300 dark:text-slate-300">
               {item.label}
             </button>
           ))}
+          <button
+            onClick={onToggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 transition-all duration-300 hover:rotate-12 hover:border-cyan-400 hover:text-cyan-600 dark:border-white/20 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:border-cyan-300 dark:hover:text-cyan-200"
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <button
             onClick={() => onNavigate("contact")}
             className="rounded-lg bg-brand-gradient px-4 py-2 text-sm font-medium text-white shadow-glow transition hover:scale-[1.04]"
@@ -28,9 +35,18 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate }) {
             Request Demo
           </button>
         </nav>
-        <button onClick={() => setMenuOpen((v) => !v)} className="rounded-lg border border-white/20 p-2 text-white md:hidden">
-          {menuOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={onToggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 transition-all duration-300 hover:rotate-12 dark:border-white/20 dark:bg-slate-900/60 dark:text-slate-100"
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+          <button onClick={() => setMenuOpen((v) => !v)} className="rounded-lg border border-slate-300 p-2 text-slate-700 transition-colors duration-300 dark:border-white/20 dark:text-white">
+            {menuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
       </div>
       <AnimatePresence>
         {menuOpen && (
@@ -38,13 +54,13 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate }) {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="border-t border-white/10 bg-slate-950/95 p-4 md:hidden"
+            className="border-t border-slate-200 bg-white/95 p-4 transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/95 md:hidden"
           >
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className="block w-full rounded-lg px-3 py-2 text-left text-slate-200 transition hover:bg-white/10"
+                className="block w-full rounded-lg px-3 py-2 text-left text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
               >
                 {item.label}
               </button>

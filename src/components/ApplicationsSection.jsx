@@ -134,12 +134,12 @@ function ApplicationsSection() {
   return (
     <section id="applications" className="py-10">
       <motion.div {...sectionFade} className="mb-6">
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Our Applications</p>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight text-white md:text-3xl">Our Applications</h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-300 md:text-base">
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">Our Applications</p>
+        <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white md:text-3xl">Our Applications</h2>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600 transition-colors duration-300 dark:text-slate-300 md:text-base">
           Explore our growing ecosystem of AI-powered platforms.
         </p>
-        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/35 bg-cyan-300/10 px-4 py-1.5 text-xs font-semibold tracking-[0.14em] text-cyan-100">
+        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/60 bg-cyan-100/80 px-4 py-1.5 text-xs font-semibold tracking-[0.14em] text-cyan-700 transition-colors duration-300 dark:border-cyan-300/35 dark:bg-cyan-300/10 dark:text-cyan-100">
           <Layers3 size={14} />
           8+ Live Platforms | Serving Multiple Domains
         </div>
@@ -157,13 +157,13 @@ function ApplicationsSection() {
             key={category.title}
             variants={itemFade}
             transition={{ duration: 0.45, delay: category.delay ?? 0 }}
-            className={`rounded-3xl border border-white/10 bg-gradient-to-br ${category.theme} p-4 backdrop-blur-sm md:p-6`}
+            className={`rounded-3xl border border-slate-200 bg-gradient-to-br p-4 shadow-sm transition-colors duration-300 dark:border-white/10 dark:backdrop-blur-sm md:p-6 ${category.theme}`}
           >
             <div className="mb-4 flex items-center gap-2">
-              <HardHat size={16} className="text-cyan-200" />
-              <h3 className="text-lg font-semibold text-white md:text-xl">{category.title}</h3>
+              <HardHat size={16} className="text-cyan-700 transition-colors duration-300 dark:text-cyan-200" />
+              <h3 className="text-lg font-semibold text-slate-900 transition-colors duration-300 dark:text-white md:text-xl">{category.title}</h3>
             </div>
-            {category.subtitle && <p className="mb-4 text-sm text-slate-200/90">{category.subtitle}</p>}
+            {category.subtitle && <p className="mb-4 text-sm text-slate-600 transition-colors duration-300 dark:text-slate-200/90">{category.subtitle}</p>}
 
             <motion.div variants={cardStagger} className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               {category.apps.map((app) => (
@@ -172,8 +172,8 @@ function ApplicationsSection() {
                   variants={itemFade}
                   whileHover={{ y: -8, scale: 1.03 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className={`group relative overflow-hidden rounded-2xl border border-white/10 p-5 shadow-[0_10px_30px_rgba(2,6,23,0.25)] transition hover:border-cyan-300/50 hover:shadow-glow ${
-                    category.experimental ? "bg-gradient-to-br from-slate-900/70 to-purple-950/35" : "bg-slate-950/45"
+                  className={`group relative overflow-hidden rounded-2xl border border-slate-200 p-5 shadow-sm transition-colors duration-300 hover:border-cyan-400 hover:shadow-lg dark:border-slate-700 dark:shadow-[0_10px_30px_rgba(2,6,23,0.25)] dark:hover:border-cyan-300/50 dark:hover:shadow-glow ${
+                    category.experimental ? "bg-gradient-to-br from-white to-fuchsia-50 dark:from-slate-900/70 dark:to-purple-950/35" : "bg-white dark:bg-slate-950/45"
                   }`}
                 >
                   <motion.div
@@ -184,17 +184,17 @@ function ApplicationsSection() {
                   />
                   <app.icon size={18} className="text-cyan-300" />
                   {(app.status || category.experimental) && (
-                    <span className="mt-3 inline-flex rounded-full border border-fuchsia-300/40 bg-fuchsia-300/15 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-fuchsia-100">
+                    <span className="mt-3 inline-flex rounded-full border border-fuchsia-300/60 bg-fuchsia-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-fuchsia-700 transition-colors duration-300 dark:border-fuchsia-300/40 dark:bg-fuchsia-300/15 dark:text-fuchsia-100">
                       {app.status || "AI Powered"}
                     </span>
                   )}
-                  <h4 className="mt-4 text-base font-semibold text-white">{app.name}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{app.description}</p>
+                  <h4 className="mt-4 text-base font-semibold text-slate-900 transition-colors duration-300 dark:text-white">{app.name}</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 transition-colors duration-300 dark:text-slate-300">{app.description}</p>
                   <a
                     href={app.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-5 inline-flex items-center gap-2 text-sm text-cyan-200 transition hover:text-cyan-100"
+                    className="mt-5 inline-flex items-center gap-2 text-sm text-cyan-700 transition duration-300 hover:text-cyan-600 dark:text-cyan-200 dark:hover:text-cyan-100"
                   >
                     <span className="link-slide">{app.ctaLabel || "Visit App"}</span>
                     <motion.span

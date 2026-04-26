@@ -17,6 +17,7 @@ body {
   font-family: "Inter", system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
 .nav-link {
@@ -38,6 +39,10 @@ body {
 }
 
 .nav-link:hover {
+  color: #0f172a;
+}
+
+.dark .nav-link:hover {
   color: #e2e8f0;
 }
 
