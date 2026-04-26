@@ -37,10 +37,13 @@ function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-gray-900 transition-colors duration-300 dark:bg-slate-900 dark:text-gray-100">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-slate-900 focus:shadow dark:focus:bg-slate-800 dark:focus:text-slate-100">
+        Skip to content
+      </a>
       <BackgroundVideo />
       <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} onNavigate={routeTo} theme={theme} onToggleTheme={toggleTheme} />
 
-      <main className="w-full pb-16 pt-20">
+      <main id="main-content" className="min-h-screen w-full pb-16 pt-20">
         <AnimatePresence mode="wait">
           <motion.div key={location.pathname} initial={pageTransition.initial} animate={pageTransition.animate} exit={pageTransition.exit} transition={pageTransition.transition}>
             <Routes location={location}>

@@ -177,7 +177,6 @@ function ApplicationsSection() {
                   }`}
                 >
                   <motion.div
-                    aria-hidden="true"
                     className="pointer-events-none absolute -left-1/3 top-0 h-full w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                     animate={{ x: ["-140%", "320%"] }}
                     transition={{ duration: 3.6, repeat: Number.POSITIVE_INFINITY, repeatDelay: 2.4, ease: "easeInOut" }}

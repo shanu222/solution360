@@ -46,7 +46,6 @@ function Hero({ onNavigate }) {
       {[0, 1, 2, 3].map((particle) => (
         <motion.span
           key={particle}
-          aria-hidden="true"
           className="pointer-events-none absolute h-1.5 w-1.5 rounded-full bg-cyan-300/70"
           style={{ left: `${18 + particle * 20}%`, top: `${20 + (particle % 2) * 30}%`, willChange: "transform, opacity" }}
           animate={{ y: [0, -14, 0], opacity: [0.4, 1, 0.4] }}
