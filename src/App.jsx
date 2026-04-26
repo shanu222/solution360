@@ -4,6 +4,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-
 import BackgroundVideo from "./components/BackgroundVideo";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import SocialIcons from "./components/SocialIcons";
 import useTheme from "./hooks/useTheme";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -58,6 +59,14 @@ function App() {
           </motion.div>
         </AnimatePresence>
       </main>
+      <motion.aside
+        initial={{ opacity: 0, x: 16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.35, delay: 0.25 }}
+        className="fixed bottom-5 right-4 z-40 hidden rounded-2xl border border-slate-200/80 bg-white/60 p-2 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-slate-900/50 sm:block"
+      >
+        <SocialIcons orientation="column" />
+      </motion.aside>
       <Footer year={year} onNavigate={routeTo} />
     </div>
   );

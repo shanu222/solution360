@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
+import SocialIcons from "./SocialIcons";
 
 const navItems = [
   { path: "/", label: "Home" },
@@ -51,6 +52,7 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
           >
             Request Demo
           </button>
+          <SocialIcons className="ml-1" />
         </nav>
         <div className="flex items-center gap-2 md:hidden">
           <button
@@ -83,6 +85,9 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
                 {item.label}
               </NavLink>
             ))}
+            <div className="mt-3 border-t border-slate-200/80 pt-3 dark:border-white/10">
+              <SocialIcons iconSize="sm" />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

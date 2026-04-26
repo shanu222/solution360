@@ -1,3 +1,5 @@
+import SocialIcons from "./SocialIcons";
+
 function Footer({ year, onNavigate }) {
   return (
     <footer className="relative border-t border-slate-200 bg-white/95 transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/95">
@@ -28,6 +30,7 @@ function Footer({ year, onNavigate }) {
             <li><a href="https://github.com/shanu222" target="_blank" rel="noreferrer" className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">GitHub</a></li>
             <li><a href="https://www.linkedin.com/in/solutions-three-sixty-degree-a32913405/" target="_blank" rel="noreferrer" className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">LinkedIn</a></li>
           </ul>
+          <SocialIcons className="mt-4" iconSize="sm" />
         </div>
       </div>
       <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-xs text-slate-500 transition-colors duration-300 dark:text-slate-500">
