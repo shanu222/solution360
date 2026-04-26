@@ -3,6 +3,7 @@ import { Menu, Moon, Sun, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const navItems = [
+  { path: "/", label: "Home" },
   { path: "/products", label: "Products" },
   { path: "/about", label: "Who We Are" },
   { path: "/how-it-works", label: "How It Works" },

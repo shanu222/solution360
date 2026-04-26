@@ -41,7 +41,7 @@ function Hero({ onNavigate }) {
   };
 
   return (
-    <section id="top" className="relative grid w-full items-center gap-5 overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-br from-blue-50/95 via-white to-sky-50 px-6 py-12 shadow-[0_10px_30px_rgba(148,163,184,0.18)] transition-colors duration-300 dark:border-white/10 dark:bg-slate-900/40 dark:shadow-none md:gap-8 lg:grid-cols-2 lg:gap-10 lg:py-16">
+    <section id="top" className="relative grid w-full items-center gap-5 overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-br from-blue-50/95 via-white to-sky-50 px-6 py-12 shadow-[0_10px_30px_rgba(148,163,184,0.18)] transition-colors duration-300 dark:border-white/10 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:shadow-none md:gap-8 lg:grid-cols-2 lg:gap-10 lg:py-16">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(59,130,246,0.22),transparent_38%),linear-gradient(110deg,rgba(37,99,235,0.1),rgba(255,255,255,0))] transition-colors duration-300 dark:bg-[radial-gradient(circle_at_20%_12%,rgba(56,189,248,0.2),transparent_35%),linear-gradient(110deg,rgba(59,130,246,0.11),rgba(15,23,42,0))]" />
       {[0, 1, 2, 3].map((particle) => (
         <motion.span
