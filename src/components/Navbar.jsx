@@ -13,13 +13,18 @@ const navItems = [
 function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/65">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-3">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 py-3">
         <Link
           to="/"
-          className="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-900 transition duration-200 hover:scale-105 hover:opacity-80 dark:text-white"
+          className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
         >
-          <img src="/assets/logo.png" alt="SustainableSolution360 Logo" className="h-7 w-7 object-contain sm:h-8 sm:w-8" />
-          <span>SustainableSolution360</span>
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-blue-500 opacity-10 blur-[1px]" />
+            <div className="relative overflow-hidden rounded-full bg-white p-1 shadow-lg ring-1 ring-slate-200 transition-all duration-300 hover:shadow-xl dark:bg-slate-800 dark:ring-slate-700">
+              <img src="/assets/logo.png" alt="SustainableSolution360 Logo" className="h-8 w-8 object-contain sm:h-10 sm:w-10" />
+            </div>
+          </div>
+          <span className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">SustainableSolution360</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
