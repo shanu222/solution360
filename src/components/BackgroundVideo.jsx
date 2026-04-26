@@ -14,7 +14,7 @@ export default function BackgroundVideo() {
           preload="auto"
           className="fixed inset-0 h-full w-full object-cover -z-10"
         >
-          <source src="/videos/bg.mp4" type="video/mp4" />
+          <source src="/videos/bg-optimized.mp4" type="video/mp4" />
         </video>
       )}
 
