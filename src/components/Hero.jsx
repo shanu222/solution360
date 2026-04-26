@@ -76,13 +76,13 @@ function Hero({ onNavigate }) {
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <button
-            onClick={() => onNavigate("products")}
+            onClick={() => onNavigate("/products")}
             className="btn-premium rounded-xl bg-brand-gradient px-6 py-3 font-medium text-white shadow-glow transition duration-200 hover:scale-[1.03]"
           >
             Explore Products
           </button>
           <button
-            onClick={() => onNavigate("contact")}
+            onClick={() => onNavigate("/contact")}
             className="btn-premium rounded-xl border border-slate-300 bg-white px-6 py-3 font-medium text-slate-700 transition duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/20 dark:bg-white/5 dark:text-slate-100 dark:backdrop-blur dark:hover:border-cyan-300/60 dark:hover:bg-cyan-300/10"
           >
             Contact Team

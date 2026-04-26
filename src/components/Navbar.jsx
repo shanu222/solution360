@@ -1,25 +1,32 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, Moon, Sun, X } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const navItems = [
-  { id: "products", label: "Products" },
-  { id: "about", label: "Who We Are" },
-  { id: "how-it-works", label: "How It Works" },
-  { id: "contact", label: "Contact" },
+  { path: "/products", label: "Products" },
+  { path: "/about", label: "Who We Are" },
+  { path: "/how-it-works", label: "How It Works" },
+  { path: "/contact", label: "Contact" },
 ];
 
 function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/65">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <button onClick={() => onNavigate("top")} className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">
+        <button onClick={() => onNavigate("/")} className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">
           SustainableSolution360
         </button>
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
-            <button key={item.id} onClick={() => onNavigate(item.id)} className="nav-link text-sm text-slate-700 transition-colors duration-300 dark:text-slate-300">
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `nav-link text-sm transition-colors duration-300 ${isActive ? "text-cyan-700 dark:text-cyan-200" : "text-slate-700 dark:text-slate-300"}`
+              }
+            >
               {item.label}
-            </button>
+            </NavLink>
           ))}
           <button
             onClick={onToggleTheme}
@@ -29,7 +36,7 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
             {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           <button
-            onClick={() => onNavigate("contact")}
+            onClick={() => onNavigate("/contact")}
             className="rounded-lg bg-brand-gradient px-4 py-2 text-sm font-medium text-white shadow-glow transition hover:scale-[1.04]"
           >
             Request Demo
@@ -57,13 +64,14 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
             className="border-t border-slate-200 bg-white/95 p-4 transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/95 md:hidden"
           >
             {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
+              <NavLink
+                key={item.path}
+                to={item.path}
+                onClick={() => setMenuOpen(false)}
                 className="block w-full rounded-lg px-3 py-2 text-left text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
               >
                 {item.label}
-              </button>
+              </NavLink>
             ))}
           </motion.div>
         )}

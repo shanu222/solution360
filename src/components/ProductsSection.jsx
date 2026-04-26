@@ -64,7 +64,7 @@ function ProductsSection({ onNavigate }) {
             <h3 className="mt-4 text-xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">{card.title}</h3>
             <p className="mt-3 text-sm leading-relaxed text-slate-600 transition-colors duration-300 dark:text-slate-300">{card.description}</p>
             <button
-              onClick={() => onNavigate("contact")}
+              onClick={() => onNavigate("/contact")}
               className="mt-6 inline-flex items-center gap-2 text-sm text-cyan-700 transition duration-300 group-hover:gap-3 group-hover:text-cyan-600 dark:text-cyan-200 dark:group-hover:text-cyan-100"
             >
               View Details <ArrowRight size={14} />

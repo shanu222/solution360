@@ -10,15 +10,15 @@ function Footer({ year, onNavigate }) {
         <div>
           <p className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Product</p>
           <ul className="mt-3 space-y-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">
-            <li><button onClick={() => onNavigate("products")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Product Suite</button></li>
-            <li><button onClick={() => onNavigate("how-it-works")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">How It Works</button></li>
+            <li><button onClick={() => onNavigate("/products")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Product Suite</button></li>
+            <li><button onClick={() => onNavigate("/how-it-works")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">How It Works</button></li>
           </ul>
         </div>
         <div>
           <p className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Company</p>
           <ul className="mt-3 space-y-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">
-            <li><button onClick={() => onNavigate("about")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Who We Are</button></li>
-            <li><button onClick={() => onNavigate("contact")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Contact</button></li>
+            <li><button onClick={() => onNavigate("/about")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Who We Are</button></li>
+            <li><button onClick={() => onNavigate("/contact")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Contact</button></li>
           </ul>
         </div>
         <div>
