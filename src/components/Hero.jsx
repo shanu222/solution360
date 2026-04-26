@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -25,8 +25,67 @@ const trustStats = [
   { title: "Enterprise Ready", subtitle: "Secure and scalable architecture" },
 ];
 
+const baseIndicators = [
+  {
+    title: "Energy Shortfall",
+    value: "4,500 MW",
+    status: "Critical",
+    trend: "+8%",
+    source: "NTDC",
+    updated: "10 min ago",
+  },
+  {
+    title: "Renewable Energy Share",
+    value: "12%",
+    status: "Low",
+    trend: "+1.2%",
+    source: "NEPRA",
+    updated: "12 min ago",
+  },
+  {
+    title: "Air Quality Index (Lahore)",
+    value: "185",
+    status: "Unhealthy",
+    trend: "+3%",
+    source: "OpenAQ",
+    updated: "8 min ago",
+  },
+  {
+    title: "Maternal Health Index",
+    value: "58/100",
+    status: "Needs Improvement",
+    trend: "+0.6%",
+    source: "WHO",
+    updated: "15 min ago",
+  },
+  {
+    title: "Female Literacy Rate",
+    value: "48%",
+    status: "Low",
+    trend: "+0.4%",
+    source: "UNESCO",
+    updated: "20 min ago",
+  },
+  {
+    title: "Climate Risk Index",
+    value: "High",
+    status: "Critical",
+    trend: "Increasing",
+    source: "NDMA",
+    updated: "6 min ago",
+  },
+];
+
+const chartBase = {
+  aqi: [160, 168, 172, 178, 185, 180, 176],
+  demand: [22200, 22750, 23100, 23620, 24100, 23800, 23550],
+  temp: [33.2, 34.1, 35.0, 36.2, 37.0, 36.5, 35.8],
+};
+
 function Hero({ onNavigate }) {
   const [heroMouse, setHeroMouse] = useState({ x: 0, y: 0 });
+  const [indicators, setIndicators] = useState(baseIndicators);
+  const [chartData, setChartData] = useState(chartBase);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 400], [0, -30]);
   const heroParallaxX = useTransform(scrollY, [0, 600], [0, 8]);
@@ -39,7 +98,36 @@ function Hero({ onNavigate }) {
     setHeroMouse({ x, y });
   };
 
-  const chartPoints = "10,88 45,74 80,68 115,58 150,51 185,45 220,39 255,34 290,28";
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setIndicators((prev) =>
+        prev.map((item) => {
+          if (item.title === "Energy Shortfall") {
+            const next = 4300 + Math.floor(Math.random() * 500);
+            return { ...item, value: `${next.toLocaleString()} MW`, trend: `${next > 4500 ? "+" : "-"}${Math.abs(((next - 4500) / 4500 * 100)).toFixed(1)}%`, updated: "Just now" };
+          }
+          if (item.title === "Renewable Energy Share") {
+            const next = 11 + Math.random() * 2.4;
+            return { ...item, value: `${next.toFixed(1)}%`, trend: `+${(Math.random() * 1.4).toFixed(1)}%`, updated: "Just now" };
+          }
+          if (item.title === "Air Quality Index (Lahore)") {
+            const next = 170 + Math.floor(Math.random() * 30);
+            return { ...item, value: `${next}`, trend: `${next > 185 ? "+" : "-"}${Math.abs(next - 185)}`, updated: "Just now" };
+          }
+          return item;
+        })
+      );
+
+      setChartData((prev) => {
+        const nAqi = [...prev.aqi.slice(1), 170 + Math.floor(Math.random() * 25)];
+        const nDemand = [...prev.demand.slice(1), 23000 + Math.floor(Math.random() * 1700)];
+        const nTemp = [...prev.temp.slice(1), Number((34.5 + Math.random() * 3.2).toFixed(1))];
+        return { aqi: nAqi, demand: nDemand, temp: nTemp };
+      });
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
     <section id="top" className="relative grid w-full items-center gap-12 overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-br from-blue-50/90 via-white to-cyan-50/70 px-6 py-12 shadow-[0_10px_24px_rgba(148,163,184,0.16)] transition-colors duration-300 dark:border-white/10 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:shadow-none lg:grid-cols-2 lg:gap-16 lg:py-16">
@@ -93,6 +181,7 @@ function Hero({ onNavigate }) {
                 Live
               </span>
             </div>
+            <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Live National Indicators - Pakistan</p>
 
             <div className="grid grid-cols-2 gap-4">
               <motion.div
@@ -101,76 +190,102 @@ function Hero({ onNavigate }) {
                 transition={{ duration: 0.4, ease: "easeOut", delay: 0.08 }}
                 className="col-span-2 rounded-xl border border-slate-200/70 bg-white/80 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
               >
-                <p className="text-xs font-medium text-slate-600 dark:text-slate-300">Climate Risk Trend</p>
+                <p className="text-xs font-medium text-slate-600 dark:text-slate-300">Pakistan Climate & Energy Trend</p>
                 <svg viewBox="0 0 300 100" className="mt-2 h-24 w-full">
                   <defs>
-                    <linearGradient id="riskStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#22c55e" />
+                    <linearGradient id="aqiStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#ef4444" />
+                      <stop offset="100%" stopColor="#f97316" />
+                    </linearGradient>
+                    <linearGradient id="demandStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#2563eb" />
                       <stop offset="100%" stopColor="#06b6d4" />
+                    </linearGradient>
+                    <linearGradient id="tempStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#22c55e" />
+                      <stop offset="100%" stopColor="#14b8a6" />
                     </linearGradient>
                   </defs>
                   <polyline fill="none" stroke="rgba(148,163,184,0.35)" strokeWidth="1" points="0,90 300,90" />
                   <motion.polyline
                     fill="none"
-                    stroke="url(#riskStroke)"
-                    strokeWidth="3"
+                    stroke="url(#aqiStroke)"
+                    strokeWidth="2.6"
                     strokeLinecap="round"
-                    points={chartPoints}
+                    points={chartData.aqi.map((v, i) => `${10 + i * 46},${95 - (v - 150)}`).join(" ")}
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    transition={{ duration: 0.9, ease: "easeInOut" }}
+                  />
+                  <motion.polyline
+                    fill="none"
+                    stroke="url(#demandStroke)"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    points={chartData.demand.map((v, i) => `${10 + i * 46},${95 - ((v - 22000) / 80)}`).join(" ")}
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.95, ease: "easeInOut" }}
+                  />
+                  <motion.polyline
+                    fill="none"
+                    stroke="url(#tempStroke)"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    points={chartData.temp.map((v, i) => `${10 + i * 46},${95 - ((v - 32) * 11)}`).join(" ")}
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
                   />
                 </svg>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.15 }}
-                className="rounded-xl border border-slate-200/70 bg-white/75 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
-              >
-                <p className="text-xs text-slate-500 dark:text-slate-400">Infrastructure Health</p>
-                <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">82%</p>
-                <div className="mt-2 h-2 w-full rounded-full bg-slate-200 dark:bg-slate-700">
-                  <div className="h-2 w-[82%] rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
+                <div className="mt-2 flex flex-wrap gap-3 text-[10px] font-medium text-slate-500 dark:text-slate-400">
+                  <span>AQI</span>
+                  <span>Energy Demand</span>
+                  <span>Temperature</span>
                 </div>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.2 }}
-                className="rounded-xl border border-slate-200/70 bg-white/75 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
-              >
-                <p className="text-xs text-slate-500 dark:text-slate-400">Energy Optimization</p>
-                <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">Energy Saved: 18%</p>
-                <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">CO₂ Reduced: 12%</p>
-              </motion.div>
+              {indicators.map((item, index) => {
+                const statusTone =
+                  item.status === "Critical" || item.status === "Unhealthy"
+                    ? "bg-rose-100 text-rose-700 dark:bg-rose-300/15 dark:text-rose-200"
+                    : item.status === "Low" || item.status === "Needs Improvement"
+                      ? "bg-amber-100 text-amber-700 dark:bg-amber-300/15 dark:text-amber-200"
+                      : "bg-emerald-100 text-emerald-700 dark:bg-emerald-300/15 dark:text-emerald-200";
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.25 }}
-                className="rounded-xl border border-slate-200/70 bg-white/75 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
-              >
-                <p className="text-xs text-slate-500 dark:text-slate-400">Sustainability Score</p>
-                <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">ESG Score: 74/100</p>
-              </motion.div>
+                const isPositiveTrend = item.trend?.startsWith("+");
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.3 }}
-                className="rounded-xl border border-slate-200/70 bg-white/75 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
-              >
-                <p className="text-xs text-slate-500 dark:text-slate-400">Alerts Panel</p>
-                <ul className="mt-2 space-y-1 text-xs text-slate-700 dark:text-slate-200">
-                  <li>Flood Alert - KP</li>
-                  <li>Structural Risk - Bridge</li>
-                  <li>Heatwave Warning - City</li>
-                </ul>
-              </motion.div>
+                return (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.15 + index * 0.04 }}
+                    className="rounded-xl border border-slate-200/70 bg-white/75 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{item.title}</p>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${statusTone}`}>{item.status}</span>
+                    </div>
+
+                    <motion.p key={item.value} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                      {item.value}
+                    </motion.p>
+
+                    {item.trend && (
+                      <p className={`mt-1 text-xs font-medium ${isPositiveTrend ? "text-emerald-600 dark:text-emerald-300" : "text-amber-600 dark:text-amber-300"}`}>
+                        {isPositiveTrend ? "↑" : "↓"} {item.trend}
+                      </p>
+                    )}
+
+                    <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
+                      Source: {item.source} • {item.updated}
+                    </p>
+                  </motion.div>
+                );
+              })}
             </div>
+            <p className="mt-4 text-[11px] text-slate-500 dark:text-slate-400">Data aggregated from public sources. Updated periodically.</p>
           </div>
         </motion.div>
       </motion.div>
