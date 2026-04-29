@@ -1,8 +1,19 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 
 const liveProducts = [
+  {
+    name: "She360",
+    href: "https://ai-platform-for-women-empowerment.vercel.app/",
+    sdg: "SDG 3, SDG 5, SDG 8, SDG 10",
+    isFeatured: true,
+    isFlagship: true,
+    badge: "FLAGSHIP PRODUCT",
+    icon: Sparkles,
+    description:
+      "AI-powered women empowerment platform for Pakistan, providing health guidance, safety support, financial inclusion, and legal awareness through intelligent systems.",
+  },
   {
     name: "CSS360",
     href: "https://css360.onrender.com/",
@@ -170,15 +181,31 @@ function ProductsSection() {
             {products.map((product) => (
               <motion.article
                 key={product.name}
-                whileHover={{ y: -6, scale: 1.01 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className={`group relative overflow-hidden rounded-2xl border bg-white p-6 transition-colors duration-300 dark:bg-slate-800 ${
-                  product.isFeatured && activeTab === "live"
-                    ? "border-cyan-300 shadow-[0_14px_35px_rgba(6,182,212,0.18)] dark:border-cyan-300/60 dark:shadow-glow"
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                whileHover={{ y: -8, scale: product.isFlagship ? 1.05 : 1.01 }}
+                className={`group relative overflow-hidden rounded-2xl border bg-white p-6 transition-all duration-300 dark:bg-slate-800 ${
+                  product.isFlagship && activeTab === "live"
+                    ? "md:col-span-2 lg:col-span-2 border-emerald-300 shadow-[0_18px_45px_rgba(16,185,129,0.28)] dark:border-emerald-300/70"
+                    : product.isFeatured && activeTab === "live"
+                      ? "border-cyan-300 shadow-[0_14px_35px_rgba(6,182,212,0.18)] dark:border-cyan-300/60 dark:shadow-glow"
                     : "border-slate-200 shadow-sm hover:border-cyan-400 hover:shadow-[0_14px_35px_rgba(6,182,212,0.16)] dark:border-slate-700 dark:hover:border-cyan-300/60 dark:hover:shadow-glow"
                 }`}
               >
-                <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-blue-400 via-cyan-300 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                {product.isFlagship && activeTab === "live" && (
+                  <>
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-100/70 via-cyan-50/60 to-teal-100/70 opacity-70 dark:from-emerald-500/10 dark:via-cyan-400/10 dark:to-teal-400/10" />
+                    <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-emerald-300/30 blur-2xl transition duration-300 group-hover:bg-emerald-300/50 dark:bg-emerald-400/20 dark:group-hover:bg-emerald-300/35" />
+                  </>
+                )}
+                <div
+                  className={`absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r opacity-0 transition duration-300 group-hover:opacity-100 ${
+                    product.isFlagship && activeTab === "live"
+                      ? "from-emerald-400 via-cyan-300 to-teal-400"
+                      : "from-blue-400 via-cyan-300 to-transparent"
+                  }`}
+                />
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
@@ -189,6 +216,11 @@ function ProductsSection() {
                   >
                     {activeTab === "live" ? "LIVE" : "COMING SOON"}
                   </span>
+                  {product.isFlagship && activeTab === "live" && (
+                    <span className="rounded-full border border-emerald-300 bg-emerald-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:border-emerald-300/40 dark:bg-emerald-400/10 dark:text-emerald-200">
+                      {product.badge || "FLAGSHIP PRODUCT"}
+                    </span>
+                  )}
                   {product.isFeatured && activeTab === "live" && (
                     <span className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-blue-700 dark:border-blue-300/30 dark:bg-blue-400/10 dark:text-blue-200">
                       Featured
@@ -196,9 +228,19 @@ function ProductsSection() {
                   )}
                 </div>
 
-                <h3 className="mt-4 text-xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">
-                  {product.name}
-                </h3>
+                <div className="relative mt-4 flex items-center gap-3">
+                  {product.icon && activeTab === "live" && (
+                    <div className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-200">
+                      <product.icon size={18} />
+                      {product.isFlagship && (
+                        <span className="absolute -right-1 -top-1 h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-400" />
+                      )}
+                    </div>
+                  )}
+                  <h3 className="text-xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">
+                    {product.name}
+                  </h3>
+                </div>
                 <p className="mt-3 text-sm leading-relaxed text-slate-600 transition-colors duration-300 dark:text-slate-300">
                   {product.description}
                 </p>
@@ -215,9 +257,13 @@ function ProductsSection() {
                     href={product.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+                    className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white transition ${
+                      product.isFlagship && activeTab === "live"
+                        ? "bg-gradient-to-r from-emerald-600 to-cyan-500 shadow-[0_12px_28px_rgba(16,185,129,0.35)] group-hover:brightness-110"
+                        : "bg-slate-900 hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+                    }`}
                   >
-                    Visit App <ArrowRight size={14} />
+                    Visit Platform <ArrowRight size={14} />
                   </a>
                 ) : (
                   <button
