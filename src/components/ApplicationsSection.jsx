@@ -22,7 +22,7 @@ const categories = [
     apps: [
       {
         name: "CSS360",
-        href: "https://css360.onrender.com/",
+        href: "https://css-360.vercel.app/",
         description: "Interactive learning platform for curated exam prep and guided student progress.",
         icon: School,
       },
@@ -40,7 +40,7 @@ const categories = [
     apps: [
       {
         name: "Resilience360",
-        href: "https://resilience360-production.up.railway.app/",
+        href: "https://resilience360.vercel.app/",
         description: "Operational resilience platform for risk awareness, response planning, and continuity.",
         icon: ShieldCheck,
       },
@@ -64,7 +64,7 @@ const categories = [
     apps: [
       {
         name: "NDMA Geo Resilience Dashboard",
-        href: "https://ndma-geo-resilience-bashboard-production.up.railway.app/",
+        href: "https://ndma-geo-resilience-bashboard.vercel.app/",
         description: "Geo-enabled intelligence dashboard for resilience mapping and domain-level coordination.",
         icon: DatabaseZap,
       },
@@ -97,7 +97,7 @@ const categories = [
     apps: [
       {
         name: "Virtual Hairstyle Try-On",
-        href: "https://virtual-hairstyle-try-on-app.onrender.com/",
+        href: "https://virtual-hairstyle-try-on-app.vercel.app/",
         description:
           "An AI-powered tool that allows users to try different hairstyles virtually in real-time using image processing and computer vision.",
         icon: Sparkles,
@@ -192,7 +192,7 @@ function ApplicationsSection() {
                   <a
                     href={app.href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="mt-5 inline-flex items-center gap-2 text-sm text-cyan-700 transition duration-300 hover:text-cyan-600 dark:text-cyan-200 dark:hover:text-cyan-100"
                   >
                     <span className="link-slide">{app.ctaLabel || "Visit App"}</span>

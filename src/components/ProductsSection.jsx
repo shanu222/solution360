@@ -16,14 +16,14 @@ const liveProducts = [
   },
   {
     name: "CSS360",
-    href: "https://css360.onrender.com/",
+    href: "https://css-360.vercel.app/",
     sdg: "SDGs 4, 8",
     description:
       "AI-powered preparation platform for civil service aspirants, improving access to quality education and career opportunities.",
   },
   {
     name: "Resilience360",
-    href: "https://resilience360-production.up.railway.app/",
+    href: "https://resilience360.vercel.app/",
     sdg: "SDGs 9, 11, 13",
     isFeatured: true,
     description: "Infrastructure resilience platform for retrofit planning, cost estimation, and climate risk reduction.",
@@ -44,7 +44,7 @@ const liveProducts = [
   },
   {
     name: "NDMA Dashboard",
-    href: "https://ndma-geo-resilience-bashboard-production.up.railway.app/",
+    href: "https://ndma-geo-resilience-bashboard.vercel.app/",
     sdg: "SDGs 11, 13",
     description: "Real-time disaster monitoring and geospatial intelligence system for climate risk management.",
   },
@@ -68,7 +68,7 @@ const liveProducts = [
   },
   {
     name: "Virtual Hairstyle Try-On",
-    href: "https://virtual-hairstyle-try-on-app.onrender.com/",
+    href: "https://virtual-hairstyle-try-on-app.vercel.app/",
     sdg: "SDGs 8, 9",
     description: "AI-powered visual tool enhancing digital services and user experience in consumer applications.",
   },
@@ -256,7 +256,7 @@ function ProductsSection() {
                   <a
                     href={product.href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white transition ${
                       product.isFlagship && activeTab === "live"
                         ? "bg-gradient-to-r from-emerald-600 to-cyan-500 shadow-[0_12px_28px_rgba(16,185,129,0.35)] group-hover:brightness-110"
