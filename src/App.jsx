@@ -10,7 +10,10 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import HowItWorksPage from "./pages/HowItWorks";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Products from "./pages/Products";
+import RefundPolicy from "./pages/RefundPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 const pageTransition = {
   initial: { opacity: 0, y: 10 },
@@ -54,6 +57,9 @@ function App() {
               <Route path="/about" element={<Navigate to="/who-we-are" replace />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/refund-policy" element={<RefundPolicy />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </motion.div>

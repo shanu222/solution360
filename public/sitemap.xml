@@ -21,4 +21,16 @@
     <loc>https://sustainablesolution360.com/contact</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://sustainablesolution360.com/privacy-policy</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://sustainablesolution360.com/refund-policy</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://sustainablesolution360.com/terms-and-conditions</loc>
+    <priority>0.5</priority>
+  </url>
 </urlset>

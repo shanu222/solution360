@@ -8,6 +8,16 @@ function Footer({ year, onNavigate }) {
         <div>
           <p className="text-base font-semibold text-slate-900 transition-colors duration-300 dark:text-white">SustainableSolution360</p>
           <p className="mt-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">Premium climate-tech products designed for growth.</p>
+          <p className="mt-4 text-slate-600 transition-colors duration-300 dark:text-slate-400">
+            <span className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Business address</span>
+            <span className="mt-1 block">
+              NSTP (National Science and Technology Park)
+              <br />
+              First Floor, Office No. 1405
+              <br />
+              Islamabad, Pakistan
+            </span>
+          </p>
         </div>
         <div>
           <p className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Product</p>
@@ -21,6 +31,9 @@ function Footer({ year, onNavigate }) {
           <ul className="mt-3 space-y-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">
             <li><button onClick={() => onNavigate("/who-we-are")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Who We Are</button></li>
             <li><button onClick={() => onNavigate("/contact")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Contact</button></li>
+            <li><button onClick={() => onNavigate("/privacy-policy")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Privacy Policy</button></li>
+            <li><button onClick={() => onNavigate("/refund-policy")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Refund Policy</button></li>
+            <li><button onClick={() => onNavigate("/terms-and-conditions")} className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Terms &amp; Conditions</button></li>
           </ul>
         </div>
         <div>
