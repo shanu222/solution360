@@ -46,9 +46,10 @@ const categories = [
         icon: ShieldCheck,
       },
       {
-        name: "Structural Health Monitoring",
+        name: "Infrastructure Early Warning System",
         href: "https://shm-mu.vercel.app/",
-        description: "Engineering analytics dashboard for monitoring structural safety signals in real time.",
+        description:
+          "Real-time infrastructure monitoring and early warning platform for bridges, roads, critical facilities, hazard detection, inspections, and resilience management.",
         icon: Radar,
       },
       {
@@ -89,9 +90,17 @@ const categories = [
         icon: DatabaseZap,
       },
       {
-        name: "NDMA IAPD",
+        name: "National Infrastructure Resilience Platform",
         href: "https://ndma-iapd.vercel.app/",
-        description: "Integrated disaster preparedness and planning platform for risk reduction and emergency coordination.",
+        description:
+          "Integrated infrastructure resilience platform providing asset inventories, GIS intelligence, risk analytics, disaster preparedness, and resilience planning.",
+        icon: DatabaseZap,
+      },
+      {
+        name: "GeoResilience Command System",
+        href: "https://ndma-iapd-oqpl.vercel.app/",
+        description:
+          "AI-powered geospatial resilience intelligence platform for disaster monitoring, scenario simulation, climate risk analysis, emergency coordination, and decision support.",
         icon: DatabaseZap,
       },
       {

@@ -43,11 +43,12 @@ const liveProducts = [
     description: "Platform for green building standards, compliance, and sustainable construction practices.",
   },
   {
-    name: "Structural Health Monitoring",
+    name: "Infrastructure Early Warning System",
     href: "https://shm-mu.vercel.app/",
-    sdg: "SDGs 9, 11",
+    sdg: "SDG 9, 11",
     isFeatured: true,
-    description: "Real-time monitoring of infrastructure health to ensure safety and long-term resilience.",
+    description:
+      "Real-time infrastructure monitoring and early warning platform for bridges, roads, critical facilities, hazard detection, inspections, and resilience management.",
   },
   {
     name: "NDMA Dashboard",
@@ -101,10 +102,18 @@ const liveProducts = [
       "Infrastructure audit and assessment platform supporting asset management, resilience planning, and compliance monitoring.",
   },
   {
-    name: "NDMA IAPD",
+    name: "National Infrastructure Resilience Platform",
     href: "https://ndma-iapd.vercel.app/",
-    sdg: "SDGs 11, 13",
-    description: "Integrated disaster preparedness and planning platform for risk reduction and emergency coordination.",
+    sdg: "SDG 9, 11, 13",
+    description:
+      "Integrated infrastructure resilience platform providing asset inventories, GIS intelligence, risk analytics, disaster preparedness, and resilience planning.",
+  },
+  {
+    name: "GeoResilience Command System",
+    href: "https://ndma-iapd-oqpl.vercel.app/",
+    sdg: "SDG 9, 11, 13",
+    description:
+      "AI-powered geospatial resilience intelligence platform for disaster monitoring, scenario simulation, climate risk analysis, emergency coordination, and decision support.",
   },
   {
     name: "DARV",
