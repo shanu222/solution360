@@ -87,11 +87,11 @@ const liveProducts = [
       "Regional and Military Collaboration Portal supporting disaster coordination, resilience planning, and emergency management.",
   },
   {
-    name: "AI Insight",
+    name: "Relationship Insights AI",
     href: "https://ai-insight-teal.vercel.app/",
     sdg: "SDG 9",
     description:
-      "AI-powered behavioral and relationship intelligence platform providing communication analytics and actionable insights.",
+      "AI-powered communication and behavioral intelligence platform delivering relationship insights and interaction analysis.",
   },
   {
     name: "Punjab Infrastructure Audit Platform",
@@ -130,6 +130,20 @@ const liveProducts = [
     href: "https://influencer-universe.vercel.app/",
     sdg: "SDGs 8, 9",
     description: "AI-powered creator and influencer management platform supporting campaign intelligence and analytics.",
+  },
+  {
+    name: "Active Gym F6",
+    href: "https://iactive-gym-f6.vercel.app/",
+    sdg: "SDGs 3, 8",
+    description:
+      "Smart gym and fitness management platform supporting memberships, attendance tracking, training plans, and facility operations.",
+  },
+  {
+    name: "Arena Gym F6",
+    href: "https://arena-gym-f6.vercel.app/",
+    sdg: "SDGs 3, 8",
+    description:
+      "Modern fitness center management platform for member engagement, performance tracking, and operational management.",
   },
 ];
 

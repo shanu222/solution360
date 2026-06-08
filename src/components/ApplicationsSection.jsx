@@ -119,6 +119,20 @@ const categories = [
         description: "Inventory and stakeholder operations portal for structured collaboration and visibility.",
         icon: Users,
       },
+      {
+        name: "Active Gym F6",
+        href: "https://iactive-gym-f6.vercel.app/",
+        description:
+          "Smart gym and fitness management platform supporting memberships, attendance tracking, training plans, and facility operations.",
+        icon: Users,
+      },
+      {
+        name: "Arena Gym F6",
+        href: "https://arena-gym-f6.vercel.app/",
+        description:
+          "Modern fitness center management platform for member engagement, performance tracking, and operational management.",
+        icon: Users,
+      },
     ],
   },
   {
@@ -144,10 +158,10 @@ const categories = [
         status: "AI Powered",
       },
       {
-        name: "AI Insight",
+        name: "Relationship Insights AI",
         href: "https://ai-insight-teal.vercel.app/",
         description:
-          "AI-powered behavioral and relationship intelligence platform providing communication analytics and actionable insights.",
+          "AI-powered communication and behavioral intelligence platform delivering relationship insights and interaction analysis.",
         icon: Sparkles,
         status: "AI Powered",
       },
