@@ -22,22 +22,29 @@ const liveProducts = [
       "AI-powered preparation platform for civil service aspirants, improving access to quality education and career opportunities.",
   },
   {
-    name: "Resilience360",
-    href: "https://resilience360.vercel.app/",
+    name: "Donor360 AI",
+    href: "https://donor360-ai.vercel.app/",
+    sdg: "SDGs 8, 9",
+    description: "AI-powered donor engagement and philanthropic intelligence platform for data-driven fundraising and impact tracking.",
+  },
+  {
+    name: "Infra Resilience360",
+    href: "https://www.infraresilience.org/",
     sdg: "SDGs 9, 11, 13",
     isFeatured: true,
-    description: "Infrastructure resilience platform for retrofit planning, cost estimation, and climate risk reduction.",
+    description:
+      "Infrastructure resilience platform for retrofit planning, cost estimation, climate adaptation, and disaster risk reduction.",
   },
   {
     name: "Green Building Portal",
-    href: "https://iapd.online/",
+    href: "https://gbcp-portal.vercel.app/",
     sdg: "SDGs 11, 12",
     isFeatured: true,
     description: "Platform for green building standards, compliance, and sustainable construction practices.",
   },
   {
     name: "Structural Health Monitoring",
-    href: "https://shm-7701wacs7-shanu1998end-afks-projects.vercel.app/",
+    href: "https://shm-mu.vercel.app/",
     sdg: "SDGs 9, 11",
     isFeatured: true,
     description: "Real-time monitoring of infrastructure health to ensure safety and long-term resilience.",
@@ -50,7 +57,7 @@ const liveProducts = [
   },
   {
     name: "Carpool App",
-    href: "https://carpool-app-frontend-production.up.railway.app/",
+    href: "https://car-pool-app-three.vercel.app/",
     sdg: "SDGs 11, 13",
     description: "Intercity ride-sharing platform reducing emissions and promoting sustainable transportation.",
   },
@@ -71,6 +78,58 @@ const liveProducts = [
     href: "https://virtual-hairstyle-try-on-app.vercel.app/",
     sdg: "SDGs 8, 9",
     description: "AI-powered visual tool enhancing digital services and user experience in consumer applications.",
+  },
+  {
+    name: "RMC Portal",
+    href: "https://rmc-portal-two.vercel.app/",
+    sdg: "SDGs 11, 16",
+    description:
+      "Regional and Military Collaboration Portal supporting disaster coordination, resilience planning, and emergency management.",
+  },
+  {
+    name: "AI Insight",
+    href: "https://ai-insight-teal.vercel.app/",
+    sdg: "SDG 9",
+    description:
+      "AI-powered behavioral and relationship intelligence platform providing communication analytics and actionable insights.",
+  },
+  {
+    name: "Punjab Infrastructure Audit Platform",
+    href: "https://punjab-infrastructure-audit-platform.vercel.app/",
+    sdg: "SDGs 9, 11",
+    description:
+      "Infrastructure audit and assessment platform supporting asset management, resilience planning, and compliance monitoring.",
+  },
+  {
+    name: "NDMA IAPD",
+    href: "https://ndma-iapd.vercel.app/",
+    sdg: "SDGs 11, 13",
+    description: "Integrated disaster preparedness and planning platform for risk reduction and emergency coordination.",
+  },
+  {
+    name: "DARV",
+    href: "https://darv.vercel.app/",
+    sdg: "SDGs 9, 11",
+    description: "Digital assessment and resilience visualization platform supporting data-driven decision making.",
+  },
+  {
+    name: "Shirkat Gah Platform",
+    href: "https://shirkat-gah-web.vercel.app/",
+    sdg: "SDGs 5, 10",
+    description:
+      "Women-focused digital platform supporting advocacy, inclusion, community engagement, and social development.",
+  },
+  {
+    name: "Resilient Build Pakistan",
+    href: "https://resilient-build-pakistan.vercel.app/",
+    sdg: "SDGs 9, 11, 13",
+    description: "Resilient construction and retrofit planning platform supporting safer infrastructure development.",
+  },
+  {
+    name: "Influencer Universe",
+    href: "https://influencer-universe.vercel.app/",
+    sdg: "SDGs 8, 9",
+    description: "AI-powered creator and influencer management platform supporting campaign intelligence and analytics.",
   },
 ];
 

@@ -39,22 +39,42 @@ const categories = [
     theme: "from-blue-400/15 to-indigo-500/10",
     apps: [
       {
-        name: "Resilience360",
-        href: "https://resilience360.vercel.app/",
-        description: "Operational resilience platform for risk awareness, response planning, and continuity.",
+        name: "Infra Resilience360",
+        href: "https://www.infraresilience.org/",
+        description:
+          "Infrastructure resilience platform for retrofit planning, cost estimation, climate adaptation, and disaster risk reduction.",
         icon: ShieldCheck,
       },
       {
         name: "Structural Health Monitoring",
-        href: "https://shm-7701wacs7-shanu1998end-afks-projects.vercel.app/",
+        href: "https://shm-mu.vercel.app/",
         description: "Engineering analytics dashboard for monitoring structural safety signals in real time.",
         icon: Radar,
       },
       {
         name: "Green Building Portal",
-        href: "https://iapd.online/",
+        href: "https://gbcp-portal.vercel.app/",
         description: "Sustainability workflow hub supporting efficient planning for green infrastructure.",
         icon: Building2,
+      },
+      {
+        name: "Punjab Infrastructure Audit Platform",
+        href: "https://punjab-infrastructure-audit-platform.vercel.app/",
+        description:
+          "Infrastructure audit and assessment platform supporting asset management, resilience planning, and compliance monitoring.",
+        icon: Building2,
+      },
+      {
+        name: "Resilient Build Pakistan",
+        href: "https://resilient-build-pakistan.vercel.app/",
+        description: "Resilient construction and retrofit planning platform supporting safer infrastructure development.",
+        icon: HardHat,
+      },
+      {
+        name: "DARV",
+        href: "https://darv.vercel.app/",
+        description: "Digital assessment and resilience visualization platform supporting data-driven decision making.",
+        icon: Radar,
       },
     ],
   },
@@ -63,10 +83,23 @@ const categories = [
     theme: "from-emerald-400/15 to-cyan-500/10",
     apps: [
       {
-        name: "NDMA Geo Resilience Dashboard",
+        name: "NDMA Dashboard",
         href: "https://ndma-geo-resilience-bashboard.vercel.app/",
         description: "Geo-enabled intelligence dashboard for resilience mapping and domain-level coordination.",
         icon: DatabaseZap,
+      },
+      {
+        name: "NDMA IAPD",
+        href: "https://ndma-iapd.vercel.app/",
+        description: "Integrated disaster preparedness and planning platform for risk reduction and emergency coordination.",
+        icon: DatabaseZap,
+      },
+      {
+        name: "RMC Portal",
+        href: "https://rmc-portal-two.vercel.app/",
+        description:
+          "Regional and Military Collaboration Portal supporting disaster coordination, resilience planning, and emergency management.",
+        icon: ShieldCheck,
       },
     ],
   },
@@ -76,7 +109,7 @@ const categories = [
     apps: [
       {
         name: "Carpool App",
-        href: "https://carpool-app-frontend-production.up.railway.app/",
+        href: "https://car-pool-app-three.vercel.app/",
         description: "Mobility coordination app that improves ride sharing, routes, and service efficiency.",
         icon: Car,
       },
@@ -95,6 +128,44 @@ const categories = [
     delay: 0.08,
     experimental: true,
     apps: [
+      {
+        name: "She360",
+        href: "https://ai-platform-for-women-empowerment.vercel.app/",
+        description:
+          "AI-powered women empowerment platform for Pakistan, providing health guidance, safety support, financial inclusion, and legal awareness.",
+        icon: Sparkles,
+        status: "AI Powered",
+      },
+      {
+        name: "Donor360 AI",
+        href: "https://donor360-ai.vercel.app/",
+        description: "AI-powered donor engagement and philanthropic intelligence platform for data-driven fundraising and impact tracking.",
+        icon: Sparkles,
+        status: "AI Powered",
+      },
+      {
+        name: "AI Insight",
+        href: "https://ai-insight-teal.vercel.app/",
+        description:
+          "AI-powered behavioral and relationship intelligence platform providing communication analytics and actionable insights.",
+        icon: Sparkles,
+        status: "AI Powered",
+      },
+      {
+        name: "Shirkat Gah Platform",
+        href: "https://shirkat-gah-web.vercel.app/",
+        description:
+          "Women-focused digital platform supporting advocacy, inclusion, community engagement, and social development.",
+        icon: Users,
+        status: "AI Powered",
+      },
+      {
+        name: "Influencer Universe",
+        href: "https://influencer-universe.vercel.app/",
+        description: "AI-powered creator and influencer management platform supporting campaign intelligence and analytics.",
+        icon: Sparkles,
+        status: "AI Powered",
+      },
       {
         name: "Virtual Hairstyle Try-On",
         href: "https://virtual-hairstyle-try-on-app.vercel.app/",
