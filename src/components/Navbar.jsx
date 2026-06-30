@@ -17,15 +17,25 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 py-3 sm:h-[4.5rem]">
         <Link
           to="/"
-          className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
+          className="flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 sm:gap-5"
         >
           <div className="relative">
-            <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-400 to-blue-500 opacity-10 blur-[1px]" />
-            <div className="relative bg-white px-1 py-0.5 shadow-lg ring-1 ring-slate-200 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-slate-800 dark:ring-slate-700">
-              <img src="/logo.png" alt="RESILIENCE TECHNOLOGIES LABS Logo" className="h-[36px] w-auto object-contain sm:h-[44px]" loading="eager" decoding="async" />
+            <div className="pointer-events-none absolute inset-0 rounded-[12px] bg-gradient-to-r from-blue-500/20 to-cyan-400/20 opacity-70 blur-[2px] transition-all duration-300" />
+            <div className="relative rounded-[12px] border border-white/40 bg-white/70 px-2 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.16),0_0_0_1px_rgba(255,255,255,0.28)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_10px_26px_rgba(15,23,42,0.2),0_0_18px_rgba(56,189,248,0.2)] dark:border-white/20 dark:bg-slate-900/55">
+              <img
+                src="/header-logo.png"
+                alt="RESILIENCE TECHNOLOGIES LABS Logo"
+                width="1200"
+                height="800"
+                className="h-[38px] w-auto object-contain [image-rendering:-webkit-optimize-contrast] sm:h-[44px] lg:h-[52px]"
+                loading="eager"
+                decoding="async"
+              />
             </div>
           </div>
-          <span className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">RESILIENCE TECHNOLOGIES LABS</span>
+          <span className="whitespace-nowrap text-[13px] font-semibold tracking-[0.06em] text-slate-900 transition-colors duration-300 dark:text-white sm:text-base lg:text-lg">
+            RESILIENCE TECHNOLOGIES LABS
+          </span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
