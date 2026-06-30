@@ -3,8 +3,8 @@ import LegalDocumentLayout from "../components/LegalDocumentLayout";
 function RefundPolicy() {
   return (
     <LegalDocumentLayout
-      documentTitle="Return & Refund Policy | SustainableSolution360"
-      metaDescription="Return, refund, and cancellation policy for SustainableSolution360 digital services, AI platforms, SaaS subscriptions, and consulting engagements."
+      documentTitle="Return & Refund Policy | RESILIENCE TECHNOLOGIES LABS"
+      metaDescription="Return, refund, and cancellation policy for RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED digital services, AI platforms, SaaS subscriptions, and consulting engagements."
       heading="Return &amp; Refund Policy"
       lastUpdated="May 9, 2026"
     >
@@ -12,7 +12,7 @@ function RefundPolicy() {
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">1. Scope</h2>
         <p>
           This Return &amp; Refund Policy applies to digital products, software services, AI-enabled platforms, analytics offerings, subscriptions, and related professional
-          services offered by SustainableSolution360 (the “Services”). Physical goods are not presently sold through this website; if that changes, separate return rules
+          services offered by RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED (the “Services”). Physical goods are not presently sold through this website; if that changes, separate return rules
           may apply at checkout.
         </p>
       </section>
@@ -94,6 +94,13 @@ function RefundPolicy() {
         <p>
           We may update this policy to reflect operational or legal requirements. Continued use of the Services after updates constitutes acceptance of the revised policy,
           except where prohibited by law.
+        </p>
+      </section>
+      <section className="space-y-3">
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white">10. Registered business details</h2>
+        <p>
+          Business name: RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED.
+          Registered office: NSTP, National Science and Technology Park, First Floor, Office No. 1405, Islamabad, Pakistan.
         </p>
       </section>
     </LegalDocumentLayout>

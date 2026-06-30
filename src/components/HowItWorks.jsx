@@ -41,7 +41,7 @@ function HowItWorks() {
     <section id="how-it-works" className="scroll-mt-24 w-full py-20">
       <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800/70 md:p-10">
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">How It Works</p>
-        <h2 className="mt-2 text-[clamp(30px,5vw,50px)] font-semibold leading-[1.14] text-slate-900 transition-colors duration-300 dark:text-white">How SustainableSolution360 Works</h2>
+        <h2 className="mt-2 text-[clamp(30px,5vw,50px)] font-semibold leading-[1.14] text-slate-900 transition-colors duration-300 dark:text-white">How RESILIENCE TECHNOLOGIES LABS Works</h2>
         <p className="mt-4 max-w-4xl text-[clamp(15px,2vw,19px)] text-slate-600 transition-colors duration-300 dark:text-slate-300">
           A unified platform that transforms raw data into actionable intelligence for climate, infrastructure, and sustainability.
         </p>
@@ -119,8 +119,8 @@ function HowItWorks() {
           Deploy a unified intelligence layer for climate resilience, infrastructure monitoring, and sustainability outcomes.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link to="/contact" className="btn-premium inline-flex h-11 items-center justify-center rounded-xl bg-brand-gradient px-6 text-sm font-medium text-white transition hover:scale-105">
-            Request Demo
+          <Link to="/contact" title="Request a Demo with RESILIENCE TECHNOLOGIES LABS" className="btn-premium inline-flex h-11 items-center justify-center rounded-xl bg-brand-gradient px-6 text-sm font-medium text-white transition hover:scale-105">
+            Request a Demo
           </Link>
           <Link to="/products" className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 text-sm font-medium text-slate-700 transition hover:scale-105 hover:border-cyan-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
             View Products

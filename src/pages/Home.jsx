@@ -1,8 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import Hero from "../components/Hero";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 
 function Home() {
   const navigate = useNavigate();
+  useDocumentMeta(
+    "RESILIENCE TECHNOLOGIES LABS | AI for Climate & Infrastructure",
+    "RESILIENCE TECHNOLOGIES LABS develops AI-powered platforms for climate resilience, infrastructure intelligence, sustainability, education, and digital transformation."
+  );
 
   return (
     <div className="space-y-4">
@@ -19,7 +24,7 @@ function Home() {
             Enterprise sustainability software for measurable decisions.
           </h2>
           <p className="mt-4 max-w-4xl text-[clamp(14px,2vw,18px)] text-slate-600 transition-colors duration-300 dark:text-slate-300">
-            SustainableSolution360 helps public and private organizations move from fragmented operations to clear execution through AI-assisted workflows, reliable reporting, and investor-ready visibility.
+            RESILIENCE TECHNOLOGIES LABS is an AI and technology company specializing in disaster resilience, infrastructure intelligence, geospatial analytics, sustainability platforms, digital transformation, enterprise software, and advanced decision-support systems.
           </p>
           <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
             <Link to="/products" className="btn-premium w-full rounded-xl bg-brand-gradient px-6 py-3 text-center font-medium text-white shadow-glow transition hover:scale-[1.03] sm:w-auto">

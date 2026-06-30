@@ -3,15 +3,15 @@ import LegalDocumentLayout from "../components/LegalDocumentLayout";
 function TermsAndConditions() {
   return (
     <LegalDocumentLayout
-      documentTitle="Terms & Conditions | SustainableSolution360"
-      metaDescription="Terms and conditions for using SustainableSolution360 websites, AI platforms, SaaS products, and related services."
+      documentTitle="Terms & Conditions | RESILIENCE TECHNOLOGIES LABS"
+      metaDescription="Terms and conditions for using RESILIENCE TECHNOLOGIES LABS websites, AI platforms, SaaS products, and related services."
       heading="Terms &amp; Conditions"
       lastUpdated="May 9, 2026"
     >
       <section className="space-y-3">
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">1. Agreement</h2>
         <p>
-          These Terms &amp; Conditions (“Terms”) govern your access to and use of websites, applications, and services operated by SustainableSolution360 (“we,” “us,”) and
+          These Terms &amp; Conditions (“Terms”) govern your access to and use of websites, applications, and services operated by RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED (“we,” “us,”) and
           our affiliated offerings (collectively, the “Services”). By accessing or using the Services, you agree to these Terms. If you do not agree, do not use the
           Services.
         </p>
@@ -56,7 +56,7 @@ function TermsAndConditions() {
       <section className="space-y-3">
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">5. Intellectual property</h2>
         <p>
-          The Services, including software, designs, text, graphics, logos, and documentation, are owned by SustainableSolution360 or our licensors and are protected by
+          The Services, including software, designs, text, graphics, logos, and documentation, are owned by RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED or our licensors and are protected by
           intellectual property laws. Subject to these Terms, we grant you a limited, non-exclusive, non-transferable license to access and use the Services for your
           internal or agreed business purposes. You retain rights in data and content you submit; you grant us a license to host, process, and display such content as needed
           to provide the Services, consistent with our Privacy Policy.
@@ -99,7 +99,7 @@ function TermsAndConditions() {
       <section className="space-y-3">
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">10. Limitation of liability</h2>
         <p>
-          TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, SUSTAINABLESOLUTION360 AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AFFILIATES WILL NOT BE LIABLE FOR ANY
+          TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AFFILIATES WILL NOT BE LIABLE FOR ANY
           INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR LOSS OF PROFITS, DATA, OR GOODWILL, ARISING FROM OR RELATED TO YOUR USE OF THE SERVICES,
           EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. OUR AGGREGATE LIABILITY FOR ANY CLAIM ARISING OUT OF THESE TERMS OR THE SERVICES WILL NOT EXCEED THE GREATER
           OF (A) THE AMOUNTS YOU PAID TO US FOR THE SERVICES IN THE THREE (3) MONTHS BEFORE THE CLAIM, OR (B) WHERE NO FEES APPLY, ONE HUNDRED U.S. DOLLARS (USD $100), EXCEPT
@@ -138,7 +138,7 @@ function TermsAndConditions() {
           <a href="mailto:shanu1998end@gmail.com" className="text-cyan-700 underline-offset-2 transition hover:text-cyan-600 hover:underline dark:text-cyan-200">
             shanu1998end@gmail.com
           </a>
-          . Business address: NSTP (National Science and Technology Park), First Floor, Office No. 1405, Islamabad, Pakistan.
+          . Business address: RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED, NSTP, National Science and Technology Park, First Floor, Office No. 1405, Islamabad, Pakistan.
         </p>
       </section>
     </LegalDocumentLayout>

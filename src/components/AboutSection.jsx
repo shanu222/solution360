@@ -10,10 +10,15 @@ const fadeInUp = (delay = 0) => ({
 });
 
 const buildItems = [
-  "AI-powered climate risk analytics",
-  "Infrastructure resilience and monitoring systems",
-  "Energy optimization and sustainability platforms",
-  "Decision intelligence dashboards for governments and enterprises",
+  "Artificial Intelligence",
+  "GIS & Geospatial Intelligence",
+  "Digital Twins",
+  "Infrastructure Analytics",
+  "Climate Intelligence",
+  "Remote Monitoring",
+  "SaaS Platforms",
+  "Data Engineering",
+  "Enterprise Software",
 ];
 
 const impactTags = [
@@ -38,13 +43,13 @@ function AboutSection() {
         className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800/75 md:p-10"
       >
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">
-          Who We Are
+          Company Overview
         </p>
         <h2 className="mt-2 max-w-5xl text-[clamp(30px,5vw,50px)] font-semibold leading-[1.14] text-slate-900 transition-colors duration-300 dark:text-white">
-          Building Intelligent Systems for Climate, Infrastructure, and Sustainable Futures
+          Building Intelligent Systems for Climate, Infrastructure, and National Resilience
         </h2>
         <p className="mt-4 max-w-4xl text-[clamp(15px,2vw,19px)] text-slate-600 transition-colors duration-300 dark:text-slate-300">
-          SustainableSolution360 is an AI-driven platform transforming how governments, enterprises, and communities understand, manage, and respond to climate and infrastructure challenges.
+          RESILIENCE TECHNOLOGIES LABS is a Pakistan-based technology company building intelligent digital platforms for disaster resilience, infrastructure management, artificial intelligence, sustainability, education, healthcare, and enterprise transformation.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
@@ -55,9 +60,10 @@ function AboutSection() {
           </Link>
           <Link
             to="/contact"
+            title="Request a Demo with RESILIENCE TECHNOLOGIES LABS"
             className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 text-sm font-medium text-slate-700 transition hover:scale-105 hover:border-cyan-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
           >
-            Request Demo
+            Request a Demo
           </Link>
         </div>
       </motion.article>
@@ -71,8 +77,7 @@ function AboutSection() {
             Our Mission
           </h3>
           <p className="mt-3 max-w-2xl text-slate-600 transition-colors duration-300 dark:text-slate-300">
-            To transform fragmented environmental and infrastructure data into{" "}
-            <strong className="text-slate-900 dark:text-white">actionable intelligence</strong> that drives sustainable, resilient, and data-informed decision-making.
+            Build intelligent technologies that create safer, smarter, and more resilient communities.
           </p>
         </motion.article>
 
@@ -84,8 +89,7 @@ function AboutSection() {
             Our Vision
           </h3>
           <p className="mt-3 max-w-2xl text-slate-600 transition-colors duration-300 dark:text-slate-300">
-            To become a global leader in AI-powered sustainability intelligence, enabling smarter cities, resilient infrastructure, and climate-positive systems aligned with the{" "}
-            <strong className="text-slate-900 dark:text-white">UN Sustainable Development Goals</strong>.
+            Become a global leader in AI-powered resilience technologies and digital infrastructure innovation.
           </p>
         </motion.article>
       </div>
@@ -95,7 +99,7 @@ function AboutSection() {
         className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800 md:p-8"
       >
         <h3 className="text-2xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">
-          What We Build
+          Our solutions combine
         </h3>
         <ul className="mt-4 grid gap-3 md:grid-cols-2">
           {buildItems.map((item) => (
@@ -118,7 +122,7 @@ function AboutSection() {
           Climate change, infrastructure failures, and inefficient energy systems are among the biggest challenges of our time. Yet, decision-makers lack integrated, real-time intelligence.
         </p>
         <p className="mt-3 max-w-4xl text-slate-600 transition-colors duration-300 dark:text-slate-300">
-          SustainableSolution360 bridges this gap by delivering{" "}
+          RESILIENCE TECHNOLOGIES LABS bridges this gap by delivering{" "}
           <strong className="text-slate-900 dark:text-white">scalable, data-driven platforms</strong> that turn complex data into clear, actionable insights.
         </p>
       </motion.article>
@@ -166,14 +170,15 @@ function AboutSection() {
         className="rounded-3xl border border-slate-200 bg-gradient-to-r from-blue-50 to-cyan-50 p-7 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:from-slate-900 dark:to-slate-800 md:p-9"
       >
         <h3 className="text-2xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">
-          Partner With Us to Build a Sustainable Future
+          Partner With RESILIENCE TECHNOLOGIES LABS
         </h3>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             to="/contact"
+            title="Request a Demo with RESILIENCE TECHNOLOGIES LABS"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-brand-gradient px-6 text-sm font-medium text-white transition hover:scale-105"
           >
-            Request Demo
+            Request a Demo
           </Link>
           <Link
             to="/contact"

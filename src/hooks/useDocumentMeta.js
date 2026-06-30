@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-const DEFAULT_TITLE = "SustainableSolution360 | Climate & Infrastructure Intelligence";
+const DEFAULT_TITLE = "RESILIENCE TECHNOLOGIES LABS | AI for Climate & Infrastructure";
 const DEFAULT_DESCRIPTION =
-  "AI-powered platform for climate, energy, and infrastructure analytics.";
+  "RESILIENCE TECHNOLOGIES LABS is an AI and technology company specializing in disaster resilience, infrastructure intelligence, geospatial analytics, sustainability platforms, digital transformation, enterprise software, and advanced decision-support systems.";
 
 export function useDocumentMeta(title, description) {
   useEffect(() => {

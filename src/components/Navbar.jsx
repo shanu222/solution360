@@ -22,10 +22,10 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
           <div className="relative">
             <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-blue-500 opacity-10 blur-[1px]" />
             <div className="relative overflow-hidden rounded-full bg-white p-1 shadow-lg ring-1 ring-slate-200 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-slate-800 dark:ring-slate-700">
-              <img src="/assets/logo-circle.png" alt="SustainableSolution360 Logo" className="h-9 w-9 rounded-full object-cover sm:h-10 sm:w-10" />
+              <img src="/logo.svg" alt="RESILIENCE TECHNOLOGIES LABS Logo" className="h-9 w-9 rounded-full object-cover sm:h-10 sm:w-10" />
             </div>
           </div>
-          <span className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">SustainableSolution360</span>
+          <span className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">RESILIENCE TECHNOLOGIES LABS</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
@@ -48,9 +48,11 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
           </button>
           <button
             onClick={() => onNavigate("/contact")}
+            title="Request a Demo with RESILIENCE TECHNOLOGIES LABS"
+            aria-label="Request a Demo with RESILIENCE TECHNOLOGIES LABS"
             className="rounded-lg bg-brand-gradient px-4 py-2 text-sm font-medium text-white shadow-glow transition hover:scale-[1.04]"
           >
-            Request Demo
+            Request a Demo
           </button>
           <SocialIcons className="ml-1" />
         </nav>

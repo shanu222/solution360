@@ -1,21 +1,28 @@
 import SocialIcons from "./SocialIcons";
 
-function Footer({ year, onNavigate }) {
+function Footer({ onNavigate }) {
   return (
     <footer className="relative border-t border-slate-200 bg-white/95 transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/95">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent dark:via-cyan-300/70" />
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-10 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="text-base font-semibold text-slate-900 transition-colors duration-300 dark:text-white">SustainableSolution360</p>
-          <p className="mt-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">Premium climate-tech products designed for growth.</p>
+          <div className="flex items-center gap-3">
+            <img src="/logo.svg" alt="RESILIENCE TECHNOLOGIES LABS Logo" className="h-8 w-8 rounded-full object-cover" />
+            <p className="text-base font-semibold text-slate-900 transition-colors duration-300 dark:text-white">RESILIENCE TECHNOLOGIES LABS</p>
+          </div>
+          <p className="mt-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">RESILIENCE TECHNOLOGIES LABS is an AI and technology company specializing in disaster resilience, infrastructure intelligence, geospatial analytics, sustainability platforms, digital transformation, enterprise software, and advanced decision-support systems.</p>
           <p className="mt-4 text-slate-600 transition-colors duration-300 dark:text-slate-400">
             <span className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Business address</span>
             <span className="mt-1 block">
               NSTP (National Science and Technology Park)
               <br />
-              First Floor, Office No. 1405
+              First Floor
               <br />
-              Islamabad, Pakistan
+              Office No. 1405
+              <br />
+              Islamabad
+              <br />
+              Pakistan
             </span>
           </p>
         </div>
@@ -47,7 +54,7 @@ function Footer({ year, onNavigate }) {
         </div>
       </div>
       <div className="mx-auto w-full max-w-7xl px-6 pb-8 text-xs text-slate-500 transition-colors duration-300 dark:text-slate-500">
-        © {year} SustainableSolution360. All rights reserved.
+        © 2026 RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED. All Rights Reserved.
       </div>
     </footer>
   );

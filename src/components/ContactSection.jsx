@@ -34,9 +34,9 @@ function ContactSection() {
     setIsSubmitting(true);
     await new Promise((resolve) => window.setTimeout(resolve, 900));
     setIsSubmitting(false);
-    setSubmitMessage("Thanks. Your message is ready - sending through your email app.");
+    setSubmitMessage("Thank you for contacting RESILIENCE TECHNOLOGIES LABS. Our team will respond shortly.");
 
-    const subject = encodeURIComponent("Website Inquiry - SustainableSolution360");
+    const subject = encodeURIComponent("Website Inquiry - RESILIENCE TECHNOLOGIES LABS");
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
     window.location.href = `mailto:shanu1998end@gmail.com?subject=${subject}&body=${body}`;
 
@@ -52,6 +52,24 @@ function ContactSection() {
           <h3 className="text-2xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">Talk to the founder</h3>
           <p className="mt-3 text-[clamp(14px,2vw,18px)] leading-relaxed text-slate-600 transition-colors duration-300 dark:text-slate-300">
             Interested in partnerships, pilot programs, or investment discussions? Reach out directly and we can schedule a focused intro.
+          </p>
+          <p className="mt-4 text-sm text-slate-600 transition-colors duration-300 dark:text-slate-300">
+            <span className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Business Name:</span>{" "}
+            RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED
+          </p>
+          <p className="mt-2 text-sm text-slate-600 transition-colors duration-300 dark:text-slate-300">
+            <span className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Business Address:</span>
+            <span className="mt-1 block">
+              NSTP (National Science and Technology Park)
+              <br />
+              First Floor
+              <br />
+              Office No. 1405
+              <br />
+              Islamabad
+              <br />
+              Pakistan
+            </span>
           </p>
           <div className="mt-6 space-y-3 text-sm text-slate-700 transition-colors duration-300 dark:text-slate-200">
             <a href="mailto:shanu1998end@gmail.com" className="link-slide flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-cyan-300/50 dark:hover:bg-cyan-300/10">

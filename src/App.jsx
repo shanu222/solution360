@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import BackgroundVideo from "./components/BackgroundVideo";
 import Footer from "./components/Footer";
@@ -27,7 +27,6 @@ function App() {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const year = useMemo(() => new Date().getFullYear(), []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -73,7 +72,7 @@ function App() {
       >
         <SocialIcons orientation="column" />
       </motion.aside>
-      <Footer year={year} onNavigate={routeTo} />
+      <Footer onNavigate={routeTo} />
     </div>
   );
 }

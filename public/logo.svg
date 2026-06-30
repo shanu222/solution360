@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="RESILIENCE TECHNOLOGIES LABS logo">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="55%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="#0f172a" />
+  <rect x="56" y="56" width="400" height="400" rx="96" fill="url(#g1)" opacity="0.22" />
+  <path d="M150 368V144h106c53 0 90 35 90 84 0 38-23 68-59 78l76 62h-73l-65-55h-19v55h-56Zm56-102h43c27 0 44-15 44-36 0-22-17-37-44-37h-43v73Z" fill="#ffffff" />
+</svg>

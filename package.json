@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Static startup portfolio website for SustainableSolution360.",
+  "description": "Static startup portfolio website for RESILIENCE TECHNOLOGIES LABS.",
   "scripts": {
     "dev": "vite",
     "generate:sitemap": "node scripts/generate-sitemap.js",

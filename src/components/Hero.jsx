@@ -89,7 +89,7 @@ function Hero({ onNavigate }) {
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 400], [0, -30]);
   const heroParallaxX = useTransform(scrollY, [0, 600], [0, 8]);
-  const heroTitle = "360° Technology for Climate, Energy & Resilience";
+  const heroTitle = "Engineering AI for Climate, Infrastructure & National Resilience";
 
   const handleHeroMouseMove = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -141,7 +141,7 @@ function Hero({ onNavigate }) {
           {heroTitle}
         </h1>
         <p className="mt-4 max-w-xl text-[clamp(15px,1.8vw,18px)] leading-7 text-slate-600 transition-colors duration-300 dark:text-slate-300 lg:max-w-2xl">
-          We build AI-powered platforms that transform climate and infrastructure data into actionable insights.
+          RESILIENCE TECHNOLOGIES LABS develops AI-powered platforms for governments, enterprises, humanitarian organizations, and communities to improve disaster resilience, infrastructure intelligence, sustainability, education, and digital transformation.
         </p>
         <div className="mt-8 grid grid-cols-1 gap-3 sm:inline-flex sm:flex-wrap">
           <button

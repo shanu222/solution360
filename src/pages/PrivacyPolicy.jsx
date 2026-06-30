@@ -3,15 +3,15 @@ import LegalDocumentLayout from "../components/LegalDocumentLayout";
 function PrivacyPolicy() {
   return (
     <LegalDocumentLayout
-      documentTitle="Privacy Policy | SustainableSolution360"
-      metaDescription="Privacy practices for SustainableSolution360 AI platforms, SaaS products, web applications, and data analytics services, including cookies, security, and your rights."
+      documentTitle="Privacy Policy | RESILIENCE TECHNOLOGIES LABS"
+      metaDescription="Privacy practices for RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED AI platforms, SaaS products, web applications, and data analytics services."
       heading="Privacy Policy"
       lastUpdated="May 9, 2026"
     >
       <section className="space-y-3">
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">1. Introduction</h2>
         <p>
-          This Privacy Policy describes how SustainableSolution360 (“we,” “us,” or “our”) collects, uses, discloses, and safeguards information when you use our website,
+          This Privacy Policy describes how RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED (“we,” “us,” or “our”) collects, uses, discloses, and safeguards information when you use our website,
           applications, and related digital services, including AI-enabled platforms, software-as-a-service (SaaS) offerings, analytics, and web-based tools (collectively,
           the “Services”). By using the Services, you agree to the practices described here.
         </p>
@@ -20,7 +20,7 @@ function PrivacyPolicy() {
       <section className="space-y-3">
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">2. Who we are</h2>
         <p>
-          SustainableSolution360 develops climate, infrastructure, and analytics technology. For privacy-related requests, please use the contact details in Section 12.
+          RESILIENCE TECHNOLOGIES LABS develops climate, infrastructure, and analytics technology. For privacy-related requests, please use the contact details in Section 12.
           Where individual products are hosted on third-party infrastructure, those providers may process technical data as described in Section 8.
         </p>
       </section>
@@ -149,7 +149,7 @@ function PrivacyPolicy() {
           <a href="mailto:shanu1998end@gmail.com" className="text-cyan-700 underline-offset-2 transition hover:text-cyan-600 hover:underline dark:text-cyan-200">
             shanu1998end@gmail.com
           </a>
-          , or write to our registered office: NSTP (National Science and Technology Park), First Floor, Office No. 1405, Islamabad, Pakistan.
+          , or write to our registered office: RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED, NSTP, National Science and Technology Park, First Floor, Office No. 1405, Islamabad, Pakistan.
         </p>
       </section>
     </LegalDocumentLayout>
