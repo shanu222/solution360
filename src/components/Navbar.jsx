@@ -15,28 +15,34 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl transition-colors duration-300 dark:border-white/10 dark:bg-slate-950/65">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 py-3 sm:h-[4.5rem]">
-        <Link
-          to="/"
-          className="flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 sm:gap-5"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-0 rounded-[12px] bg-gradient-to-r from-blue-500/20 to-cyan-400/20 opacity-70 blur-[2px] transition-all duration-300" />
-            <div className="relative rounded-[12px] border border-white/40 bg-white/70 px-2 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.16),0_0_0_1px_rgba(255,255,255,0.28)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_10px_26px_rgba(15,23,42,0.2),0_0_18px_rgba(56,189,248,0.2)] dark:border-white/20 dark:bg-slate-900/55">
+          <Link to="/" className="flex items-center gap-4 sm:gap-5">
+            <motion.div
+              animate={{ y: [-0.6, 0.6, -0.6] }}
+              transition={{ duration: 4.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+              whileHover={{ y: -1.5, scale: 1.03, boxShadow: "0 12px 28px rgba(15,23,42,0.22), 0 0 22px rgba(56,189,248,0.26)" }}
+              className="relative rounded-[12px] border border-white/35 bg-white/70 px-2 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.16),0_0_0_1px_rgba(255,255,255,0.24)] backdrop-blur-sm transition-all duration-300 dark:border-white/20 dark:bg-slate-900/55"
+            >
               <img
-                src="/header-logo.png"
-                alt="RESILIENCE TECHNOLOGIES LABS Logo"
-                width="1200"
-                height="800"
-                className="h-[38px] w-auto object-contain [image-rendering:-webkit-optimize-contrast] sm:h-[44px] lg:h-[52px]"
+                src="/logo.png"
+                alt="Resilience Technologies Labs Logo"
+                width="1400"
+                height="933"
+                className="h-[42px] w-auto object-contain [image-rendering:-webkit-optimize-contrast] sm:h-[48px] lg:h-[56px]"
                 loading="eager"
                 decoding="async"
               />
+            </motion.div>
+            <div className="leading-[1.02] text-slate-900 transition-colors duration-300 dark:text-white">
+              <div className="whitespace-nowrap text-[11px] font-bold tracking-[0.08em] sm:text-[12px] lg:text-[13px]">RESILIENCE</div>
+              <div className="whitespace-nowrap text-[11px] font-bold tracking-[0.08em] sm:text-[12px] lg:text-[13px]">TECHNOLOGIES LABS</div>
             </div>
-          </div>
-          <span className="whitespace-nowrap text-[13px] font-semibold tracking-[0.06em] text-slate-900 transition-colors duration-300 dark:text-white sm:text-base lg:text-lg">
-            RESILIENCE TECHNOLOGIES LABS
-          </span>
-        </Link>
+          </Link>
+        </motion.div>
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
             <NavLink
