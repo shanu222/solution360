@@ -24,15 +24,15 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
             <motion.div
               animate={{ y: [-0.6, 0.6, -0.6] }}
               transition={{ duration: 4.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-              whileHover={{ y: -1.5, scale: 1.03, boxShadow: "0 12px 28px rgba(15,23,42,0.22), 0 0 22px rgba(56,189,248,0.26)" }}
-              className="relative rounded-[12px] border border-white/35 bg-white/70 px-2 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.16),0_0_0_1px_rgba(255,255,255,0.24)] backdrop-blur-sm transition-all duration-300 dark:border-white/20 dark:bg-slate-900/55"
+              whileHover={{ y: -1.5, scale: 1.03 }}
+              className="relative overflow-hidden rounded-full transition-all duration-300"
             >
               <img
                 src="/logo.png"
                 alt="Resilience Technologies Labs Logo"
                 width="1400"
                 height="933"
-                className="h-[42px] w-auto object-contain [image-rendering:-webkit-optimize-contrast] sm:h-[48px] lg:h-[56px]"
+                className="h-[42px] w-[42px] object-cover [image-rendering:-webkit-optimize-contrast] sm:h-[48px] sm:w-[48px] lg:h-[56px] lg:w-[56px]"
                 loading="eager"
                 decoding="async"
               />
