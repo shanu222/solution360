@@ -20,9 +20,9 @@ function Navbar({ menuOpen, setMenuOpen, onNavigate, theme, onToggleTheme }) {
           className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
         >
           <div className="relative">
-            <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-blue-500 opacity-10 blur-[1px]" />
-            <div className="relative overflow-hidden rounded-full bg-white p-1 shadow-lg ring-1 ring-slate-200 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-slate-800 dark:ring-slate-700">
-              <img src="/logo.svg" alt="RESILIENCE TECHNOLOGIES LABS Logo" className="h-9 w-9 rounded-full object-cover sm:h-10 sm:w-10" />
+            <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-400 to-blue-500 opacity-10 blur-[1px]" />
+            <div className="relative bg-white px-1 py-0.5 shadow-lg ring-1 ring-slate-200 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-slate-800 dark:ring-slate-700">
+              <img src="/logo.png" alt="RESILIENCE TECHNOLOGIES LABS Logo" className="h-[36px] w-auto object-contain sm:h-[44px]" loading="eager" decoding="async" />
             </div>
           </div>
           <span className="text-lg font-semibold tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">RESILIENCE TECHNOLOGIES LABS</span>

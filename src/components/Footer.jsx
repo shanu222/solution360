@@ -7,7 +7,7 @@ function Footer({ onNavigate }) {
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-10 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-3">
-            <img src="/logo.svg" alt="RESILIENCE TECHNOLOGIES LABS Logo" className="h-8 w-8 rounded-full object-cover" />
+            <img src="/logo.png" alt="RESILIENCE TECHNOLOGIES LABS Logo" className="h-[36px] w-auto object-contain" loading="lazy" decoding="async" />
             <p className="text-base font-semibold text-slate-900 transition-colors duration-300 dark:text-white">RESILIENCE TECHNOLOGIES LABS</p>
           </div>
           <p className="mt-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">RESILIENCE TECHNOLOGIES LABS is an AI and technology company specializing in disaster resilience, infrastructure intelligence, geospatial analytics, sustainability platforms, digital transformation, enterprise software, and advanced decision-support systems.</p>
