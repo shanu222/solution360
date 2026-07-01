@@ -29,7 +29,7 @@ const liveProducts = [
   },
   {
     name: "Infra Resilience360",
-    href: "https://www.infraresilience.org/",
+    href: "https://infra-resilience360-cloud.vercel.app/",
     sdg: "SDGs 9, 11, 13",
     isFeatured: true,
     description:
