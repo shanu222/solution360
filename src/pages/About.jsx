@@ -4,7 +4,7 @@ import { useDocumentMeta } from "../hooks/useDocumentMeta";
 function About() {
   useDocumentMeta(
     "About | RESILIENCE TECHNOLOGIES LABS",
-    "Learn about RESILIENCE TECHNOLOGIES LABS, a Pakistan-based company building AI-powered resilience and infrastructure intelligence platforms."
+    "Learn about RESILIENCE TECHNOLOGIES LABS, an officially incorporated in Pakistan and SECP registered technology company, building AI infrastructure and climate technology platforms."
   );
 
   return (

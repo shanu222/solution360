@@ -25,6 +25,13 @@ function Footer({ onNavigate }) {
               Pakistan
             </span>
           </p>
+          <p className="mt-4 text-slate-600 transition-colors duration-300 dark:text-slate-400">
+            <span className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Corporate Information</span>
+            <span className="mt-1 block">RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED</span>
+            <span className="mt-1 block">Officially incorporated under the Companies Act, 2017.</span>
+            <span className="mt-1 block">Registered with the Securities and Exchange Commission of Pakistan (SECP).</span>
+            <span className="mt-1 block">Corporate Identification No. 0343147</span>
+          </p>
         </div>
         <div>
           <p className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Product</p>

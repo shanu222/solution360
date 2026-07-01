@@ -35,6 +35,22 @@ const tractionItems = [
   "Scalable architecture ready for institutional adoption",
 ];
 
+const corporateFacts = [
+  { label: "Company Name", value: "RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED" },
+  { label: "Status", value: "Officially Incorporated under the Companies Act, 2017." },
+  { label: "Regulator", value: "Registered with the Securities and Exchange Commission of Pakistan (SECP)." },
+  { label: "Corporate Unique Identification (CUI)", value: "0343147" },
+  { label: "Company Type", value: "SMC-Private Limited (Limited by Shares)" },
+  { label: "Incorporation Date", value: "30 June 2026" },
+];
+
+const corporateTrustBadges = [
+  "SECP Registered",
+  "Incorporated in Pakistan",
+  "Limited by Shares",
+  "AI & Infrastructure Technology Company",
+];
+
 function AboutSection() {
   return (
     <section id="about" className="scroll-mt-24 w-full space-y-6 py-2">
@@ -125,6 +141,37 @@ function AboutSection() {
           RESILIENCE TECHNOLOGIES LABS bridges this gap by delivering{" "}
           <strong className="text-slate-900 dark:text-white">scalable, data-driven platforms</strong> that turn complex data into clear, actionable insights.
         </p>
+      </motion.article>
+
+      <motion.article
+        {...fadeInUp(0.15)}
+        className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800 md:p-8"
+      >
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">Corporate Identity</p>
+        <h3 className="mt-2 text-2xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">Official Corporate Information</h3>
+        <p className="mt-3 max-w-5xl text-slate-600 transition-colors duration-300 dark:text-slate-300">
+          RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED is a legally incorporated technology company established under the Companies Act, 2017 and registered with the
+          Securities and Exchange Commission of Pakistan (SECP). The company develops AI-powered platforms for infrastructure resilience, climate intelligence, disaster risk
+          reduction, sustainability, digital transformation, and advanced data analytics.
+        </p>
+
+        <ul className="mt-5 grid gap-3 md:grid-cols-2">
+          {corporateFacts.map((item) => (
+            <li key={item.label} className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900/45">
+              <p className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-100">{item.label}</p>
+              <p className="mt-1 text-slate-600 transition-colors duration-300 dark:text-slate-300">{item.value}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          {corporateTrustBadges.map((badge) => (
+            <span key={badge} className="inline-flex items-center gap-1.5 rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-xs font-medium text-cyan-800 transition-colors duration-300 dark:border-cyan-400/40 dark:bg-cyan-500/10 dark:text-cyan-200">
+              <CheckCircle2 size={12} />
+              {badge}
+            </span>
+          ))}
+        </div>
       </motion.article>
 
       <div className="grid gap-5 lg:grid-cols-2">
