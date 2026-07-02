@@ -58,10 +58,11 @@ if (navLinks.length > 0) {
 }
 
 if (form && statusText) {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const name = String(form.name.value || "").trim();
     const email = String(form.email.value || "").trim();
+    const subject = String(form.subject?.value || "General Inquiry").trim();
     const message = String(form.message.value || "").trim();
 
     if (!name || !email || !message) {
@@ -72,18 +73,27 @@ if (form && statusText) {
 
     if (sendButton) {
       sendButton.setAttribute("disabled", "true");
-      sendButton.textContent = "Preparing Message...";
+      sendButton.textContent = "Sending...";
     }
 
-    const subject = encodeURIComponent("Website Inquiry - RESILIENCE TECHNOLOGIES LABS");
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-    );
-    window.location.href = `mailto:shanu1998end@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
 
-    statusText.textContent = "Your email app has been opened. If it did not open, email us directly at shanu1998end@gmail.com.";
-    statusText.style.color = "#0f766e";
-    form.reset();
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      statusText.textContent = "Message sent successfully. We'll get back to you soon.";
+      statusText.style.color = "#0f766e";
+      form.reset();
+    } catch {
+      statusText.textContent = "Unable to send message. Please try again later.";
+      statusText.style.color = "#b91c1c";
+    }
 
     if (sendButton) {
       sendButton.removeAttribute("disabled");

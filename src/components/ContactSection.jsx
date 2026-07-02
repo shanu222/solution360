@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Globe, Mail, Phone } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -10,9 +10,36 @@ const fadeInUp = {
 };
 
 function ContactSection() {
-  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [formState, setFormState] = useState({ name: "", email: "", subject: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [toast, setToast] = useState(null);
+  const toastTimerRef = useRef(null);
+
+  useEffect(
+    () => () => {
+      if (toastTimerRef.current) {
+        window.clearTimeout(toastTimerRef.current);
+      }
+    },
+    []
+  );
+
+  const showToast = (type, title, description) => {
+    if (toastTimerRef.current) {
+      window.clearTimeout(toastTimerRef.current);
+    }
+    setToast({ type, title, description });
+    toastTimerRef.current = window.setTimeout(() => setToast(null), 4200);
+  };
+
+  const sanitizeInput = (value) =>
+    value
+      .replace(/[<>]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -24,27 +51,67 @@ function ContactSection() {
 
   const handleContactSubmit = async (event) => {
     event.preventDefault();
-    const { name, email, message } = formState;
+    if (isSubmitting) return;
 
-    if (!name.trim() || !email.trim() || !message.trim()) {
+    const name = sanitizeInput(formState.name);
+    const email = sanitizeInput(formState.email).toLowerCase();
+    const subject = sanitizeInput(formState.subject || "General Inquiry");
+    const message = formState.message.trim();
+
+    if (!name || !email || !message) {
       setSubmitMessage("Please complete all fields before submitting.");
       return;
     }
 
+    if (!isValidEmail(email)) {
+      setSubmitMessage("Please provide a valid email address.");
+      return;
+    }
+
     setIsSubmitting(true);
-    await new Promise((resolve) => window.setTimeout(resolve, 900));
-    setIsSubmitting(false);
-    setSubmitMessage("Thank you for contacting RESILIENCE TECHNOLOGIES LABS. Our team will respond shortly.");
+    setSubmitMessage("");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
 
-    const subject = encodeURIComponent("Website Inquiry - RESILIENCE TECHNOLOGIES LABS");
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-    window.location.href = `mailto:shanu1998end@gmail.com?subject=${subject}&body=${body}`;
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
 
-    setFormState({ name: "", email: "", message: "" });
+      setFormState({ name: "", email: "", subject: "", message: "" });
+      showToast("success", "Message sent successfully.", "We'll get back to you soon.");
+    } catch {
+      showToast("error", "Unable to send message.", "Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <motion.section id="contact" {...fadeInUp} className="scroll-mt-24 w-full py-2">
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className={`fixed right-4 top-20 z-[90] max-w-sm rounded-2xl border px-4 py-3 text-sm shadow-xl backdrop-blur-md ${
+              toast.type === "success"
+                ? "border-emerald-300 bg-emerald-50/95 text-emerald-900 dark:border-emerald-300/40 dark:bg-emerald-400/10 dark:text-emerald-100"
+                : "border-rose-300 bg-rose-50/95 text-rose-900 dark:border-rose-300/40 dark:bg-rose-400/10 dark:text-rose-100"
+            }`}
+          >
+            <p className="font-semibold">{toast.title}</p>
+            <p className="mt-1">{toast.description}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">Contact</p>
       <h2 className="mt-2 text-[clamp(28px,5vw,48px)] font-semibold text-slate-900 transition-colors duration-300 dark:text-white">Talk to our team</h2>
       <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
@@ -72,7 +139,7 @@ function ContactSection() {
             </span>
           </p>
           <div className="mt-6 space-y-3 text-sm text-slate-700 transition-colors duration-300 dark:text-slate-200">
-            <a href="mailto:shanu1998end@gmail.com" className="link-slide flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-cyan-300/50 dark:hover:bg-cyan-300/10">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=shanu1998end@gmail.com" target="_blank" rel="noopener noreferrer" className="link-slide flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-cyan-300/50 dark:hover:bg-cyan-300/10">
               <Mail size={16} className="text-cyan-300" />
               shanu1998end@gmail.com
             </a>
@@ -124,7 +191,7 @@ function ContactSection() {
               "Send Message"
             )}
           </button>
-          <p className={`mt-3 text-sm ${submitMessage.includes("Please") ? "text-rose-300" : "text-cyan-200"}`}>{submitMessage}</p>
+          <p className="mt-3 text-sm text-rose-300">{submitMessage}</p>
         </form>
       </div>
     </motion.section>

@@ -146,7 +146,7 @@ function PrivacyPolicy() {
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">14. Contact</h2>
         <p>
           For privacy questions or requests, contact us at{" "}
-          <a href="mailto:shanu1998end@gmail.com" className="text-cyan-700 underline-offset-2 transition hover:text-cyan-600 hover:underline dark:text-cyan-200">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=shanu1998end@gmail.com" target="_blank" rel="noopener noreferrer" className="text-cyan-700 underline-offset-2 transition hover:text-cyan-600 hover:underline dark:text-cyan-200">
             shanu1998end@gmail.com
           </a>
           , or write to our registered office: RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED, NSTP, National Science and Technology Park, First Floor, Office No. 1405, Islamabad, Pakistan.

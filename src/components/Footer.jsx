@@ -85,7 +85,7 @@ function Footer({ onNavigate }) {
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.08em] text-slate-800 transition-colors duration-300 dark:text-slate-200">Connect</p>
           <ul className="mt-3 space-y-2 text-slate-600 transition-colors duration-300 dark:text-slate-400">
-            <li><a href="mailto:shanu1998end@gmail.com" className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Email</a></li>
+            <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=shanu1998end@gmail.com" target="_blank" rel="noopener noreferrer" className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Email</a></li>
             <li><a href="https://github.com/shanu222" target="_blank" rel="noreferrer" className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">GitHub</a></li>
             <li><a href="https://www.linkedin.com/in/solutions-three-sixty-degree-a32913405/" target="_blank" rel="noreferrer" className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">LinkedIn</a></li>
             <li><a href="https://www.instagram.com/sustainablesolution360/" target="_blank" rel="noreferrer" className="link-slide transition hover:text-cyan-600 dark:hover:text-cyan-200">Instagram</a></li>
