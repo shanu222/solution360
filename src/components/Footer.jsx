@@ -140,9 +140,9 @@ function Footer({ onNavigate }) {
               </li>
               <li>
                 <a
-                  href="https://www.instagram.com/sustainablesolution360/"
+                  href="https://www.instagram.com/resilience_technologies_labs?igsh=MTMxM243ODBwbGFlNQ%3D%3D&utm_source=qr"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className={footerLink}
                 >
                   Instagram

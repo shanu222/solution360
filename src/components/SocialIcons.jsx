@@ -4,7 +4,7 @@ import { FaFacebookF, FaInstagram } from "react-icons/fa";
 const socialLinks = [
   {
     id: "instagram",
-    href: "https://www.instagram.com/sustainablesolution360/",
+    href: "https://www.instagram.com/resilience_technologies_labs?igsh=MTMxM243ODBwbGFlNQ%3D%3D&utm_source=qr",
     label: "Visit our Instagram",
     icon: FaInstagram,
   },
@@ -34,7 +34,7 @@ function SocialIcons({
             key={item.id}
             href={item.href}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={item.label}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
