@@ -4,7 +4,7 @@ import { useDocumentMeta } from "../hooks/useDocumentMeta";
 function Products() {
   useDocumentMeta(
     "Products | RESILIENCE TECHNOLOGIES LABS",
-    "Explore AI-powered products by RESILIENCE TECHNOLOGIES LABS across resilience, sustainability, education, and infrastructure intelligence."
+    "Explore the RTL enterprise product portfolio across AI, resilience, disaster management, education, social impact, mobility, and health."
   );
 
   return (
