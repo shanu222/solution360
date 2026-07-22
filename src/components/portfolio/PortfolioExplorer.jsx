@@ -12,7 +12,16 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { allDomains, comingSoonProducts, getAllApplications, STATUS } from "../../data/portfolio";
+import {
+  comingSoonProducts,
+  countAppsOnPlatform,
+  deploymentPlatforms,
+  getAllApplications,
+  getDeploymentPlatform,
+  getDomainsForPlatform,
+  resolveAppForPlatform,
+  STATUS,
+} from "../../data/portfolio";
 import usePortfolioPrefs from "../../hooks/usePortfolioPrefs";
 import ApplicationCard from "./ApplicationCard";
 import FolderCard from "./FolderCard";
@@ -62,15 +71,32 @@ function EmptyState({ title, subtitle }) {
   );
 }
 
+function sortFolders(list, sortBy, pinnedIds) {
+  return [...list].sort((a, b) => {
+    const aPinned = pinnedIds.includes(a.id) ? 1 : 0;
+    const bPinned = pinnedIds.includes(b.id) ? 1 : 0;
+    if (aPinned !== bPinned) return bPinned - aPinned;
+
+    const aCount = typeof a.count === "number" ? a.count : a.applications?.length || 0;
+    const bCount = typeof b.count === "number" ? b.count : b.applications?.length || 0;
+    if (sortBy === "name-asc") return a.name.localeCompare(b.name);
+    if (sortBy === "name-desc") return b.name.localeCompare(a.name);
+    if (sortBy === "count-desc") return bCount - aCount;
+    if (sortBy === "count-asc") return aCount - bCount;
+    return 0;
+  });
+}
+
 function PortfolioExplorer() {
   const { prefs, toggleFavorite, togglePin, pushRecent } = usePortfolioPrefs();
   const [booting, setBooting] = useState(true);
+  const [activePlatformId, setActivePlatformId] = useState(null);
   const [activeDomainId, setActiveDomainId] = useState(null);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("name-asc");
   const [statusFilter, setStatusFilter] = useState("All");
   const [showFuture, setShowFuture] = useState(true);
-  const [viewMode, setViewMode] = useState("folders"); // folders | favorites | recent | coming
+  const [viewMode, setViewMode] = useState("folders");
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
@@ -78,23 +104,98 @@ function PortfolioExplorer() {
     return () => clearTimeout(t);
   }, []);
 
-  const activeDomain = useMemo(() => allDomains.find((d) => d.id === activeDomainId) || null, [activeDomainId]);
+  const activePlatform = useMemo(() => getDeploymentPlatform(activePlatformId) || null, [activePlatformId]);
+
+  const platformDomains = useMemo(() => {
+    if (!activePlatformId) return [];
+    return getDomainsForPlatform(activePlatformId, {
+      includeEmpty: activePlatformId === "web",
+      includeFuture: activePlatformId === "web" && showFuture,
+    });
+  }, [activePlatformId, showFuture]);
+
+  const activeDomain = useMemo(
+    () => platformDomains.find((d) => d.id === activeDomainId) || null,
+    [platformDomains, activeDomainId]
+  );
+
+  const openPlatform = (platform) => {
+    setActivePlatformId(platform.id);
+    setActiveDomainId(null);
+    setViewMode("folders");
+    setSearch("");
+    setStatusFilter("All");
+    pushRecent({ id: platform.id, type: "platform", name: platform.name });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const openDomain = (domain) => {
     setActiveDomainId(domain.id);
     setViewMode("folders");
-    pushRecent({ id: domain.id, type: "folder", name: domain.name, slug: domain.slug });
+    setSearch("");
+    pushRecent({
+      id: `${activePlatformId}:${domain.id}`,
+      type: "folder",
+      name: domain.name,
+      platformId: activePlatformId,
+      domainId: domain.id,
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const goBack = () => {
+    if (activeDomainId) {
+      setActiveDomainId(null);
+      setSearch("");
+      setStatusFilter("All");
+      return;
+    }
+    if (activePlatformId) {
+      setActivePlatformId(null);
+      setSearch("");
+      setStatusFilter("All");
+    }
+  };
+
+  const goToRoot = () => {
+    setActivePlatformId(null);
+    setActiveDomainId(null);
+    setSearch("");
+    setStatusFilter("All");
+    setViewMode("folders");
+  };
+
+  const goToPlatform = () => {
     setActiveDomainId(null);
     setSearch("");
     setStatusFilter("All");
   };
 
-  const filteredFolders = useMemo(() => {
-    let list = showFuture ? allDomains : allDomains.filter((d) => !d.planned);
+  const filteredPlatforms = useMemo(() => {
+    let list = deploymentPlatforms.map((p) => ({
+      ...p,
+      count: countAppsOnPlatform(p.id),
+    }));
+
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          getDomainsForPlatform(p.id).some(
+            (d) =>
+              d.name.toLowerCase().includes(q) ||
+              d.applications.some((a) => a.name.toLowerCase().includes(q))
+          )
+      );
+    }
+
+    return sortFolders(list, sortBy, prefs.pinned);
+  }, [search, sortBy, prefs.pinned]);
+
+  const filteredDomains = useMemo(() => {
+    let list = [...platformDomains];
 
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -106,22 +207,8 @@ function PortfolioExplorer() {
       );
     }
 
-    list = [...list].sort((a, b) => {
-      const aPinned = prefs.pinned.includes(a.id) ? 1 : 0;
-      const bPinned = prefs.pinned.includes(b.id) ? 1 : 0;
-      if (aPinned !== bPinned) return bPinned - aPinned;
-
-      const aCount = a.applications?.length || 0;
-      const bCount = b.applications?.length || 0;
-      if (sortBy === "name-asc") return a.name.localeCompare(b.name);
-      if (sortBy === "name-desc") return b.name.localeCompare(a.name);
-      if (sortBy === "count-desc") return bCount - aCount;
-      if (sortBy === "count-asc") return aCount - bCount;
-      return 0;
-    });
-
-    return list;
-  }, [search, sortBy, showFuture, prefs.pinned]);
+    return sortFolders(list, sortBy, prefs.pinned);
+  }, [platformDomains, search, sortBy, prefs.pinned]);
 
   const domainApps = useMemo(() => {
     if (!activeDomain) return [];
@@ -145,6 +232,8 @@ function PortfolioExplorer() {
     apps.sort((a, b) => {
       if (a.flagship && !b.flagship) return -1;
       if (!a.flagship && b.flagship) return 1;
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
       if (sortBy === "name-desc") return b.name.localeCompare(a.name);
       return a.name.localeCompare(b.name);
     });
@@ -154,15 +243,22 @@ function PortfolioExplorer() {
 
   const favoriteApps = useMemo(() => {
     const all = getAllApplications();
-    return all.filter((a) => prefs.favorites.includes(a.id));
+    return all
+      .filter((a) => prefs.favorites.includes(a.id))
+      .map((a) => resolveAppForPlatform(a, a.platformAvailability?.[0] || "web"));
   }, [prefs.favorites]);
 
   const totalProducts = useMemo(() => getAllApplications().filter((a) => a.status === STATUS.LIVE).length, []);
 
+  const searchPlaceholder = activeDomain
+    ? "Search applications…"
+    : activePlatform
+      ? "Search domains or products…"
+      : "Search platforms, domains, or products…";
+
   return (
     <section id="products" className="scroll-mt-24 w-full py-2">
       <LayoutGroup>
-        {/* Header */}
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <motion.p
@@ -186,11 +282,10 @@ function PortfolioExplorer() {
               transition={{ delay: 0.1 }}
               className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300"
             >
-              Enterprise portfolio explorer — {totalProducts} live platforms across {allDomains.filter((d) => !d.planned).length} business domains.
+              Browse by deployment platform — {totalProducts} live products across Web, Google Play, and the App Store.
             </motion.p>
           </div>
 
-          {/* View mode pills */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -198,7 +293,7 @@ function PortfolioExplorer() {
             className="inline-flex flex-wrap gap-1 rounded-2xl border border-slate-200/80 bg-white/80 p-1 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/60"
           >
             {[
-              { id: "folders", label: "Domains", icon: LayoutGrid },
+              { id: "folders", label: "Platforms", icon: LayoutGrid },
               { id: "favorites", label: "Favorites", icon: Star },
               { id: "recent", label: "Recent", icon: Clock3 },
               { id: "coming", label: "Coming Soon", icon: SlidersHorizontal },
@@ -208,10 +303,13 @@ function PortfolioExplorer() {
                 type="button"
                 onClick={() => {
                   setViewMode(tab.id);
-                  if (tab.id !== "folders") setActiveDomainId(null);
+                  if (tab.id !== "folders") {
+                    setActivePlatformId(null);
+                    setActiveDomainId(null);
+                  }
                 }}
                 className={`relative inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition-all duration-300 ${
-                  viewMode === tab.id && !activeDomain
+                  viewMode === tab.id && !activePlatform
                     ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow"
                     : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
                 }`}
@@ -223,9 +321,8 @@ function PortfolioExplorer() {
           </motion.div>
         </div>
 
-        {/* Breadcrumbs */}
         <AnimatePresence mode="wait">
-          {activeDomain && (
+          {(activePlatform || activeDomain) && (
             <motion.nav
               key="crumbs"
               initial={{ opacity: 0, y: -6 }}
@@ -243,16 +340,39 @@ function PortfolioExplorer() {
                 Back
               </button>
               <ChevronRight size={14} className="text-slate-400" />
-              <button type="button" onClick={goBack} className="text-slate-500 transition hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-300">
+              <button
+                type="button"
+                onClick={goToRoot}
+                className="text-slate-500 transition hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-300"
+              >
                 RTL-Product-Portfolio
               </button>
-              <ChevronRight size={14} className="text-slate-400" />
-              <span className="font-semibold text-slate-800 dark:text-white">{activeDomain.name}</span>
+              {activePlatform && (
+                <>
+                  <ChevronRight size={14} className="text-slate-400" />
+                  <button
+                    type="button"
+                    onClick={goToPlatform}
+                    className={`transition ${
+                      activeDomain
+                        ? "text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-300"
+                        : "font-semibold text-slate-800 dark:text-white"
+                    }`}
+                  >
+                    {activePlatform.name}
+                  </button>
+                </>
+              )}
+              {activeDomain && (
+                <>
+                  <ChevronRight size={14} className="text-slate-400" />
+                  <span className="font-semibold text-slate-800 dark:text-white">{activeDomain.name}</span>
+                </>
+              )}
             </motion.nav>
           )}
         </AnimatePresence>
 
-        {/* Toolbar */}
         <motion.div
           layout
           className="mt-6 flex flex-col gap-3 rounded-[20px] border border-slate-200/70 bg-white/70 p-3 shadow-sm backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-900/50 sm:flex-row sm:items-center"
@@ -263,7 +383,7 @@ function PortfolioExplorer() {
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={activeDomain ? "Search applications…" : "Search domains or products…"}
+              placeholder={searchPlaceholder}
               className="w-full rounded-xl border border-transparent bg-slate-50/90 py-2.5 pl-10 pr-10 text-sm text-slate-800 outline-none transition-all duration-300 placeholder:text-slate-400 focus:border-cyan-300 focus:bg-white focus:shadow-[0_0_0_3px_rgba(34,211,238,0.15)] dark:bg-slate-800/80 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-cyan-500/40 dark:focus:bg-slate-800"
             />
             {search && (
@@ -330,7 +450,7 @@ function PortfolioExplorer() {
                     {s}
                   </button>
                 ))}
-                {!activeDomain && (
+                {activePlatformId === "web" && !activeDomain && (
                   <label className="ml-auto inline-flex cursor-pointer items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
                     <input
                       type="checkbox"
@@ -346,7 +466,6 @@ function PortfolioExplorer() {
           )}
         </AnimatePresence>
 
-        {/* Content */}
         <div className="mt-7">
           {booting ? (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -356,10 +475,9 @@ function PortfolioExplorer() {
             </div>
           ) : (
             <AnimatePresence mode="wait">
-              {/* Domain detail */}
               {activeDomain ? (
                 <motion.div
-                  key={`domain-${activeDomain.id}`}
+                  key={`domain-${activePlatformId}-${activeDomain.id}`}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
@@ -376,7 +494,9 @@ function PortfolioExplorer() {
                         );
                       })()}
                       <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">{activeDomain.id}</p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                          {activePlatform?.name} · {activeDomain.id}
+                        </p>
                         <h3 className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">{activeDomain.name}</h3>
                         <p className="mt-1 max-w-2xl text-sm text-slate-600 dark:text-slate-300">{activeDomain.description}</p>
                       </div>
@@ -408,12 +528,73 @@ function PortfolioExplorer() {
                     ) : (
                       domainApps.map((app, i) => (
                         <ApplicationCard
-                          key={app.id}
+                          key={`${activePlatformId}-${app.id}`}
                           app={app}
                           index={i}
                           favorite={prefs.favorites.includes(app.id)}
                           onToggleFavorite={toggleFavorite}
+                          activePlatformId={activePlatformId}
                           onOpen={(a) => pushRecent({ id: a.id, type: "app", name: a.name, href: a.href })}
+                        />
+                      ))
+                    )}
+                  </div>
+                </motion.div>
+              ) : activePlatform ? (
+                <motion.div
+                  key={`platform-${activePlatform.id}`}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.35 }}
+                >
+                  <div className="mb-6 flex flex-wrap items-start justify-between gap-4 rounded-[22px] border border-slate-200/70 bg-gradient-to-br from-white/80 via-white/60 to-cyan-50/40 p-5 backdrop-blur-xl dark:border-slate-700 dark:from-slate-900/70 dark:via-slate-900/50 dark:to-cyan-950/20">
+                    <div className="flex items-start gap-4">
+                      {(() => {
+                        const Icon = getIcon(activePlatform.icon);
+                        return (
+                          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/70 bg-white/90 text-slate-800 shadow-sm dark:border-white/10 dark:bg-slate-800 dark:text-cyan-200">
+                            <Icon size={26} />
+                          </div>
+                        );
+                      })()}
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                          Deployment Platform
+                        </p>
+                        <h3 className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">{activePlatform.name}</h3>
+                        <p className="mt-1 max-w-2xl text-sm text-slate-600 dark:text-slate-300">{activePlatform.description}</p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => togglePin(activePlatform.id)}
+                      className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                        prefs.pinned.includes(activePlatform.id)
+                          ? "border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-200"
+                          : "border-slate-200 bg-white text-slate-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                      }`}
+                    >
+                      <Pin size={14} fill={prefs.pinned.includes(activePlatform.id) ? "currentColor" : "none"} />
+                      {prefs.pinned.includes(activePlatform.id) ? "Pinned" : "Pin folder"}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                    {filteredDomains.length === 0 ? (
+                      <EmptyState title="No domains found" subtitle="Try a different search term or clear filters." />
+                    ) : (
+                      filteredDomains.map((domain, i) => (
+                        <FolderCard
+                          key={domain.id}
+                          folder={domain}
+                          index={i}
+                          pinned={prefs.pinned.includes(domain.id)}
+                          onOpen={openDomain}
+                          onTogglePin={togglePin}
+                          kindLabel="Business Domain"
+                          footerHint="Browse products"
+                          countLabel={`${domain.applications.length} app${domain.applications.length === 1 ? "" : "s"}`}
                         />
                       ))
                     )}
@@ -437,6 +618,7 @@ function PortfolioExplorer() {
                         index={i}
                         favorite
                         onToggleFavorite={toggleFavorite}
+                        activePlatformId={app.activePlatformId}
                         onOpen={(a) => pushRecent({ id: a.id, type: "app", name: a.name, href: a.href })}
                       />
                     ))
@@ -451,7 +633,7 @@ function PortfolioExplorer() {
                   className="grid grid-cols-1 gap-3 md:grid-cols-2"
                 >
                   {prefs.recent.length === 0 ? (
-                    <EmptyState title="Nothing recent" subtitle="Open a domain or visit a platform to build your recent history." />
+                    <EmptyState title="Nothing recent" subtitle="Open a platform or visit a product to build your recent history." />
                   ) : (
                     prefs.recent.map((item, i) => (
                       <motion.button
@@ -461,9 +643,13 @@ function PortfolioExplorer() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.04 }}
                         onClick={() => {
-                          if (item.type === "folder") {
-                            const d = allDomains.find((x) => x.id === item.id);
-                            if (d) openDomain(d);
+                          if (item.type === "platform") {
+                            const p = getDeploymentPlatform(item.id);
+                            if (p) openPlatform(p);
+                          } else if (item.type === "folder" && item.platformId && item.domainId) {
+                            setActivePlatformId(item.platformId);
+                            setActiveDomainId(item.domainId);
+                            setViewMode("folders");
                           } else if (item.href) {
                             window.open(item.href, "_blank", "noopener,noreferrer");
                           }
@@ -507,24 +693,27 @@ function PortfolioExplorer() {
                 </motion.div>
               ) : (
                 <motion.div
-                  key="folders"
+                  key="platforms"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.35 }}
                   className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3"
                 >
-                  {filteredFolders.length === 0 ? (
-                    <EmptyState title="No domains found" subtitle="Try a different search term or clear filters." />
+                  {filteredPlatforms.length === 0 ? (
+                    <EmptyState title="No platforms found" subtitle="Try a different search term or clear filters." />
                   ) : (
-                    filteredFolders.map((domain, i) => (
+                    filteredPlatforms.map((platform, i) => (
                       <FolderCard
-                        key={domain.id}
-                        domain={domain}
+                        key={platform.id}
+                        folder={platform}
                         index={i}
-                        pinned={prefs.pinned.includes(domain.id)}
-                        onOpen={openDomain}
+                        pinned={prefs.pinned.includes(platform.id)}
+                        onOpen={openPlatform}
                         onTogglePin={togglePin}
+                        kindLabel="Deployment Platform"
+                        footerHint="Browse categories"
+                        countLabel={`${platform.count} app${platform.count === 1 ? "" : "s"}`}
                       />
                     ))
                   )}

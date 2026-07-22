@@ -1,5 +1,6 @@
 import {
   Activity,
+  Apple,
   BookOpenCheck,
   Bot,
   Boxes,
@@ -16,6 +17,7 @@ import {
   Cpu,
   Dumbbell,
   FileText,
+  Globe,
   Globe2,
   GraduationCap,
   HandHeart,
@@ -39,6 +41,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Siren,
+  Smartphone,
   Sparkles,
   Stethoscope,
   Trophy,
@@ -51,6 +54,7 @@ import {
 
 const iconMap = {
   Activity,
+  Apple,
   BookOpenCheck,
   Bot,
   Boxes,
@@ -67,6 +71,7 @@ const iconMap = {
   Cpu,
   Dumbbell,
   FileText,
+  Globe,
   Globe2,
   GraduationCap,
   HandHeart,
@@ -90,6 +95,7 @@ const iconMap = {
   ShieldAlert,
   ShieldCheck,
   Siren,
+  Smartphone,
   Sparkles,
   Stethoscope,
   Trophy,

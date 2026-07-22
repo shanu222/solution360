@@ -1,6 +1,7 @@
 /**
  * RTL Enterprise Product Portfolio
  * Scalable domain taxonomy for 100+ products.
+ * Hierarchy: Deployment Platform → Business Domain → Application
  */
 
 export const STATUS = {
@@ -10,6 +11,107 @@ export const STATUS = {
   ARCHIVED: "Archived",
   PLANNED: "Planned",
 };
+
+/** Top-level deployment platforms (Web / Play / App Store). */
+export const deploymentPlatforms = [
+  {
+    id: "web",
+    slug: "web-applications",
+    name: "Web Applications",
+    shortName: "Web",
+    description: "Browser-based products and enterprise web platforms available online.",
+    icon: "Globe",
+    badgeLabel: "Web",
+    badgeEmoji: "🌐",
+    ctaLabel: "Visit Website",
+    accent: "from-cyan-500/20 via-sky-400/10 to-blue-500/20",
+    glow: "rgba(6,182,212,0.35)",
+    border: "border-cyan-300/50 dark:border-cyan-400/30",
+  },
+  {
+    id: "android",
+    slug: "google-play-store",
+    name: "Google Play Store",
+    shortName: "Android",
+    description: "Android applications published on the Google Play Store.",
+    icon: "Smartphone",
+    badgeLabel: "Android",
+    badgeEmoji: "📱",
+    ctaLabel: "Open on Google Play",
+    accent: "from-emerald-500/20 via-green-400/10 to-lime-400/20",
+    glow: "rgba(16,185,129,0.35)",
+    border: "border-emerald-300/50 dark:border-emerald-400/30",
+  },
+  {
+    id: "ios",
+    slug: "apple-app-store",
+    name: "Apple App Store",
+    shortName: "iOS",
+    description: "iOS applications published on the Apple App Store.",
+    icon: "Apple",
+    badgeLabel: "iOS",
+    badgeEmoji: "🍎",
+    ctaLabel: "Open on App Store",
+    accent: "from-slate-500/20 via-zinc-400/10 to-sky-400/15",
+    glow: "rgba(148,163,184,0.35)",
+    border: "border-slate-300/60 dark:border-slate-400/30",
+  },
+];
+
+export function getDeployments(app) {
+  if (app?.deployments && Object.keys(app.deployments).length > 0) {
+    return app.deployments;
+  }
+  if (app?.href) return { web: app.href };
+  // Shared/internal catalog entries live under Web Applications
+  if (app?.status === STATUS.INTERNAL) return { web: null };
+  return {};
+}
+
+export function getPlatformAvailability(app) {
+  const deployments = getDeployments(app);
+  return deploymentPlatforms
+    .filter((p) => Object.prototype.hasOwnProperty.call(deployments, p.id))
+    .map((p) => p.id);
+}
+
+export function resolveAppForPlatform(app, platformId) {
+  const deployments = getDeployments(app);
+  const platform = deploymentPlatforms.find((p) => p.id === platformId);
+  const href = deployments[platformId] || null;
+  return {
+    ...app,
+    href,
+    activePlatformId: platformId,
+    platformAvailability: getPlatformAvailability(app),
+    ctaLabel: platform?.ctaLabel || "Visit Platform",
+  };
+}
+
+export function countAppsOnPlatform(platformId) {
+  return getAllApplications().filter((app) => Object.prototype.hasOwnProperty.call(getDeployments(app), platformId)).length;
+}
+
+export function getDomainsForPlatform(platformId, { includeEmpty = false, includeFuture = false } = {}) {
+  const source = includeFuture ? allDomains : domains;
+  return source
+    .map((domain) => {
+      const apps = (domain.applications || [])
+        .filter((app) => Object.prototype.hasOwnProperty.call(getDeployments(app), platformId))
+        .map((app) => resolveAppForPlatform(app, platformId));
+      return { ...domain, applications: apps };
+    })
+    .filter((domain) => {
+      if (domain.applications.length > 0) return true;
+      if (!includeEmpty) return false;
+      // Empty capacity folders only appear under Web Applications
+      return platformId === "web" && Boolean(domain.planned);
+    });
+}
+
+export function getDeploymentPlatform(id) {
+  return deploymentPlatforms.find((p) => p.id === id);
+}
 
 export const domains = [
   {
@@ -91,11 +193,16 @@ export const domains = [
         folderName: "Infra-Resilience360",
         category: "Resilience Platform",
         description:
-          "Infrastructure resilience platform for retrofit planning, cost estimation, climate adaptation, and disaster risk reduction.",
+          "Developed for the National Disaster Management Authority (NDMA), Pakistan, Infra Resilience360 is an AI-powered infrastructure resilience platform supporting disaster risk reduction, resilient infrastructure planning, retrofit guidance, climate adaptation, geospatial intelligence, and engineering decision support across Pakistan.",
         status: STATUS.LIVE,
         href: "https://infra-resilience360-cloud.vercel.app/",
+        deployments: {
+          web: "https://infra-resilience360-cloud.vercel.app/",
+          android: "https://play.google.com/store/apps/details?id=com.resilience360.mobile",
+          ios: "https://apps.apple.com/pk/app/infra-resilience-360/id6780774159",
+        },
         sdgs: ["SDG 9", "SDG 11", "SDG 13"],
-        tech: ["GIS", "Analytics", "Cloud"],
+        tech: ["GIS", "Analytics", "Cloud", "Mobile"],
         icon: "ShieldCheck",
         featured: true,
       },
@@ -259,11 +366,16 @@ export const domains = [
         name: "NET360 Preparation",
         folderName: "NET360-Preparation",
         category: "Entrance Prep",
-        description: "Smart learning platform for NUST entry test preparation with structured content and performance tracking.",
+        description:
+          "Comprehensive NUST entry test preparation platform providing structured learning, MCQs, mock exams, analytics, AI-assisted learning, and performance tracking for engineering and university admission aspirants.",
         status: STATUS.LIVE,
         href: "https://www.net360preparation.com/",
+        deployments: {
+          web: "https://www.net360preparation.com/",
+          android: "https://play.google.com/store/apps/details?id=com.net360prep.app",
+        },
         sdgs: ["SDG 4"],
-        tech: ["EdTech", "Analytics", "LMS"],
+        tech: ["EdTech", "Analytics", "LMS", "Mobile"],
         icon: "BookOpenCheck",
       },
       {
@@ -749,6 +861,7 @@ export function getAllApplications() {
       domainId: domain.id,
       domainSlug: domain.slug,
       domainName: domain.name,
+      platformAvailability: getPlatformAvailability(app),
     }))
   );
 }

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ExternalLink, Star } from "lucide-react";
-import { STATUS } from "../../data/portfolio";
+import { deploymentPlatforms, getPlatformAvailability, STATUS } from "../../data/portfolio";
 import { getIcon } from "./iconMap";
 
 const statusStyles = {
@@ -11,10 +11,12 @@ const statusStyles = {
   [STATUS.PLANNED]: "bg-amber-100 text-amber-700 dark:bg-amber-400/15 dark:text-amber-200",
 };
 
-function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen }) {
+function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen, activePlatformId }) {
   const Icon = getIcon(app.icon);
   const isLive = app.status === STATUS.LIVE && app.href;
   const isFlagship = app.flagship;
+  const availability = app.platformAvailability || getPlatformAvailability(app);
+  const ctaLabel = app.ctaLabel || "Visit Platform";
 
   return (
     <motion.article
@@ -71,7 +73,7 @@ function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen }) {
 
       <div className="relative z-10 mt-4 flex items-start gap-3">
         <motion.div
-          className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
+          className={`relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
             isFlagship
               ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-200"
               : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-cyan-200"
@@ -90,8 +92,31 @@ function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen }) {
 
       <p className="relative z-10 mt-3 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{app.description}</p>
 
-      {app.tech?.length > 0 && (
+      {availability.length > 0 && (
         <div className="relative z-10 mt-4 flex flex-wrap gap-1.5">
+          {deploymentPlatforms
+            .filter((p) => availability.includes(p.id))
+            .map((p) => {
+              const isActive = activePlatformId ? activePlatformId === p.id : p.id === "web";
+              return (
+                <span
+                  key={p.id}
+                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold transition-all duration-300 ${
+                    isActive
+                      ? "border border-cyan-300 bg-cyan-50 text-cyan-800 dark:border-cyan-400/40 dark:bg-cyan-400/15 dark:text-cyan-200"
+                      : "border border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                  }`}
+                >
+                  <span aria-hidden>{p.badgeEmoji}</span>
+                  {p.badgeLabel}
+                </span>
+              );
+            })}
+        </div>
+      )}
+
+      {app.tech?.length > 0 && (
+        <div className="relative z-10 mt-3 flex flex-wrap gap-1.5">
           {app.tech.map((t) => (
             <span
               key={t}
@@ -129,7 +154,7 @@ function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen }) {
                 : "bg-slate-900 group-hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:group-hover:bg-slate-100"
             }`}
           >
-            Visit Platform
+            {ctaLabel}
             <ExternalLink size={14} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         ) : (
