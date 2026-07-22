@@ -100,6 +100,20 @@ export const domains = [
         featured: true,
       },
       {
+        id: "resilience-city-ai",
+        name: "Resilience City AI",
+        folderName: "Resilience-City-AI",
+        category: "Geo-AI Command Center",
+        description:
+          "Pakistan's AI-powered geo-intelligence platform integrating geospatial analytics, climate resilience, disaster simulation, AI-assisted decision support, and immersive resilience planning into a unified command center.",
+        status: STATUS.LIVE,
+        href: "https://ndma-iapd-oqpl.vercel.app/",
+        sdgs: ["SDG 9", "SDG 11", "SDG 13"],
+        tech: ["GeoAI", "GIS", "Digital Twin", "AI", "Climate Intelligence", "Disaster Simulation"],
+        icon: "Globe2",
+        featured: true,
+      },
+      {
         id: "national-infrastructure-resilience-platform",
         name: "National Infrastructure Resilience Platform",
         folderName: "National-Infrastructure-Resilience-Platform",
