@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 
 const THEME_STORAGE_KEY = "theme";
+const DEFAULT_THEME = "dark";
 
-function useTheme() {
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
+function getInitialTheme() {
+  if (typeof window === "undefined") return DEFAULT_THEME;
+  try {
     const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
     if (savedTheme === "dark" || savedTheme === "light") {
-      setTheme(savedTheme);
+      return savedTheme;
     }
-  }, []);
+  } catch {
+    /* ignore storage access errors */
+  }
+  return DEFAULT_THEME;
+}
+
+function useTheme() {
+  const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -19,7 +26,11 @@ function useTheme() {
     } else {
       root.classList.remove("dark");
     }
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {
+      /* ignore storage access errors */
+    }
   }, [theme]);
 
   const toggleTheme = () => {

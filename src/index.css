@@ -17,11 +17,18 @@ body {
   font-family: "Inter", system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  background-color: #0f172a;
+  color: #e2e8f0;
   transition: background-color 300ms ease, color 300ms ease;
 }
 
+html:not(.dark) body {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
 @media (max-width: 768px) {
-  body {
+  html.dark body {
     background: linear-gradient(to bottom, #0f172a, #1e293b);
   }
 }
