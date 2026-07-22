@@ -169,10 +169,10 @@ function Footer({ onNavigate }) {
             </p>
             <address className="mt-3 not-italic text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               <span className="block font-medium text-slate-800 dark:text-slate-200">
-                NSTP (National Science &amp; Technology Park)
+                House No. 287, Street No. 6
               </span>
-              <span className="mt-1 block">First Floor, Office No. 1405</span>
-              <span className="mt-1 block">Islamabad, Pakistan</span>
+              <span className="mt-1 block">Block D-Extension, Rawal Enclave Phase-1</span>
+              <span className="mt-1 block">Kuri, Islamabad, Pakistan</span>
             </address>
           </div>
 
