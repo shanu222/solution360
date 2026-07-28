@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Download, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const fadeInUp = (delay = 0) => ({
@@ -211,6 +211,55 @@ function AboutSection() {
           </ul>
         </motion.article>
       </div>
+
+      <motion.article
+        {...fadeInUp(0.21)}
+        className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800 md:p-8"
+      >
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">
+          Resources
+        </p>
+        <h3 className="mt-2 text-2xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">
+          Company Profile
+        </h3>
+        <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 transition-colors duration-300 hover:border-cyan-400 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/45 dark:hover:border-cyan-300/50 sm:p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700 transition-colors duration-300 dark:bg-cyan-500/10 dark:text-cyan-300">
+                <FileText size={22} aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500 transition-colors duration-300 dark:text-slate-400">
+                  Company Profile
+                </p>
+                <h4 className="mt-1 text-lg font-semibold text-slate-900 transition-colors duration-300 dark:text-white">
+                  RTL Company Profile
+                </h4>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600 transition-colors duration-300 dark:text-slate-300">
+                  Download the official Resilience Technologies Labs (SMC-Private) Limited Company Profile to learn about our products, expertise, services, and technology portfolio.
+                </p>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-800 transition-colors duration-300 dark:border-cyan-400/40 dark:bg-cyan-500/10 dark:text-cyan-200">
+                    PPTX
+                  </span>
+                  <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-600 transition-colors duration-300 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                    2.1 MB
+                  </span>
+                </div>
+              </div>
+            </div>
+            <a
+              href="/downloads/RTL_Company_Profile.pptx"
+              download="RTL_Company_Profile.pptx"
+              className="btn-premium inline-flex h-11 w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-brand-gradient px-6 text-sm font-medium text-white shadow-glow transition hover:scale-105 sm:w-auto"
+              aria-label="Download RTL Company Profile PowerPoint presentation"
+            >
+              <Download size={16} aria-hidden="true" />
+              Download Company Profile
+            </a>
+          </div>
+        </div>
+      </motion.article>
 
       <motion.article
         {...fadeInUp(0.22)}
