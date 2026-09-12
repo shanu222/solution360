@@ -2,17 +2,12 @@ import { motion } from "framer-motion";
 import {
   BookOpenCheck,
   Building2,
-  Car,
-  DatabaseZap,
   ExternalLink,
-  GraduationCap,
   HardHat,
   Layers3,
-  Radar,
   School,
   ShieldCheck,
   Sparkles,
-  Users,
 } from "lucide-react";
 
 const categories = [
@@ -46,101 +41,10 @@ const categories = [
         icon: ShieldCheck,
       },
       {
-        name: "Infrastructure Early Warning System",
-        href: "https://shm-mu.vercel.app/",
-        description:
-          "Real-time infrastructure monitoring and early warning platform for bridges, roads, critical facilities, hazard detection, inspections, and resilience management.",
-        icon: Radar,
-      },
-      {
         name: "Green Building Portal",
         href: "https://gbcp-portal.vercel.app/",
         description: "Sustainability workflow hub supporting efficient planning for green infrastructure.",
         icon: Building2,
-      },
-      {
-        name: "Punjab Infrastructure Audit Platform",
-        href: "https://punjab-infrastructure-audit-platform.vercel.app/",
-        description:
-          "Infrastructure audit and assessment platform supporting asset management, resilience planning, and compliance monitoring.",
-        icon: Building2,
-      },
-      {
-        name: "Resilient Build Pakistan",
-        href: "https://resilient-build-pakistan.vercel.app/",
-        description: "Resilient construction and retrofit planning platform supporting safer infrastructure development.",
-        icon: HardHat,
-      },
-      {
-        name: "DARV",
-        href: "https://darv.vercel.app/",
-        description: "Digital assessment and resilience visualization platform supporting data-driven decision making.",
-        icon: Radar,
-      },
-    ],
-  },
-  {
-    title: "Data & Climate Systems",
-    theme: "from-emerald-400/15 to-cyan-500/10",
-    apps: [
-      {
-        name: "NDMA Dashboard",
-        href: "https://ndma-geo-resilience-bashboard.vercel.app/",
-        description: "Geo-enabled intelligence dashboard for resilience mapping and domain-level coordination.",
-        icon: DatabaseZap,
-      },
-      {
-        name: "National Infrastructure Resilience Platform",
-        href: "https://ndma-iapd.vercel.app/",
-        description:
-          "Integrated infrastructure resilience platform providing asset inventories, GIS intelligence, risk analytics, disaster preparedness, and resilience planning.",
-        icon: DatabaseZap,
-      },
-      {
-        name: "GeoResilience Command System",
-        href: "https://ndma-iapd-oqpl.vercel.app/",
-        description:
-          "AI-powered geospatial resilience intelligence platform for disaster monitoring, scenario simulation, climate risk analysis, emergency coordination, and decision support.",
-        icon: DatabaseZap,
-      },
-      {
-        name: "RMC Portal",
-        href: "https://rmc-portal-two.vercel.app/",
-        description:
-          "Regional and Military Collaboration Portal supporting disaster coordination, resilience planning, and emergency management.",
-        icon: ShieldCheck,
-      },
-    ],
-  },
-  {
-    title: "Mobility & Services",
-    theme: "from-violet-400/15 to-blue-500/10",
-    apps: [
-      {
-        name: "Carpool App",
-        href: "https://car-pool-app-three.vercel.app/",
-        description: "Mobility coordination app that improves ride sharing, routes, and service efficiency.",
-        icon: Car,
-      },
-      {
-        name: "Stakeholder Inventory Portal",
-        href: "https://stakeholder-inventory-portal.vercel.app/",
-        description: "Inventory and stakeholder operations portal for structured collaboration and visibility.",
-        icon: Users,
-      },
-      {
-        name: "Active Gym F6",
-        href: "https://iactive-gym-f6.vercel.app/",
-        description:
-          "Smart gym and fitness management platform supporting memberships, attendance tracking, training plans, and facility operations.",
-        icon: Users,
-      },
-      {
-        name: "Arena Gym F6",
-        href: "https://arena-gym-f6.vercel.app/",
-        description:
-          "Modern fitness center management platform for member engagement, performance tracking, and operational management.",
-        icon: Users,
       },
     ],
   },
@@ -172,14 +76,6 @@ const categories = [
         description:
           "AI-powered communication and behavioral intelligence platform delivering relationship insights and interaction analysis.",
         icon: Sparkles,
-        status: "AI Powered",
-      },
-      {
-        name: "Shirkat Gah Platform",
-        href: "https://shirkat-gah-web.vercel.app/",
-        description:
-          "Women-focused digital platform supporting advocacy, inclusion, community engagement, and social development.",
-        icon: Users,
         status: "AI Powered",
       },
       {
