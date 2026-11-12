@@ -194,3 +194,40 @@ html.lenis body {
 .dark .legal-prose a {
   color: #8fb0ff;
 }
+
+/* App showcase */
+.river-left {
+  animation: river 70s linear infinite;
+}
+
+.river-right {
+  animation: river 80s linear infinite reverse;
+}
+
+@keyframes river {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes app-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Mobile apps showcase: auto-advance timer under the active app */
+@keyframes showcase-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
