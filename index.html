@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,24 +9,21 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0c1e36" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#f4f7fa" />
+    <meta name="color-scheme" content="light dark" />
     <script>
+      // Apply the visitor's saved theme before first paint. Light is the default;
+      // dark is used only after someone picks it with the theme toggle.
       (function () {
+        var theme = "light";
         try {
-          var stored = localStorage.getItem("theme");
-          var theme = stored === "light" || stored === "dark" ? stored : "dark";
-          var root = document.documentElement;
-          if (theme === "dark") {
-            root.classList.add("dark");
-          } else {
-            root.classList.remove("dark");
-          }
-          root.style.colorScheme = theme;
-        } catch (e) {
-          document.documentElement.classList.add("dark");
-          document.documentElement.style.colorScheme = "dark";
-        }
+          var stored = localStorage.getItem("rtl-theme");
+          if (stored === "dark" || stored === "light") theme = stored;
+        } catch (e) {}
+        var root = document.documentElement;
+        if (theme === "dark") root.classList.add("dark");
+        root.style.colorScheme = theme;
+        if (theme === "dark") document.querySelector('meta[name="theme-color"]').setAttribute("content", "#0c1e36");
       })();
     </script>
     <title>RESILIENCE TECHNOLOGIES LABS</title>
