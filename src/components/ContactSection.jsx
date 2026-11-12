@@ -172,11 +172,11 @@ function ContactSection() {
                 <dt className="text-sm text-slate-500 dark:text-slate-400">Business address</dt>
                 <dd className="mt-1 not-italic leading-relaxed text-slate-700 dark:text-slate-200">
                   <address className="not-italic">
-                    NSTP (National Science and Technology Park)
+                    House No. 287, Street No. 6
                     <br />
-                    First Floor, Office No. 1405
+                    Block D-Extension, Rawal Enclave Phase-1
                     <br />
-                    Islamabad, Pakistan
+                    Kuri, Islamabad, Pakistan
                   </address>
                 </dd>
               </div>

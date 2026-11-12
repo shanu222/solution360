@@ -138,7 +138,7 @@ function TermsAndConditions() {
           <a href="https://mail.google.com/mail/?view=cm&fs=1&to=shanu1998end@gmail.com" target="_blank" rel="noopener noreferrer" className="text-cyan-700 underline-offset-2 transition hover:text-cyan-600 hover:underline dark:text-cyan-200">
             shanu1998end@gmail.com
           </a>
-          . Business address: RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED, NSTP, National Science and Technology Park, First Floor, Office No. 1405, Islamabad, Pakistan.
+          . Business address: RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED, House No. 287, Street No. 6, Block D-Extension, Rawal Enclave Phase-1, Kuri, Islamabad, Pakistan.
         </p>
       </section>
     </LegalDocumentLayout>

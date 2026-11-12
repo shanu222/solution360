@@ -181,7 +181,7 @@ function Home() {
             </div>
             <div>
               <dt className="text-slate-500 dark:text-slate-400">Office</dt>
-              <dd className="font-medium text-slate-900 dark:text-white">NSTP, Islamabad</dd>
+              <dd className="font-medium text-slate-900 dark:text-white">Kuri, Islamabad</dd>
             </div>
           </dl>
         </Reveal>

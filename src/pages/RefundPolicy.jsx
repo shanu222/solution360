@@ -100,7 +100,7 @@ function RefundPolicy() {
         <h2 className="text-base font-semibold text-slate-900 dark:text-white">10. Registered business details</h2>
         <p>
           Business name: RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED.
-          Registered office: NSTP, National Science and Technology Park, First Floor, Office No. 1405, Islamabad, Pakistan.
+          Registered office: House No. 287, Street No. 6, Block D-Extension, Rawal Enclave Phase-1, Kuri, Islamabad, Pakistan.
         </p>
       </section>
     </LegalDocumentLayout>
