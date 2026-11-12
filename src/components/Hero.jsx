@@ -185,7 +185,7 @@ function Hero({ onNavigate }) {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal-400 opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-signal-500" />
             </span>
-            AI-powered sustainability intelligence, built at NSTP Islamabad
+            AI-powered sustainability intelligence, built in Islamabad
           </motion.p>
 
           <RevealText
