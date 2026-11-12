@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ClosingCTA from "../components/ClosingCTA";
 import Hero from "../components/Hero";
+import MobileAppsShowcase from "../components/MobileAppsShowcase";
 import { Marquee, Reveal, ScrollHighlight, easeOut, useSpotlight } from "../components/motion/primitives";
 import { capabilities, processSteps, useCases } from "../data/company";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
@@ -108,6 +109,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <MobileAppsShowcase />
 
       {/* Use cases */}
       <section className="px-5 sm:px-6">

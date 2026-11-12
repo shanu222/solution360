@@ -296,6 +296,10 @@ export const domains = [
           "AI-powered women empowerment platform for Pakistan, providing health guidance, safety support, financial inclusion, and legal awareness.",
         status: STATUS.LIVE,
         href: "https://ai-platform-for-women-empowerment.vercel.app/",
+        deployments: {
+          web: "https://ai-platform-for-women-empowerment.vercel.app/",
+          android: "https://play.google.com/store/apps/details?id=com.she360.app",
+        },
         sdgs: ["SDG 3", "SDG 5", "SDG 8", "SDG 10"],
         tech: ["AI/ML", "Chat", "Social Impact"],
         icon: "Sparkles",
