@@ -1,28 +1,12 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.45, ease: "easeOut" },
-};
-
-const staggerContainer = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-};
-
-const staggerItem = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0 },
-};
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import ContourField from "./motion/ContourField";
+import { Magnetic, RevealText, easeOut } from "./motion/primitives";
 
 const trustStats = [
-  { title: "10+ Projects", subtitle: "Climate & sustainability initiatives" },
-  { title: "AI Powered", subtitle: "Smart decision workflows" },
-  { title: "Enterprise Ready", subtitle: "Secure and scalable architecture" },
+  { title: "10+ projects", subtitle: "Climate and sustainability initiatives" },
+  { title: "AI powered", subtitle: "Smart decision workflows" },
+  { title: "Enterprise ready", subtitle: "Secure, scalable architecture" },
 ];
 
 const baseIndicators = [
@@ -82,21 +66,74 @@ const chartBase = {
   temp: [33.2, 34.1, 35.0, 36.2, 37.0, 36.5, 35.8],
 };
 
+const series = [
+  { key: "aqi", label: "AQI", color: "#F2994A", min: 150, max: 205 },
+  { key: "demand", label: "Energy demand", color: "#5C8BFF", min: 21800, max: 24900 },
+  { key: "temp", label: "Temperature", color: "#2FC9A9", min: 32, max: 38.5 },
+];
+
+const statusTone = (status) => {
+  if (status === "Critical" || status === "Unhealthy") return "bg-rose-500";
+  if (status === "Low" || status === "Needs Improvement") return "bg-amber-400";
+  return "bg-emerald-500";
+};
+
+/** Smooth line through points (Catmull-Rom converted to cubic Béziers). */
+function smoothPath(points) {
+  return points.reduce((d, [x, y], i, arr) => {
+    if (i === 0) return `M${x},${y}`;
+    const [x0, y0] = arr[i - 2] || arr[i - 1];
+    const [x1, y1] = arr[i - 1];
+    const [x3, y3] = arr[i + 1] || [x, y];
+    const c1 = [x1 + (x - x0) / 6, y1 + (y - y0) / 6];
+    const c2 = [x - (x3 - x1) / 6, y - (y3 - y1) / 6];
+    return `${d} C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}`;
+  }, "");
+}
+
+function TrendChart({ data }) {
+  const width = 320;
+  const height = 96;
+  const toPoints = ({ key, min, max }) =>
+    data[key].map((value, i) => [8 + (i * (width - 16)) / (data[key].length - 1), height - 8 - ((value - min) / (max - min)) * (height - 20)]);
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="h-24 w-full overflow-visible" role="img" aria-label="Seven-point trend of air quality, energy demand and temperature">
+      {[0.25, 0.5, 0.75].map((f) => (
+        <line key={f} x1="0" x2={width} y1={height * f} y2={height * f} stroke="currentColor" strokeOpacity="0.08" strokeDasharray="2 4" />
+      ))}
+      {series.map((s, i) => {
+        const pts = toPoints(s);
+        const last = pts[pts.length - 1];
+        return (
+          <g key={s.key}>
+            <motion.path
+              initial={{ pathLength: 0, d: smoothPath(pts) }}
+              animate={{ d: smoothPath(pts), pathLength: 1 }}
+              transition={{ pathLength: { duration: 1.4, ease: easeOut, delay: 1 + i * 0.15 }, d: { duration: 0.8, ease: easeOut } }}
+              fill="none"
+              stroke={s.color}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <motion.circle initial={{ cx: last[0], cy: last[1] }} animate={{ cx: last[0], cy: last[1] }} transition={{ duration: 0.8, ease: easeOut }} r="3" fill={s.color} />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
 function Hero({ onNavigate }) {
-  const [heroMouse, setHeroMouse] = useState({ x: 0, y: 0 });
   const [indicators, setIndicators] = useState(baseIndicators);
   const [chartData, setChartData] = useState(chartBase);
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 400], [0, -30]);
-  const heroParallaxX = useTransform(scrollY, [0, 600], [0, 8]);
-  const heroTitle = "Engineering AI for Climate, Infrastructure & National Resilience";
-
-  const handleHeroMouseMove = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-    setHeroMouse({ x, y });
-  };
+  const sectionRef = useRef(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const panelY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -60]);
+  const mapScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.12]);
+  const mapOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.25]);
+  const heroTitle = "Engineering AI for climate, infrastructure and national resilience";
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -104,7 +141,7 @@ function Hero({ onNavigate }) {
         prev.map((item) => {
           if (item.title === "Energy Shortfall") {
             const next = 4300 + Math.floor(Math.random() * 500);
-            return { ...item, value: `${next.toLocaleString()} MW`, trend: `${next > 4500 ? "+" : "-"}${Math.abs(((next - 4500) / 4500 * 100)).toFixed(1)}%`, updated: "Just now" };
+            return { ...item, value: `${next.toLocaleString()} MW`, trend: `${next > 4500 ? "+" : "-"}${Math.abs(((next - 4500) / 4500) * 100).toFixed(1)}%`, updated: "Just now" };
           }
           if (item.title === "Renewable Energy Share") {
             const next = 11 + Math.random() * 2.4;
@@ -130,165 +167,167 @@ function Hero({ onNavigate }) {
   }, []);
 
   return (
-    <section id="top" className="relative grid w-full items-center gap-12 overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-br from-blue-50/90 via-white to-cyan-50/70 px-6 py-12 shadow-[0_10px_24px_rgba(148,163,184,0.16)] transition-colors duration-300 dark:border-white/10 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:shadow-none lg:grid-cols-2 lg:gap-16 lg:py-16">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(37,99,235,0.08),rgba(255,255,255,0))] transition-colors duration-300 dark:bg-[linear-gradient(120deg,rgba(59,130,246,0.12),rgba(15,23,42,0))]" />
-      <motion.div {...fadeInUp} className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
-        <p className="inline-flex items-center gap-2 rounded-full border border-cyan-300/50 bg-cyan-100/60 px-4 py-1 text-sm text-cyan-700 transition-colors duration-300 dark:border-cyan-300/30 dark:bg-cyan-300/10 dark:text-cyan-200">
-          <Sparkles size={14} />
-          AI-Powered Sustainability Intelligence
-        </p>
-        <h1 className="mt-5 text-[clamp(30px,5vw,50px)] font-bold leading-[1.16] tracking-tight text-slate-900 transition-colors duration-300 dark:text-white">
-          {heroTitle}
-        </h1>
-        <p className="mt-4 max-w-xl text-[clamp(15px,1.8vw,18px)] leading-7 text-slate-600 transition-colors duration-300 dark:text-slate-300 lg:max-w-2xl">
-          RESILIENCE TECHNOLOGIES LABS develops AI-powered platforms for governments, enterprises, humanitarian organizations, and communities to improve disaster resilience, infrastructure intelligence, sustainability, education, and digital transformation.
-        </p>
-        <div className="mt-8 grid grid-cols-1 gap-3 sm:inline-flex sm:flex-wrap">
-          <button
-            onClick={() => onNavigate("/products")}
-            className="btn-premium inline-flex h-11 items-center justify-center rounded-xl bg-brand-gradient px-6 py-3 font-medium text-white shadow-sm transition-all duration-200 hover:scale-105"
-          >
-            Explore Products
-          </button>
-          <button
-            onClick={() => onNavigate("/contact")}
-            className="btn-premium inline-flex h-11 items-center justify-center rounded-xl border border-cyan-200 bg-white px-6 py-3 font-medium text-slate-700 transition-all duration-200 hover:scale-105 hover:border-cyan-400 hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/5 dark:text-slate-100 dark:hover:border-cyan-300/60 dark:hover:bg-cyan-300/10"
-          >
-            Contact Us
-          </button>
-        </div>
-        <motion.div variants={staggerContainer} initial="hidden" animate="show" className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-          {trustStats.map((item) => (
-            <motion.div key={item.title} variants={staggerItem} className="rounded-xl bg-white/70 p-3 text-left shadow-sm transition-colors duration-300 dark:bg-slate-800/60">
-              <p className="text-sm font-semibold text-slate-800 transition-colors duration-300 dark:text-slate-100">{item.title}</p>
-              <p className="mt-1 text-xs text-slate-600 transition-colors duration-300 dark:text-slate-300">{item.subtitle}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+    <section ref={sectionRef} id="top" className="relative isolate -mt-20 overflow-hidden pt-28 sm:pt-32">
+      <motion.div style={{ scale: mapScale, opacity: mapOpacity }} className="absolute inset-0 -z-10">
+        <ContourField draw interactive />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[var(--page)]" />
       </motion.div>
 
-      <motion.div onMouseMove={handleHeroMouseMove} onMouseLeave={() => setHeroMouse({ x: 0, y: 0 })} style={{ y: heroY }} className="relative">
-        <motion.div
-          animate={{ y: [-8, 8, -8] }}
-          transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          style={{ x: heroParallaxX, rotateY: heroMouse.x * 8, rotateX: heroMouse.y * -8, willChange: "transform" }}
-          className="rounded-3xl border border-slate-200/80 bg-white/80 p-4 shadow-[0_14px_30px_rgba(148,163,184,0.2)] transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900/50 dark:shadow-[0_14px_30px_rgba(2,6,23,0.35)]"
-        >
-          <div className="rounded-2xl border border-white/40 bg-gradient-to-br from-white/85 via-blue-50/80 to-cyan-100/70 p-4 shadow-[0_10px_35px_rgba(56,189,248,0.18)] transition-colors duration-300 dark:border-white/10 dark:from-slate-900/80 dark:via-slate-900/70 dark:to-cyan-950/30">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">Climate & Infrastructure Intelligence Dashboard</h3>
-              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:bg-emerald-300/15 dark:text-emerald-200">
-                Live
-              </span>
-            </div>
-            <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Live National Indicators - Pakistan</p>
+      <div className="mx-auto grid w-full max-w-[83rem] gap-14 px-5 pb-16 sm:px-6 lg:grid-cols-12 lg:items-center lg:gap-10 lg:pb-24">
+        <div className="lg:col-span-7">
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut, delay: 0.1 }}
+            className="inline-flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-300"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal-400 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-signal-500" />
+            </span>
+            AI-powered sustainability intelligence, built at NSTP Islamabad
+          </motion.p>
 
-            <div className="grid grid-cols-2 gap-4">
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut", delay: 0.08 }}
-                className="col-span-2 rounded-xl border border-slate-200/70 bg-white/80 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
+          <RevealText
+            text={heroTitle}
+            delay={0.2}
+            className="mt-6 max-w-[15ch] text-[clamp(40px,6.4vw,84px)] font-semibold leading-[0.98] tracking-[-0.035em] text-slate-900 dark:text-white"
+          />
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: easeOut, delay: 0.75 }}
+            className="mt-7 max-w-[54ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-slate-600 dark:text-slate-300"
+          >
+            We build platforms that help governments, enterprises, humanitarian organisations and communities see risk earlier and act on it: disaster resilience,
+            infrastructure intelligence, sustainability, education and digital transformation.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: easeOut, delay: 0.9 }}
+            className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
+          >
+            <Magnetic>
+              <button
+                type="button"
+                onClick={() => onNavigate("/products")}
+                className="btn-premium inline-flex h-12 w-full items-center justify-center rounded-full bg-brand-gradient px-7 font-medium text-white shadow-glow transition-transform active:scale-[0.97] sm:w-auto"
               >
-                <p className="text-xs font-medium text-slate-600 dark:text-slate-300">Pakistan Climate & Energy Trend</p>
-                <svg viewBox="0 0 300 100" className="mt-2 h-24 w-full">
-                  <defs>
-                    <linearGradient id="aqiStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#ef4444" />
-                      <stop offset="100%" stopColor="#f97316" />
-                    </linearGradient>
-                    <linearGradient id="demandStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#2563eb" />
-                      <stop offset="100%" stopColor="#06b6d4" />
-                    </linearGradient>
-                    <linearGradient id="tempStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#22c55e" />
-                      <stop offset="100%" stopColor="#14b8a6" />
-                    </linearGradient>
-                  </defs>
-                  <polyline fill="none" stroke="rgba(148,163,184,0.35)" strokeWidth="1" points="0,90 300,90" />
-                  <motion.polyline
-                    fill="none"
-                    stroke="url(#aqiStroke)"
-                    strokeWidth="2.6"
-                    strokeLinecap="round"
-                    points={chartData.aqi.map((v, i) => `${10 + i * 46},${95 - (v - 150)}`).join(" ")}
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.9, ease: "easeInOut" }}
-                  />
-                  <motion.polyline
-                    fill="none"
-                    stroke="url(#demandStroke)"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                    points={chartData.demand.map((v, i) => `${10 + i * 46},${95 - ((v - 22000) / 80)}`).join(" ")}
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.95, ease: "easeInOut" }}
-                  />
-                  <motion.polyline
-                    fill="none"
-                    stroke="url(#tempStroke)"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    points={chartData.temp.map((v, i) => `${10 + i * 46},${95 - ((v - 32) * 11)}`).join(" ")}
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1, ease: "easeInOut" }}
-                  />
-                </svg>
-                <div className="mt-2 flex flex-wrap gap-3 text-[10px] font-medium text-slate-500 dark:text-slate-400">
-                  <span>AQI</span>
-                  <span>Energy Demand</span>
-                  <span>Temperature</span>
+                Explore products
+              </button>
+            </Magnetic>
+            <button
+              type="button"
+              onClick={() => onNavigate("/contact")}
+              className="inline-flex h-12 items-center justify-center rounded-full border border-slate-900/15 px-7 font-medium text-slate-800 transition-colors duration-300 hover:border-slate-900/40 hover:bg-slate-900/[0.03] dark:border-white/20 dark:text-white dark:hover:border-white/50 dark:hover:bg-white/[0.04]"
+            >
+              Talk to the team
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Instrument panel */}
+        <motion.div style={{ y: panelY }} className="[perspective:1200px] lg:col-span-5">
+          <motion.div
+            initial={{ opacity: 0, y: 40, rotateX: 8 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 1.1, ease: easeOut, delay: 0.55 }}
+            className="rounded-[22px] border border-slate-900/10 bg-white/85 p-1.5 shadow-lift backdrop-blur-xl dark:border-white/10 dark:bg-[#0f2440]/80 dark:shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+            <div className="rounded-[17px] border border-slate-900/[0.06] bg-white p-5 dark:border-white/[0.06] dark:bg-[#11294a]">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-[15px] font-semibold text-slate-900 dark:text-white">National indicators, Pakistan</h2>
+                  <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Climate and infrastructure intelligence dashboard</p>
                 </div>
-              </motion.div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-signal-500/10 px-2.5 py-1 text-[11px] font-medium text-signal-700 dark:text-signal-300">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-signal-500" />
+                  Live
+                </span>
+              </div>
 
-              {indicators.map((item, index) => {
-                const statusTone =
-                  item.status === "Critical" || item.status === "Unhealthy"
-                    ? "bg-rose-100 text-rose-700 dark:bg-rose-300/15 dark:text-rose-200"
-                    : item.status === "Low" || item.status === "Needs Improvement"
-                      ? "bg-amber-100 text-amber-700 dark:bg-amber-300/15 dark:text-amber-200"
-                      : "bg-emerald-100 text-emerald-700 dark:bg-emerald-300/15 dark:text-emerald-200";
+              <div className="mt-4 rounded-xl bg-slate-50 px-3 pb-2 pt-3 text-slate-900 dark:bg-white/[0.03] dark:text-white">
+                <TrendChart data={chartData} />
+                <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-slate-500 dark:text-slate-400">
+                  {series.map((s) => (
+                    <span key={s.key} className="inline-flex items-center gap-1.5">
+                      <span className="h-0.5 w-3 rounded-full" style={{ background: s.color }} />
+                      {s.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-                const isPositiveTrend = item.trend?.startsWith("+");
-
-                return (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: 0.15 + index * 0.04 }}
-                    className="rounded-xl border border-slate-200/70 bg-white/75 p-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-800/70"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="text-xs text-slate-500 dark:text-slate-400">{item.title}</p>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${statusTone}`}>{item.status}</span>
-                    </div>
-
-                    <motion.p key={item.value} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
-                      {item.value}
-                    </motion.p>
-
-                    {item.trend && (
-                      <p className={`mt-1 text-xs font-medium ${isPositiveTrend ? "text-emerald-600 dark:text-emerald-300" : "text-amber-600 dark:text-amber-300"}`}>
-                        {isPositiveTrend ? "↑" : "↓"} {item.trend}
-                      </p>
-                    )}
-
-                    <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
-                      Source: {item.source} • {item.updated}
-                    </p>
-                  </motion.div>
-                );
-              })}
+              <dl className="mt-3 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-slate-900/[0.07] dark:bg-white/[0.07]">
+                {indicators.map((item, index) => {
+                  const isPositiveTrend = item.trend?.startsWith("+");
+                  return (
+                    <motion.div
+                      key={item.title}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 1.1 + index * 0.06 }}
+                      className="bg-white p-3 dark:bg-[#11294a]"
+                    >
+                      <dt className="flex items-center gap-1.5 text-[11.5px] leading-tight text-slate-500 dark:text-slate-400">
+                        <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${statusTone(item.status)}`} title={item.status} />
+                        <span className="truncate">{item.title}</span>
+                      </dt>
+                      <dd className="mt-1.5 flex flex-wrap items-baseline gap-x-2">
+                        <span className="relative inline-block h-6 overflow-hidden whitespace-nowrap">
+                          <AnimatePresence mode="popLayout" initial={false}>
+                            <motion.span
+                              key={item.value}
+                              initial={{ y: "100%", opacity: 0 }}
+                              animate={{ y: "0%", opacity: 1 }}
+                              exit={{ y: "-100%", opacity: 0 }}
+                              transition={{ duration: 0.45, ease: easeOut }}
+                              className="tabular block whitespace-nowrap text-[17px] font-semibold leading-6 text-slate-900 dark:text-white"
+                            >
+                              {item.value}
+                            </motion.span>
+                          </AnimatePresence>
+                        </span>
+                        {item.trend && (
+                          <span className={`tabular text-[11px] font-medium ${isPositiveTrend ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-300"}`}>
+                            {isPositiveTrend ? "↑" : "↓"} {item.trend}
+                          </span>
+                        )}
+                      </dd>
+                      <dd className="mt-1 text-[10.5px] text-slate-400 dark:text-slate-500">
+                        {item.status}, {item.source}, {item.updated.toLowerCase()}
+                      </dd>
+                    </motion.div>
+                  );
+                })}
+              </dl>
+              <p className="mt-3 text-[11px] text-slate-400 dark:text-slate-500">Data aggregated from public sources. Updated periodically.</p>
             </div>
-            <p className="mt-4 text-[11px] text-slate-500 dark:text-slate-400">Data aggregated from public sources. Updated periodically.</p>
-          </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
+
+      <div className="mx-auto w-full max-w-[83rem] px-5 sm:px-6">
+        <motion.ul
+          initial="hidden"
+          animate="show"
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 1.1 } } }}
+          className="grid grid-cols-1 border-t border-slate-900/10 dark:border-white/10 sm:grid-cols-3"
+        >
+          {trustStats.map((item) => (
+            <motion.li
+              key={item.title}
+              variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } } }}
+              className="border-b border-slate-900/10 py-5 dark:border-white/10 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0"
+            >
+              <p className="font-medium text-slate-900 dark:text-white">{item.title}</p>
+              <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{item.subtitle}</p>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
     </section>
   );
 }

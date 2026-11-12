@@ -7,13 +7,7 @@ function HowItWorksPage() {
     "Understand how RESILIENCE TECHNOLOGIES LABS transforms data into decision support through AI, analytics, and operational workflows."
   );
 
-  return (
-    <section className="w-full px-6 py-[60px]">
-      <div className="mx-auto w-full max-w-7xl">
-        <HowItWorks />
-      </div>
-    </section>
-  );
+  return <HowItWorks />;
 }
 
 export default HowItWorksPage;
