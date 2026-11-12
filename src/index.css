@@ -1,88 +1,75 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import "@fontsource-variable/schibsted-grotesk";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --page: #f4f7fa;
+  --ink: #0c1e36;
+  --line: rgba(12, 30, 54, 0.1);
+  --contour: rgba(36, 87, 224, 0.16);
+  --contour-strong: rgba(36, 87, 224, 0.3);
+  --station: #0f9479;
+}
+
+.dark {
+  --page: #0c1e36;
+  --ink: #e7eef6;
+  --line: rgba(181, 195, 211, 0.12);
+  --contour: rgba(143, 176, 255, 0.11);
+  --contour-strong: rgba(143, 176, 255, 0.24);
+  --station: #2fc9a9;
+}
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
+  position: relative;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Schibsted Grotesk Variable", system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  background-color: #0f172a;
-  color: #e2e8f0;
+  background-color: var(--page);
+  color: var(--ink);
   transition: background-color 300ms ease, color 300ms ease;
 }
 
-html:not(.dark) body {
-  background-color: #ffffff;
-  color: #0f172a;
+::selection {
+  background: rgba(47, 107, 255, 0.28);
 }
 
-@media (max-width: 768px) {
-  html.dark body {
-    background: linear-gradient(to bottom, #0f172a, #1e293b);
-  }
+:focus-visible {
+  outline: 2px solid #2f6bff;
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-.nav-link {
-  position: relative;
-  transition: color 0.2s ease;
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, #67e8f9, #2563eb);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.2s ease;
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
 }
-
-.nav-link:hover {
-  color: #0f172a;
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
-
-.dark .nav-link:hover {
-  color: #e2e8f0;
-}
-
-.nav-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-.btn-premium {
-  position: relative;
+.lenis.lenis-stopped {
   overflow: hidden;
-  will-change: transform;
 }
 
-.btn-premium::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.35), transparent 58%);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.btn-premium:hover::after {
-  opacity: 1;
-}
-
+/* Underline that draws in from the left on hover */
+.nav-link,
 .link-slide {
   position: relative;
 }
@@ -94,10 +81,10 @@ html:not(.dark) body {
   bottom: -2px;
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, rgba(103, 232, 249, 0.95), rgba(59, 130, 246, 0.9));
+  background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.22s ease;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .link-slide:hover::after {
@@ -105,15 +92,79 @@ html:not(.dark) body {
   transform-origin: left;
 }
 
-/* Portfolio explorer polish */
+/* Primary button: a light sweep across on hover */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-premium::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.22) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-premium:hover::after {
+  transform: translateX(120%);
+}
+
+/* Card spotlight: a soft light that follows the pointer (set --mx/--my in JS) */
+.spotlight {
+  position: relative;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(47, 107, 255, 0.1), transparent 60%);
+}
+
+.dark .spotlight::before {
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(143, 176, 255, 0.1), transparent 60%);
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Contour lines tracing themselves in */
+.contour-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: contour-draw 2.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes contour-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Faded edges for horizontal tickers */
+.fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* Surfaces */
 .portfolio-glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.45));
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .dark .portfolio-glass {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.5));
+  background: rgba(15, 36, 64, 0.72);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -123,5 +174,23 @@ html:not(.dark) body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* Legal documents: give section headings room to breathe */
+.legal-prose h2 {
+  font-size: 1.25rem;
+  letter-spacing: -0.015em;
+  padding-top: 1.5rem;
+}
+
+.legal-prose a {
+  color: #2457e0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dark .legal-prose a {
+  color: #8fb0ff;
 }

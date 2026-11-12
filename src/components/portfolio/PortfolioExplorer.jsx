@@ -26,6 +26,7 @@ import usePortfolioPrefs from "../../hooks/usePortfolioPrefs";
 import ApplicationCard from "./ApplicationCard";
 import FolderCard from "./FolderCard";
 import { getIcon } from "./iconMap";
+import { RevealText } from "../motion/primitives";
 
 const SORT_OPTIONS = [
   { id: "name-asc", label: "Name A–Z" },
@@ -61,7 +62,7 @@ function EmptyState({ title, subtitle }) {
       <motion.div
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-        className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-cyan-600 dark:text-cyan-300"
+        className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-500/10 text-brand-600 dark:text-brand-300"
       >
         <FolderOpen size={26} />
       </motion.div>
@@ -264,25 +265,23 @@ function PortfolioExplorer() {
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-xs uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-200"
+              className="text-sm text-slate-500 dark:text-slate-400"
             >
-              RTL Product Portfolio
+              RTL product portfolio
             </motion.p>
-            <motion.h2
+            <RevealText
+              as="h1"
+              text="Our products"
+              delay={0.05}
+              className="mt-4 text-[clamp(38px,6vw,76px)] font-semibold leading-[1] tracking-[-0.035em] text-slate-900 dark:text-white"
+            />
+            <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05 }}
-              className="mt-2 text-[clamp(28px,5vw,48px)] font-semibold tracking-tight text-slate-900 dark:text-white"
+              transition={{ delay: 0.35, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-5 max-w-[56ch] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-slate-600 dark:text-slate-300"
             >
-              Our Products
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300"
-            >
-              Browse by deployment platform — {totalProducts} live products across Web, Google Play, and the App Store.
+              Browse by deployment platform: <span className="tabular">{totalProducts}</span> live products across the web, Google Play and the App Store.
             </motion.p>
           </div>
 
@@ -290,7 +289,7 @@ function PortfolioExplorer() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.12 }}
-            className="inline-flex flex-wrap gap-1 rounded-2xl border border-slate-200/80 bg-white/80 p-1 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/60"
+            className="inline-flex flex-wrap gap-1 self-start rounded-full border border-slate-900/10 bg-white p-1 dark:border-white/10 dark:bg-[#0f2440] lg:self-auto"
           >
             {[
               { id: "folders", label: "Platforms", icon: LayoutGrid },
@@ -308,12 +307,20 @@ function PortfolioExplorer() {
                     setActiveDomainId(null);
                   }
                 }}
-                className={`relative inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition-all duration-300 ${
+                aria-pressed={viewMode === tab.id && !activePlatform}
+                className={`relative isolate inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300 ${
                   viewMode === tab.id && !activePlatform
-                    ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow"
+                    ? "text-white dark:text-slate-900"
                     : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
                 }`}
               >
+                {viewMode === tab.id && !activePlatform && (
+                  <motion.span
+                    layoutId="portfolio-tab"
+                    className="absolute inset-0 -z-10 rounded-full bg-slate-900 dark:bg-white"
+                    transition={{ type: "spring", stiffness: 400, damping: 34 }}
+                  />
+                )}
                 <tab.icon size={14} />
                 <span className="hidden sm:inline">{tab.label}</span>
               </button>
@@ -483,7 +490,7 @@ function PortfolioExplorer() {
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className="mb-6 flex flex-wrap items-start justify-between gap-4 rounded-[22px] border border-slate-200/70 bg-gradient-to-br from-white/80 via-white/60 to-cyan-50/40 p-5 backdrop-blur-xl dark:border-slate-700 dark:from-slate-900/70 dark:via-slate-900/50 dark:to-cyan-950/20">
+                  <div className="mb-6 flex flex-wrap items-start justify-between gap-4 rounded-[22px] border border-slate-200/70 bg-white p-5 dark:border-white/10 dark:bg-[#0f2440]">
                     <div className="flex items-start gap-4">
                       {(() => {
                         const Icon = getIcon(activeDomain.icon);
@@ -494,7 +501,7 @@ function PortfolioExplorer() {
                         );
                       })()}
                       <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                        <p className="text-[13px] text-slate-500 dark:text-slate-400">
                           {activePlatform?.name} · {activeDomain.id}
                         </p>
                         <h3 className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">{activeDomain.name}</h3>
@@ -548,7 +555,7 @@ function PortfolioExplorer() {
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.35 }}
                 >
-                  <div className="mb-6 flex flex-wrap items-start justify-between gap-4 rounded-[22px] border border-slate-200/70 bg-gradient-to-br from-white/80 via-white/60 to-cyan-50/40 p-5 backdrop-blur-xl dark:border-slate-700 dark:from-slate-900/70 dark:via-slate-900/50 dark:to-cyan-950/20">
+                  <div className="mb-6 flex flex-wrap items-start justify-between gap-4 rounded-[22px] border border-slate-200/70 bg-white p-5 dark:border-white/10 dark:bg-[#0f2440]">
                     <div className="flex items-start gap-4">
                       {(() => {
                         const Icon = getIcon(activePlatform.icon);
@@ -559,7 +566,7 @@ function PortfolioExplorer() {
                         );
                       })()}
                       <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                        <p className="text-[13px] text-slate-500 dark:text-slate-400">
                           Deployment Platform
                         </p>
                         <h3 className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">{activePlatform.name}</h3>
@@ -657,7 +664,7 @@ function PortfolioExplorer() {
                         className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 text-left shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/60"
                       >
                         <div>
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{item.type}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{item.type}</p>
                           <p className="font-semibold text-slate-800 dark:text-white">{item.name}</p>
                         </div>
                         <Clock3 size={16} className="text-slate-400" />

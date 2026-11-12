@@ -7,13 +7,7 @@ function Contact() {
     "Contact RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED for demos, partnerships, and enterprise inquiries."
   );
 
-  return (
-    <section className="w-full px-6 py-[60px]">
-      <div className="mx-auto w-full max-w-7xl">
-        <ContactSection />
-      </div>
-    </section>
-  );
+  return <ContactSection />;
 }
 
 export default Contact;

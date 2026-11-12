@@ -1,15 +1,18 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ExternalLink, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Star } from "lucide-react";
 import { deploymentPlatforms, getPlatformAvailability, STATUS } from "../../data/portfolio";
+import { useSpotlight } from "../motion/primitives";
 import { getIcon } from "./iconMap";
 
-const statusStyles = {
-  [STATUS.LIVE]: "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-200",
-  [STATUS.DEVELOPMENT]: "bg-blue-100 text-blue-700 dark:bg-blue-400/15 dark:text-blue-200",
-  [STATUS.INTERNAL]: "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300",
-  [STATUS.ARCHIVED]: "bg-zinc-100 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400",
-  [STATUS.PLANNED]: "bg-amber-100 text-amber-700 dark:bg-amber-400/15 dark:text-amber-200",
+const statusDot = {
+  [STATUS.LIVE]: "bg-emerald-500",
+  [STATUS.DEVELOPMENT]: "bg-brand-500",
+  [STATUS.INTERNAL]: "bg-slate-400",
+  [STATUS.ARCHIVED]: "bg-slate-300",
+  [STATUS.PLANNED]: "bg-amber-400",
 };
+
+const chip = "rounded-full border px-2.5 py-0.5 text-[11.5px]";
 
 function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen, activePlatformId }) {
   const Icon = getIcon(app.icon);
@@ -17,83 +20,65 @@ function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen, activ
   const isFlagship = app.flagship;
   const availability = app.platformAvailability || getPlatformAvailability(app);
   const ctaLabel = app.ctaLabel || "Visit Platform";
+  const spotlight = useSpotlight();
 
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 24, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 10, scale: 0.98 }}
-      transition={{ duration: 0.4, delay: index * 0.055, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-[20px] border bg-white/80 p-5 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur-xl transition-[box-shadow,border-color] duration-400 will-change-transform dark:bg-slate-900/60 ${
+      onPointerMove={spotlight}
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.55, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      className={`spotlight group relative flex h-full flex-col rounded-[20px] border bg-white p-6 transition-[border-color,box-shadow] duration-500 ease-out hover:shadow-lift dark:bg-[#0f2440] dark:hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.7)] ${
         isFlagship
-          ? "border-emerald-300/70 shadow-[0_18px_45px_rgba(16,185,129,0.22)] dark:border-emerald-400/40"
+          ? "border-signal-500/50 dark:border-signal-400/40"
           : app.featured
-            ? "border-cyan-300/60 dark:border-cyan-400/35"
-            : "border-slate-200/80 dark:border-slate-700/70"
-      } hover:shadow-[0_22px_48px_rgba(15,23,42,0.12)] dark:hover:shadow-[0_22px_48px_rgba(0,0,0,0.4)]`}
+            ? "border-brand-500/30 dark:border-brand-400/30"
+            : "border-slate-900/10 hover:border-slate-900/20 dark:border-white/10 dark:hover:border-white/20"
+      }`}
     >
-      {isFlagship && (
-        <>
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-100/70 via-cyan-50/50 to-teal-100/60 opacity-80 dark:from-emerald-500/10 dark:via-cyan-400/8 dark:to-teal-400/10" />
-          <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-300/25 blur-3xl transition duration-500 group-hover:bg-emerald-300/40" />
-        </>
-      )}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-400/0 via-transparent to-blue-500/0 opacity-0 transition-opacity duration-500 group-hover:from-cyan-400/10 group-hover:to-blue-500/10 group-hover:opacity-100" />
-
-      <div className="relative z-10 flex flex-wrap items-center gap-2">
-        <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${statusStyles[app.status] || statusStyles[STATUS.INTERNAL]}`}>
-          {app.status}
+      <div className="relative z-10 flex items-start justify-between gap-3">
+        <span
+          className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-transform duration-500 group-hover:-rotate-6 ${
+            isFlagship
+              ? "border-signal-500/30 bg-signal-500/10 text-signal-700 dark:text-signal-300"
+              : "border-slate-900/10 bg-slate-50 text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
+          }`}
+        >
+          <Icon size={19} strokeWidth={1.75} />
         </span>
-        {isFlagship && (
-          <span className="rounded-full border border-emerald-300 bg-emerald-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:border-emerald-300/40 dark:bg-emerald-400/10 dark:text-emerald-200">
-            {app.badge || "Flagship"}
-          </span>
-        )}
-        {app.featured && !isFlagship && (
-          <span className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-blue-700 dark:border-blue-300/30 dark:bg-blue-400/10 dark:text-blue-200">
-            Featured
-          </span>
-        )}
         <button
           type="button"
           aria-label={favorite ? "Remove favorite" : "Add favorite"}
+          aria-pressed={favorite}
           onClick={() => onToggleFavorite(app.id)}
-          className={`ml-auto rounded-full p-1.5 transition-all duration-300 ${
-            favorite
-              ? "bg-amber-100 text-amber-500 dark:bg-amber-400/20 dark:text-amber-300"
-              : "bg-white/70 text-slate-400 opacity-70 hover:text-amber-500 group-hover:opacity-100 dark:bg-slate-800/70"
+          className={`rounded-full p-2 transition-all duration-300 active:scale-90 ${
+            favorite ? "text-amber-500 dark:text-amber-300" : "text-slate-300 opacity-60 hover:text-amber-500 group-hover:opacity-100 dark:text-slate-500"
           }`}
         >
-          <Star size={14} fill={favorite ? "currentColor" : "none"} />
+          <Star size={16} fill={favorite ? "currentColor" : "none"} />
         </button>
       </div>
 
-      <div className="relative z-10 mt-4 flex items-start gap-3">
-        <motion.div
-          className={`relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
-            isFlagship
-              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-200"
-              : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-cyan-200"
-          }`}
-          whileHover={{ rotate: 6, y: -2 }}
-          transition={{ type: "spring", stiffness: 300, damping: 16 }}
-        >
-          <Icon size={18} />
-          {isFlagship && <span className="absolute -right-0.5 -top-0.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400" />}
-        </motion.div>
-        <div className="min-w-0">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">{app.category}</p>
-          <h3 className="mt-0.5 text-lg font-semibold tracking-tight text-slate-900 dark:text-white">{app.name}</h3>
-        </div>
+      <div className="relative z-10 mt-5">
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-slate-500 dark:text-slate-400">
+          <span className="inline-flex items-center gap-1.5">
+            <span className={`h-1.5 w-1.5 rounded-full ${statusDot[app.status] || statusDot[STATUS.INTERNAL]}`} />
+            {app.status}
+          </span>
+          {isFlagship && <span className="font-medium text-signal-700 dark:text-signal-300">{app.badge || "Flagship"}</span>}
+          {app.featured && !isFlagship && <span className="font-medium text-brand-600 dark:text-brand-300">Featured</span>}
+          {app.category && <span>{app.category}</span>}
+        </p>
+        <h3 className="mt-1.5 text-xl font-semibold tracking-[-0.015em] text-slate-900 dark:text-white">{app.name}</h3>
       </div>
 
-      <p className="relative z-10 mt-3 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{app.description}</p>
+      <p className="relative z-10 mt-2 flex-1 text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-300">{app.description}</p>
 
-      {availability.length > 0 && (
-        <div className="relative z-10 mt-4 flex flex-wrap gap-1.5">
+      {(availability.length > 0 || app.tech?.length > 0 || app.sdgs?.length > 0) && (
+        <div className="relative z-10 mt-5 flex flex-wrap gap-1.5">
           {deploymentPlatforms
             .filter((p) => availability.includes(p.id))
             .map((p) => {
@@ -101,71 +86,46 @@ function ApplicationCard({ app, index, favorite, onToggleFavorite, onOpen, activ
               return (
                 <span
                   key={p.id}
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold transition-all duration-300 ${
+                  className={`${chip} ${
                     isActive
-                      ? "border border-cyan-300 bg-cyan-50 text-cyan-800 dark:border-cyan-400/40 dark:bg-cyan-400/15 dark:text-cyan-200"
-                      : "border border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                      ? "border-brand-500/30 bg-brand-500/[0.06] text-brand-700 dark:border-brand-400/30 dark:text-brand-300"
+                      : "border-slate-900/10 text-slate-500 dark:border-white/10 dark:text-slate-400"
                   }`}
                 >
-                  <span aria-hidden>{p.badgeEmoji}</span>
                   {p.badgeLabel}
                 </span>
               );
             })}
-        </div>
-      )}
-
-      {app.tech?.length > 0 && (
-        <div className="relative z-10 mt-3 flex flex-wrap gap-1.5">
-          {app.tech.map((t) => (
-            <span
-              key={t}
-              className="rounded-md border border-slate-200/80 bg-slate-50/80 px-2 py-0.5 text-[10px] font-medium text-slate-500 dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-400"
-            >
+          {app.tech?.map((t) => (
+            <span key={t} className={`${chip} border-slate-900/10 text-slate-500 dark:border-white/10 dark:text-slate-400`}>
               {t}
             </span>
           ))}
-        </div>
-      )}
-
-      {app.sdgs?.length > 0 && (
-        <div className="relative z-10 mt-3 flex flex-wrap gap-1.5">
-          {app.sdgs.map((sdg) => (
-            <span
-              key={sdg}
-              className="rounded-full border border-cyan-200 bg-cyan-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-cyan-700 dark:border-cyan-300/30 dark:bg-cyan-300/10 dark:text-cyan-200"
-            >
+          {app.sdgs?.map((sdg) => (
+            <span key={sdg} className={`${chip} border-signal-600/25 text-signal-700 dark:border-signal-300/25 dark:text-signal-300`}>
               {sdg}
             </span>
           ))}
         </div>
       )}
 
-      <div className="relative z-10 mt-5">
+      <div className="relative z-10 mt-6 border-t border-slate-900/[0.07] pt-4 dark:border-white/[0.07]">
         {isLive ? (
           <a
             href={app.href}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => onOpen?.(app)}
-            className={`inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 ${
-              isFlagship
-                ? "bg-gradient-to-r from-emerald-600 to-cyan-500 shadow-[0_12px_28px_rgba(16,185,129,0.3)] group-hover:brightness-110"
-                : "bg-slate-900 group-hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:group-hover:bg-slate-100"
-            }`}
+            className="inline-flex items-center gap-1.5 text-[15px] font-medium text-slate-900 dark:text-white"
           >
-            {ctaLabel}
-            <ExternalLink size={14} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <span className="link-slide">{ctaLabel}</span>
+            <ArrowUpRight size={16} className="text-brand-500 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 dark:text-brand-300" />
           </a>
         ) : (
-          <button
-            type="button"
-            disabled
-            className="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400"
-          >
+          <span className="inline-flex items-center gap-1.5 text-[15px] text-slate-400 dark:text-slate-500" aria-disabled="true">
             {app.status === STATUS.INTERNAL ? "Internal resource" : "Coming soon"}
-            <ArrowRight size={14} />
-          </button>
+            <ArrowRight size={15} />
+          </span>
         )}
       </div>
     </motion.article>

@@ -1,19 +1,31 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Globe, Mail, Phone } from "lucide-react";
+import { ArrowUpRight, Check, Mail, Phone } from "lucide-react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
+import { contact } from "../data/company";
+import { Reveal, easeOut } from "./motion/primitives";
+import PageHeader from "./PageHeader";
+import SocialIcons from "./SocialIcons";
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.45, ease: "easeOut" },
-};
+const channels = [
+  { icon: Mail, label: "Email", value: contact.email, href: contact.emailHref, external: true },
+  { icon: Phone, label: "Phone and WhatsApp", value: contact.phone, href: contact.phoneHref },
+  { icon: FaLinkedinIn, label: "Founder on LinkedIn", value: "Shahnawaz", href: contact.founderLinkedIn, external: true },
+  { icon: FaGithub, label: "GitHub", value: "github.com/shanu222", href: contact.github, external: true },
+];
+
+const fieldClass =
+  "peer w-full rounded-2xl border border-slate-900/15 bg-transparent px-4 pb-2.5 pt-6 text-[15px] text-slate-900 outline-none transition-[border-color,box-shadow] duration-300 focus:border-brand-500 focus:shadow-[0_0_0_4px_rgba(47,107,255,0.14)] dark:border-white/15 dark:text-white dark:focus:border-brand-400";
+
+const labelClass =
+  "pointer-events-none absolute left-4 top-[18px] text-[15px] text-slate-500 transition-all duration-200 peer-focus:top-2.5 peer-focus:text-xs peer-focus:text-brand-600 peer-[&:not(:placeholder-shown)]:top-2.5 peer-[&:not(:placeholder-shown)]:text-xs dark:text-slate-400 dark:peer-focus:text-brand-300";
 
 function ContactSection() {
   const [formState, setFormState] = useState({ name: "", email: "", subject: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
   const [toast, setToast] = useState(null);
+  const [sent, setSent] = useState(false);
   const toastTimerRef = useRef(null);
 
   useEffect(
@@ -84,6 +96,8 @@ function ContactSection() {
       }
 
       setFormState({ name: "", email: "", subject: "", message: "" });
+      setSent(true);
+      window.setTimeout(() => setSent(false), 3200);
       showToast("success", "Message sent successfully.", "We'll get back to you soon.");
     } catch {
       showToast("error", "Unable to send message.", "Please try again later.");
@@ -93,18 +107,19 @@ function ContactSection() {
   };
 
   return (
-    <motion.section id="contact" {...fadeInUp} className="scroll-mt-24 w-full py-2">
+    <section id="contact" className="scroll-mt-24">
       <AnimatePresence>
         {toast && (
           <motion.div
-            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+            role="status"
+            initial={{ opacity: 0, y: -16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`fixed right-4 top-20 z-[90] max-w-sm rounded-2xl border px-4 py-3 text-sm shadow-xl backdrop-blur-md ${
+            exit={{ opacity: 0, y: -10, scale: 0.97 }}
+            transition={{ duration: 0.35, ease: easeOut }}
+            className={`fixed right-4 top-20 z-[90] max-w-sm rounded-2xl border px-4 py-3 text-sm shadow-lift backdrop-blur-md ${
               toast.type === "success"
-                ? "border-emerald-300 bg-emerald-50/95 text-emerald-900 dark:border-emerald-300/40 dark:bg-emerald-400/10 dark:text-emerald-100"
-                : "border-rose-300 bg-rose-50/95 text-rose-900 dark:border-rose-300/40 dark:bg-rose-400/10 dark:text-rose-100"
+                ? "border-emerald-300 bg-emerald-50/95 text-emerald-900 dark:border-emerald-300/40 dark:bg-emerald-950/80 dark:text-emerald-100"
+                : "border-rose-300 bg-rose-50/95 text-rose-900 dark:border-rose-300/40 dark:bg-rose-950/80 dark:text-rose-100"
             }`}
           >
             <p className="font-semibold">{toast.title}</p>
@@ -112,89 +127,128 @@ function ContactSection() {
           </motion.div>
         )}
       </AnimatePresence>
-      <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">Contact</p>
-      <h2 className="mt-2 text-[clamp(28px,5vw,48px)] font-semibold text-slate-900 transition-colors duration-300 dark:text-white">Talk to our team</h2>
-      <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800 dark:shadow-[0_16px_42px_rgba(2,6,23,0.36)]">
-          <h3 className="text-2xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">Talk to the founder</h3>
-          <p className="mt-3 text-[clamp(14px,2vw,18px)] leading-relaxed text-slate-600 transition-colors duration-300 dark:text-slate-300">
-            Interested in partnerships, pilot programs, or investment discussions? Reach out directly and we can schedule a focused intro.
-          </p>
-          <p className="mt-4 text-sm text-slate-600 transition-colors duration-300 dark:text-slate-300">
-            <span className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Business Name:</span>{" "}
-            RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED
-          </p>
-          <p className="mt-2 text-sm text-slate-600 transition-colors duration-300 dark:text-slate-300">
-            <span className="font-medium text-slate-800 transition-colors duration-300 dark:text-slate-200">Business Address:</span>
-            <span className="mt-1 block">
-              NSTP (National Science and Technology Park)
-              <br />
-              First Floor
-              <br />
-              Office No. 1405
-              <br />
-              Islamabad
-              <br />
-              Pakistan
-            </span>
-          </p>
-          <div className="mt-6 space-y-3 text-sm text-slate-700 transition-colors duration-300 dark:text-slate-200">
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=shanu1998end@gmail.com" target="_blank" rel="noopener noreferrer" className="link-slide flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-cyan-300/50 dark:hover:bg-cyan-300/10">
-              <Mail size={16} className="text-cyan-300" />
-              shanu1998end@gmail.com
-            </a>
-            <a href="tel:+923403318127" className="link-slide flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-cyan-300/50 dark:hover:bg-cyan-300/10">
-              <Phone size={16} className="text-cyan-300" />
-              +92 340 3318127
-            </a>
-            <a href="https://www.linkedin.com/in/shahnawaz-2b9025130" target="_blank" rel="noreferrer" className="link-slide flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-cyan-300/50 dark:hover:bg-cyan-300/10">
-              <Globe size={16} className="text-cyan-300" />
-              Founder LinkedIn
-            </a>
-            <a href="https://github.com/shanu222" target="_blank" rel="noreferrer" className="link-slide flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors duration-300 hover:border-cyan-400 hover:bg-cyan-50 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-cyan-300/50 dark:hover:bg-cyan-300/10">
-              <Globe size={16} className="text-cyan-300" />
-              github.com/shanu222
-            </a>
-          </div>
-        </div>
 
-        <form onSubmit={handleContactSubmit} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800 dark:shadow-[0_16px_42px_rgba(2,6,23,0.36)]">
-          <h3 className="text-xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">Send a message</h3>
-          <p className="mt-2 text-sm text-slate-600 transition-colors duration-300 dark:text-slate-300">We usually respond within 24 hours.</p>
-          <div className="mt-5 space-y-4">
-            <label className="relative block">
-              <input name="name" value={formState.name} onChange={handleFormChange} placeholder=" " className="peer w-full rounded-xl border border-slate-300 bg-white px-4 pb-2 pt-5 text-sm text-slate-900 outline-none transition-colors duration-300 focus:border-cyan-500 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.18)] dark:border-white/15 dark:bg-slate-900/60 dark:text-white dark:focus:border-cyan-300/70 dark:focus:shadow-[0_0_0_4px_rgba(103,232,249,0.18)]" />
-              <span className="pointer-events-none absolute left-4 top-4 text-sm text-slate-500 transition-all peer-focus:top-2 peer-focus:text-xs peer-focus:text-cyan-700 peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs dark:text-slate-400 dark:peer-focus:text-cyan-200">
-                Your name
-              </span>
-            </label>
-            <label className="relative block">
-              <input type="email" name="email" value={formState.email} onChange={handleFormChange} placeholder=" " className="peer w-full rounded-xl border border-slate-300 bg-white px-4 pb-2 pt-5 text-sm text-slate-900 outline-none transition-colors duration-300 focus:border-cyan-500 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.18)] dark:border-white/15 dark:bg-slate-900/60 dark:text-white dark:focus:border-cyan-300/70 dark:focus:shadow-[0_0_0_4px_rgba(103,232,249,0.18)]" />
-              <span className="pointer-events-none absolute left-4 top-4 text-sm text-slate-500 transition-all peer-focus:top-2 peer-focus:text-xs peer-focus:text-cyan-700 peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs dark:text-slate-400 dark:peer-focus:text-cyan-200">
-                Work email
-              </span>
-            </label>
-            <label className="relative block">
-              <textarea name="message" rows={5} value={formState.message} onChange={handleFormChange} placeholder=" " className="peer w-full rounded-xl border border-slate-300 bg-white px-4 pb-2 pt-5 text-sm text-slate-900 outline-none transition-colors duration-300 focus:border-cyan-500 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.18)] dark:border-white/15 dark:bg-slate-900/60 dark:text-white dark:focus:border-cyan-300/70 dark:focus:shadow-[0_0_0_4px_rgba(103,232,249,0.18)]" />
-              <span className="pointer-events-none absolute left-4 top-4 text-sm text-slate-500 transition-all peer-focus:top-2 peer-focus:text-xs peer-focus:text-cyan-700 peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs dark:text-slate-400 dark:peer-focus:text-cyan-200">
-                Tell us about your project
-              </span>
-            </label>
-          </div>
-          <button type="submit" disabled={isSubmitting} className="btn-premium mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-brand-gradient px-6 py-3 text-sm font-semibold text-white shadow-glow transition duration-200 hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-80">
-            {isSubmitting ? (
-              <span className="inline-flex items-center gap-2">
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                Sending...
-              </span>
-            ) : (
-              "Send Message"
-            )}
-          </button>
-          <p className="mt-3 text-sm text-rose-300">{submitMessage}</p>
-        </form>
+      <PageHeader
+        kicker="Contact"
+        title="Talk to our team"
+        intro="Interested in partnerships, pilot programmes or investment discussions? Reach out directly and we can schedule a focused introduction."
+      />
+
+      <div className="px-5 sm:px-6">
+        <div className="mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-12 lg:gap-10">
+          <Reveal className="lg:col-span-5">
+            <h2 className="text-sm text-slate-500 dark:text-slate-400">Talk to the founder</h2>
+            <ul className="mt-4 border-t border-slate-900/10 dark:border-white/10">
+              {channels.map((channel) => (
+                <li key={channel.label}>
+                  <a
+                    href={channel.href}
+                    {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="group flex items-center gap-4 border-b border-slate-900/10 py-4 dark:border-white/10"
+                  >
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-900/10 text-slate-600 transition-colors duration-300 group-hover:border-brand-500 group-hover:bg-brand-500 group-hover:text-white dark:border-white/15 dark:text-slate-300">
+                      <channel.icon size={17} strokeWidth={1.75} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm text-slate-500 dark:text-slate-400">{channel.label}</span>
+                      <span className="block truncate text-[15.5px] font-medium text-slate-900 dark:text-white">{channel.value}</span>
+                    </span>
+                    <ArrowUpRight
+                      size={18}
+                      className="text-slate-300 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-500 dark:text-slate-600"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <dl className="mt-10 grid gap-6 text-[15px] sm:grid-cols-2">
+              <div>
+                <dt className="text-sm text-slate-500 dark:text-slate-400">Business name</dt>
+                <dd className="mt-1 font-medium text-slate-900 dark:text-white">RESILIENCE TECHNOLOGIES LABS (SMC-PRIVATE) LIMITED</dd>
+              </div>
+              <div>
+                <dt className="text-sm text-slate-500 dark:text-slate-400">Business address</dt>
+                <dd className="mt-1 not-italic leading-relaxed text-slate-700 dark:text-slate-200">
+                  <address className="not-italic">
+                    NSTP (National Science and Technology Park)
+                    <br />
+                    First Floor, Office No. 1405
+                    <br />
+                    Islamabad, Pakistan
+                  </address>
+                </dd>
+              </div>
+            </dl>
+            <SocialIcons className="mt-8" iconSize="sm" />
+          </Reveal>
+
+          <Reveal delay={0.1} className="lg:col-span-7">
+            <form
+              onSubmit={handleContactSubmit}
+              noValidate
+              className="rounded-[26px] border border-slate-900/10 bg-white p-6 shadow-soft dark:border-white/10 dark:bg-[#0f2440] dark:shadow-none sm:p-9"
+            >
+              <h2 className="text-2xl font-semibold tracking-[-0.02em] text-slate-900 dark:text-white">Send a message</h2>
+              <p className="mt-1.5 text-[15px] text-slate-600 dark:text-slate-300">We usually respond within 24 hours.</p>
+              <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                <label className="relative block">
+                  <input name="name" autoComplete="name" value={formState.name} onChange={handleFormChange} placeholder=" " className={fieldClass} />
+                  <span className={labelClass}>Your name</span>
+                </label>
+                <label className="relative block">
+                  <input type="email" name="email" autoComplete="email" value={formState.email} onChange={handleFormChange} placeholder=" " className={fieldClass} />
+                  <span className={labelClass}>Work email</span>
+                </label>
+                <label className="relative block sm:col-span-2">
+                  <textarea name="message" rows={6} value={formState.message} onChange={handleFormChange} placeholder=" " className={`${fieldClass} resize-y`} />
+                  <span className={labelClass}>Tell us about your project</span>
+                </label>
+              </div>
+
+              <AnimatePresence>
+                {submitMessage && (
+                  <motion.p
+                    role="alert"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-3 text-sm text-rose-600 dark:text-rose-300"
+                  >
+                    {submitMessage}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-premium mt-6 inline-flex h-12 w-full items-center justify-center overflow-hidden rounded-full bg-brand-gradient px-7 font-medium text-white shadow-glow transition-transform duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-80 sm:w-auto"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  {isSubmitting ? (
+                    <motion.span key="sending" initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -16, opacity: 0 }} className="inline-flex items-center gap-2">
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                      Sending...
+                    </motion.span>
+                  ) : sent ? (
+                    <motion.span key="sent" initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -16, opacity: 0 }} className="inline-flex items-center gap-2">
+                      <Check size={17} />
+                      Message sent
+                    </motion.span>
+                  ) : (
+                    <motion.span key="idle" initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -16, opacity: 0 }}>
+                      Send message
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+            </form>
+          </Reveal>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 

@@ -1,133 +1,177 @@
-import { motion } from "framer-motion";
-import { ArrowRight, Bot, CloudSun, DatabaseZap, Lightbulb, Radar, Satellite, ShieldAlert, Workflow, Wrench } from "lucide-react";
-import { Link } from "react-router-dom";
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { useRef, useState } from "react";
+import { processSteps, useCases } from "../data/company";
+import ClosingCTA from "./ClosingCTA";
+import { Reveal, easeOut, useSpotlight } from "./motion/primitives";
+import PageHeader from "./PageHeader";
 
-const steps = [
-  {
-    title: "Data Collection",
-    icon: DatabaseZap,
-    description: "Collect trusted multi-source data streams from field systems and public agencies.",
-    points: ["IoT sensors", "Government datasets", "Satellite/weather APIs"],
-  },
-  {
-    title: "AI Processing",
-    icon: Bot,
-    description: "Run machine-learning pipelines that structure, classify, and prioritize risk signals.",
-    points: ["Machine learning models", "Risk classification", "Pattern detection"],
-  },
-  {
-    title: "Insights Generation",
-    icon: Lightbulb,
-    description: "Convert complex datasets into strategic intelligence for leadership and operations teams.",
-    points: ["KPI dashboards", "Risk alerts", "Predictive analytics"],
-  },
-  {
-    title: "Decision Support",
-    icon: Workflow,
-    description: "Activate guided response workflows with recommendations, alerts, and execution visibility.",
-    points: ["Real-time alerts", "Recommendations", "Operational workflows"],
-  },
-];
+/** Four nodes on a line with a data packet travelling between them. */
+function FlowLine() {
+  const reduce = useReducedMotion();
+  return (
+    <div className="mt-12 max-w-3xl">
+      <div className="relative">
+        <div className="absolute left-[12.5%] right-[12.5%] top-5 h-px bg-slate-900/15 dark:bg-white/15" />
+        {!reduce && (
+          <motion.span
+            aria-hidden="true"
+            className="absolute top-[17px] h-[7px] w-10 rounded-full bg-gradient-to-r from-transparent to-signal-400"
+            initial={{ left: "12.5%", opacity: 0 }}
+            animate={{ left: ["12.5%", "84%"], opacity: [0, 1, 1, 0] }}
+            transition={{ duration: 3.2, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.6, delay: 1 }}
+          />
+        )}
+        <ol className="relative grid grid-cols-4">
+          {processSteps.map((step, index) => (
+            <li key={step.title} className="flex flex-col items-center text-center">
+              <motion.span
+                initial={reduce ? false : { scale: 0.6, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6, ease: easeOut, delay: 0.7 + index * 0.12 }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-900/15 bg-[var(--page)] text-slate-700 dark:border-white/20 dark:text-slate-200"
+              >
+                <step.icon size={17} strokeWidth={1.75} />
+              </motion.span>
+              <span className="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">{step.short}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
+}
 
-const useCases = [
-  { title: "Infrastructure Monitoring", description: "Track structural risk and maintenance priorities across critical assets.", icon: Wrench },
-  { title: "Climate Risk Analysis", description: "Identify location-level climate threats and early warning requirements.", icon: ShieldAlert },
-  { title: "Energy Optimization", description: "Surface demand and generation insights to improve energy efficiency outcomes.", icon: CloudSun },
-  { title: "Sustainability Reporting", description: "Generate investor-ready sustainability metrics with auditable data trails.", icon: Radar },
-];
+function StepPanel({ step, index }) {
+  return (
+    <article className="relative py-10 pl-12 sm:pl-16 lg:min-h-[60vh] lg:py-24">
+      <span className="tabular absolute left-0 top-10 flex h-8 w-8 items-center justify-center rounded-full border border-slate-900/15 bg-[var(--page)] text-sm text-slate-600 dark:border-white/20 dark:text-slate-300 lg:top-24">
+        {index + 1}
+      </span>
+      <h3 className="text-[clamp(26px,3.2vw,40px)] font-semibold leading-[1.05] tracking-[-0.03em] text-slate-900 dark:text-white">{step.title}</h3>
+      <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-slate-600 dark:text-slate-300">{step.description}</p>
+      <ul className="mt-6 flex flex-wrap gap-2">
+        {step.points.map((point) => (
+          <li key={point} className="rounded-full border border-slate-900/10 px-3.5 py-1.5 text-sm text-slate-700 dark:border-white/15 dark:text-slate-200">
+            {point}
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
 
 function HowItWorks() {
+  const listRef = useRef(null);
+  const [active, setActive] = useState(0);
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 55%", "end 55%"] });
+  const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    setActive(Math.min(processSteps.length - 1, Math.max(0, Math.floor(value * processSteps.length))));
+  });
+  const spotlight = useSpotlight();
+  const ActiveIcon = processSteps[active].icon;
+
   return (
-    <section id="how-it-works" className="scroll-mt-24 w-full py-20">
-      <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-800/70 md:p-10">
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-700 transition-colors duration-300 dark:text-cyan-200">How It Works</p>
-        <h2 className="mt-2 text-[clamp(30px,5vw,50px)] font-semibold leading-[1.14] text-slate-900 transition-colors duration-300 dark:text-white">How RESILIENCE TECHNOLOGIES LABS Works</h2>
-        <p className="mt-4 max-w-4xl text-[clamp(15px,2vw,19px)] text-slate-600 transition-colors duration-300 dark:text-slate-300">
-          A unified platform that transforms raw data into actionable intelligence for climate, infrastructure, and sustainability.
-        </p>
+    <div className="space-y-24 sm:space-y-32">
+      <PageHeader
+        kicker="How it works"
+        title="How Resilience Technologies Labs works"
+        intro="A unified platform that turns raw data into actionable intelligence for climate, infrastructure and sustainability, in four stages."
+      >
+        <FlowLine />
+      </PageHeader>
 
-        <div className="mt-8 grid items-center gap-5 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900/50 md:grid-cols-[1.2fr_1fr]">
-          <div className="flex flex-wrap items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 dark:bg-slate-800"><DatabaseZap size={14} /> Data</span>
-            <ArrowRight size={14} className="text-cyan-500" />
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 dark:bg-slate-800"><Bot size={14} /> AI</span>
-            <ArrowRight size={14} className="text-cyan-500" />
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 dark:bg-slate-800"><Lightbulb size={14} /> Insights</span>
-            <ArrowRight size={14} className="text-cyan-500" />
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 dark:bg-slate-800"><Workflow size={14} /> Actions</span>
-          </div>
-          <div className="rounded-xl bg-white px-4 py-3 text-xs text-slate-600 shadow-sm dark:bg-slate-800 dark:text-slate-300">
-            Unified data flow across climate monitoring, infrastructure resilience, and sustainability operations.
-          </div>
-        </div>
-      </div>
-
-      <div className="relative mt-10">
-        <div className="pointer-events-none absolute left-5 top-0 h-full w-px bg-slate-200 dark:bg-slate-700 md:left-0 md:top-12 md:h-px md:w-full" />
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {steps.map((step, index) => (
-            <motion.article
-              key={step.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.35, delay: index * 0.06 }}
-              className="relative rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
-            >
-              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cyan-50 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-300">
-                <step.icon size={18} />
+      {/* Scroll-driven walkthrough of the four stages */}
+      <section id="how-it-works" className="scroll-mt-24 px-5 sm:px-6">
+        <div className="mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-12 lg:gap-10">
+          <div className="hidden lg:col-span-5 lg:block">
+            <div className="sticky top-32">
+              <p className="text-sm text-slate-500 dark:text-slate-400">Stage {active + 1} of {processSteps.length}</p>
+              <div className="relative mt-6 flex aspect-square max-w-[380px] items-center justify-center overflow-hidden rounded-[28px] border border-slate-900/10 bg-white dark:border-white/10 dark:bg-[#0f2440]">
+                {/* concentric rings, one per stage, lit up as the reader progresses */}
+                {processSteps.map((step, index) => (
+                  <motion.span
+                    key={step.title}
+                    aria-hidden="true"
+                    className="absolute rounded-full border"
+                    style={{ width: `${34 + index * 20}%`, height: `${34 + index * 20}%` }}
+                    animate={{
+                      borderColor: index <= active ? "rgba(47,107,255,0.55)" : "rgba(138,157,179,0.18)",
+                      scale: index === active ? 1.04 : 1,
+                    }}
+                    transition={{ duration: 0.6, ease: easeOut }}
+                  />
+                ))}
+                <motion.span
+                  key={active}
+                  initial={{ scale: 0.6, opacity: 0, rotate: -20 }}
+                  animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                  transition={{ duration: 0.6, ease: easeOut }}
+                  className="relative flex h-16 w-16 items-center justify-center rounded-full bg-brand-500 text-white shadow-glow"
+                >
+                  <ActiveIcon size={26} strokeWidth={1.75} />
+                </motion.span>
               </div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-700 dark:text-cyan-200">Step {index + 1}</p>
-              <h3 className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">{step.title}</h3>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{step.description}</p>
-              <ul className="mt-3 space-y-1.5 text-sm text-slate-700 dark:text-slate-200">
-                {step.points.map((point) => (
-                  <li key={point} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" />
-                    {point}
+              <ul className="mt-6 space-y-2">
+                {processSteps.map((step, index) => (
+                  <li
+                    key={step.title}
+                    className={`text-[15px] transition-colors duration-500 ${index === active ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}
+                  >
+                    {step.title}
                   </li>
                 ))}
               </ul>
-            </motion.article>
-          ))}
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <div className="mt-12">
-        <h3 className="text-2xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">How It Delivers Value</h3>
-        <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {useCases.map((item, index) => (
-            <motion.article
-              key={item.title}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.35, delay: index * 0.06 }}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
-            >
-              <item.icon size={18} className="text-cyan-600 dark:text-cyan-300" />
-              <h4 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{item.title}</h4>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
-            </motion.article>
-          ))}
+          <div ref={listRef} className="relative lg:col-span-7">
+            <div className="absolute bottom-10 left-4 top-10 w-px bg-slate-900/10 dark:bg-white/10 lg:bottom-24 lg:top-24" />
+            <motion.div
+              style={{ scaleY: fill }}
+              className="absolute bottom-10 left-4 top-10 w-px origin-top bg-brand-500 lg:bottom-24 lg:top-24"
+            />
+            {processSteps.map((step, index) => (
+              <StepPanel key={step.title} step={step} index={index} />
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="mt-12 rounded-3xl border border-slate-200 bg-gradient-to-r from-blue-50 to-cyan-50 p-8 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:from-slate-900 dark:to-slate-800">
-        <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Ready to transform your operations?</h3>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
-          Deploy a unified intelligence layer for climate resilience, infrastructure monitoring, and sustainability outcomes.
-        </p>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <Link to="/contact" title="Request a Demo with RESILIENCE TECHNOLOGIES LABS" className="btn-premium inline-flex h-11 items-center justify-center rounded-xl bg-brand-gradient px-6 text-sm font-medium text-white transition hover:scale-105">
-            Request a Demo
-          </Link>
-          <Link to="/products" className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 text-sm font-medium text-slate-700 transition hover:scale-105 hover:border-cyan-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
-            View Products
-          </Link>
+      {/* Value */}
+      <section className="px-5 sm:px-6">
+        <div className="mx-auto w-full max-w-7xl">
+          <Reveal>
+            <h2 className="max-w-[22ch] text-[clamp(28px,3.6vw,46px)] font-semibold leading-[1.05] tracking-[-0.03em] text-slate-900 dark:text-white">
+              How it delivers value
+            </h2>
+          </Reveal>
+          <div className="mt-10 grid gap-px overflow-hidden rounded-[22px] border border-slate-900/10 bg-slate-900/10 dark:border-white/10 dark:bg-white/10 sm:grid-cols-2">
+            {useCases.map((item, index) => (
+              <motion.article
+                key={item.title}
+                onPointerMove={spotlight}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                className="spotlight group bg-white p-7 dark:bg-[#0f2440] sm:p-9"
+              >
+                <item.icon size={22} strokeWidth={1.6} className="text-brand-500 transition-transform duration-500 group-hover:-translate-y-0.5 dark:text-brand-300" />
+                <h3 className="mt-8 text-xl font-semibold tracking-[-0.01em] text-slate-900 dark:text-white">{item.title}</h3>
+                <p className="mt-2 max-w-[42ch] text-[15.5px] leading-relaxed text-slate-600 dark:text-slate-300">{item.description}</p>
+              </motion.article>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <ClosingCTA
+        title="Ready to transform your operations?"
+        body="Deploy a unified intelligence layer for climate resilience, infrastructure monitoring and sustainability outcomes."
+        secondary={{ to: "/products", label: "View products" }}
+      />
+    </div>
   );
 }
 
