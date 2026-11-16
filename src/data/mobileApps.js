@@ -3,8 +3,8 @@
 // public/apps/<id>/. Replace a file there with a sharper export of the same name
 // and nothing else needs to change.
 //
-// release: "published" = live on Google Play (production track)
-//          "testing"   = Google Play closed testing
+// release: "published" = public listing on Google Play
+//          "testing"   = Google Play closed testing (tab is hidden while empty)
 
 const screens = (id, count) => Array.from({ length: count }, (_, i) => `/apps/${id}/screen-${i + 1}.webp`);
 
@@ -73,13 +73,15 @@ export const mobileApps = [
     updated: "29 Aug 2026",
     name: "AI Phone Doctor",
     category: "Utilities",
-    release: "testing",
+    release: "published",
     summary: "A health score for your phone, with battery, storage and thermal diagnostics and an AI assistant that explains them.",
     highlights: ["Device health score", "Battery and thermal checks", "AI diagnostics chat"],
     tint: "#22C55E",
     icon: "/apps/ai-phone-doctor/icon.webp",
     screens: screens("ai-phone-doctor", 5),
-    links: {},
+    links: {
+      android: "https://play.google.com/store/apps/details?id=com.aiphonedoctor.app",
+    },
   },
   {
     id: "price-alerts",
@@ -88,13 +90,15 @@ export const mobileApps = [
     name: "Price Alerts",
     fullName: "Price Alerts – Smart Shopping",
     category: "Shopping",
-    release: "testing",
+    release: "published",
     summary: "Track products across online stores and get notified the moment a price drops.",
     highlights: ["Paste any product link", "Price history", "Drop alerts"],
     tint: "#2F6BFF",
     icon: "/apps/price-alerts/icon.webp",
     screens: screens("price-alerts", 4),
-    links: {},
+    links: {
+      android: "https://play.google.com/store/apps/details?id=com.pricealerts.app",
+    },
   },
   {
     id: "park-spot",
@@ -102,13 +106,15 @@ export const mobileApps = [
     updated: "29 Aug 2026",
     name: "Park Spot",
     category: "Maps and navigation",
-    release: "testing",
+    release: "published",
     summary: "Save where you parked in one tap and walk straight back to it, with offline maps for places without signal.",
     highlights: ["One-tap save", "Walking navigation", "Offline maps"],
     tint: "#3B82F6",
     icon: "/apps/park-spot/icon.webp",
     screens: screens("park-spot", 4),
-    links: {},
+    links: {
+      android: "https://play.google.com/store/apps/details?id=com.parkspotapp.mobile",
+    },
   },
   {
     id: "dailyme",
@@ -116,13 +122,15 @@ export const mobileApps = [
     updated: "30 Aug 2026",
     name: "DailyMe",
     category: "Health and wellness",
-    release: "testing",
+    release: "published",
     summary: "Quick daily check-ins for mood, water, sleep and habits, rolled into a simple picture of how your day is going.",
     highlights: ["Quick check-ins", "Daily wellbeing score", "Habit logging"],
     tint: "#F97316",
     icon: "/apps/dailyme/icon.webp",
     screens: screens("dailyme", 4),
-    links: {},
+    links: {
+      android: "https://play.google.com/store/apps/details?id=app.daily.wellness",
+    },
   },
   {
     id: "wisdom-quest",
@@ -130,13 +138,33 @@ export const mobileApps = [
     updated: "28 Aug 2026",
     name: "Wisdom Quest",
     category: "Trivia",
-    release: "testing",
+    release: "published",
     summary: "A knowledge adventure of psychology, science and history questions, with streaks, points and unlockable facts.",
     highlights: ["Daily streaks", "Themed quests", "Fact library"],
     tint: "#EAB308",
     icon: "/apps/wisdom-quest/icon.webp",
     screens: screens("wisdom-quest", 4),
-    links: {},
+    links: {
+      android: "https://play.google.com/store/apps/details?id=com.wisdomquest.app",
+    },
+  },
+  {
+    id: "neon-rush",
+    packageName: "com.shanu222.neonrush",
+    updated: null,
+    name: "Neon Rush",
+    category: "Arcade game",
+    release: "published",
+    summary: "A neon endless runner: switch lanes, jump energy barriers, slide under laser gates and grab orbs as the speed climbs.",
+    highlights: ["Swipe or keyboard controls", "Speed levels", "Personal bests"],
+    tint: "#22D3EE",
+    icon: null,
+    iconBg: "linear-gradient(150deg, #22D3EE 0%, #A855F7 55%, #EC4899 100%)",
+    fallbackIcon: "zap",
+    screens: screens("neon-rush", 4),
+    links: {
+      android: "https://play.google.com/store/apps/details?id=com.shanu222.neonrush",
+    },
   },
   {
     id: "color-match-rush",
@@ -144,13 +172,15 @@ export const mobileApps = [
     updated: "29 Aug 2026",
     name: "Color Match Rush",
     category: "Arcade game",
-    release: "testing",
+    release: "published",
     summary: "A fast reflex game: match falling colours to the right lane before they hit the bottom.",
     highlights: ["Reflex arcade play", "Daily gifts", "Score challenges"],
     tint: "#EC4899",
     icon: "/apps/color-match-rush/icon.webp",
     screens: screens("color-match-rush", 4),
-    links: {},
+    links: {
+      android: "https://play.google.com/store/apps/details?id=com.colormatchrush.game",
+    },
   },
 ];
 

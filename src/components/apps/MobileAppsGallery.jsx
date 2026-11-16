@@ -79,6 +79,7 @@ function AppCard({ app, index }) {
 }
 
 function Group({ title, intro, apps }) {
+  if (apps.length === 0) return null;
   return (
     <div>
       <Reveal className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
