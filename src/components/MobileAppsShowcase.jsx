@@ -10,7 +10,7 @@ import {
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { ArrowUpRight, ShieldCheck, Zap } from "lucide-react";
+import { ArrowUpRight, CarFront, ShieldCheck, Zap } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FaApple, FaGooglePlay } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ import { RELEASE, appsByRelease, mobileApps } from "../data/mobileApps";
 import { Reveal, easeOut } from "./motion/primitives";
 
 const CYCLE_MS = 6500;
-const FALLBACK_ICONS = { shield: ShieldCheck, zap: Zap };
+const FALLBACK_ICONS = { shield: ShieldCheck, zap: Zap, car: CarFront };
 const STAGES = Object.values(RELEASE).filter((stage) => appsByRelease(stage.id).length > 0);
 
 function AppIcon({ app, size = 40 }) {
