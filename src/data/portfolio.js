@@ -274,6 +274,22 @@ export const domains = [
         tech: ["EdTech", "AI/ML", "LMS"],
         icon: "School",
       },
+      {
+        id: "wisdom-quest",
+        name: "Wisdom Quest",
+        folderName: "Wisdom-Quest",
+        category: "Learning Game",
+        description:
+          "A knowledge adventure of psychology, science and history questions, with daily streaks, points and an unlockable fact library.",
+        status: STATUS.LIVE,
+        href: "https://play.google.com/store/apps/details?id=com.wisdomquest.app",
+        deployments: {
+          android: "https://play.google.com/store/apps/details?id=com.wisdomquest.app",
+        },
+        sdgs: ["SDG 4"],
+        tech: ["Android", "Gamified Learning"],
+        icon: "Trophy",
+      },
     ],
   },
   {
@@ -319,7 +335,24 @@ export const domains = [
     accent: "from-sky-500/20 via-blue-400/10 to-indigo-400/20",
     glow: "rgba(14,165,233,0.35)",
     border: "border-sky-300/50 dark:border-sky-400/30",
-    applications: [],
+    applications: [
+      {
+        id: "park-spot",
+        name: "Park Spot",
+        folderName: "Park-Spot",
+        category: "Parking & Navigation",
+        description:
+          "Save where you parked in one tap and walk straight back to it, with walking navigation and offline maps for places without signal.",
+        status: STATUS.LIVE,
+        href: "https://play.google.com/store/apps/details?id=com.parkspotapp.mobile",
+        deployments: {
+          android: "https://play.google.com/store/apps/details?id=com.parkspotapp.mobile",
+        },
+        sdgs: ["SDG 11"],
+        tech: ["Android", "Maps", "Offline"],
+        icon: "MapPinned",
+      },
+    ],
   },
   {
     id: "07_Health_and_Fitness",
@@ -331,7 +364,97 @@ export const domains = [
     accent: "from-lime-500/20 via-emerald-400/10 to-teal-400/20",
     glow: "rgba(132,204,22,0.3)",
     border: "border-lime-300/50 dark:border-lime-400/30",
-    applications: [],
+    applications: [
+      {
+        id: "dailyme",
+        name: "DailyMe",
+        folderName: "DailyMe",
+        category: "Daily Wellness",
+        description:
+          "Quick daily check-ins for mood, water, sleep and habits, rolled into a simple picture of how your day is going.",
+        status: STATUS.LIVE,
+        href: "https://play.google.com/store/apps/details?id=app.daily.wellness",
+        deployments: {
+          android: "https://play.google.com/store/apps/details?id=app.daily.wellness",
+        },
+        sdgs: ["SDG 3"],
+        tech: ["Android", "Wellness", "Habit Tracking"],
+        icon: "Heart",
+      },
+    ],
+  },
+  {
+    id: "21_Consumer_Apps_and_Games",
+    slug: "consumer-games",
+    name: "Consumer Apps & Games",
+    shortName: "Consumer",
+    description: "Everyday utilities and casual games published on Google Play.",
+    icon: "Gamepad2",
+    accent: "from-fuchsia-500/20 via-pink-400/10 to-violet-400/20",
+    glow: "rgba(217,70,239,0.3)",
+    border: "border-fuchsia-300/50 dark:border-fuchsia-400/30",
+    applications: [
+      {
+        id: "ai-phone-doctor",
+        name: "AI Phone Doctor",
+        folderName: "AI-Phone-Doctor",
+        category: "Device Health",
+        description:
+          "A health score for your phone, with battery, storage and thermal diagnostics and an AI assistant that explains what to fix.",
+        status: STATUS.LIVE,
+        href: "https://play.google.com/store/apps/details?id=com.aiphonedoctor.app",
+        deployments: {
+          android: "https://play.google.com/store/apps/details?id=com.aiphonedoctor.app",
+        },
+        tech: ["Android", "AI/ML", "Diagnostics"],
+        icon: "Stethoscope",
+      },
+      {
+        id: "price-alerts",
+        name: "Price Alerts – Smart Shopping",
+        folderName: "Price-Alerts",
+        category: "Smart Shopping",
+        description:
+          "Track products across online stores and get notified the moment a price drops.",
+        status: STATUS.LIVE,
+        href: "https://play.google.com/store/apps/details?id=com.pricealerts.app",
+        deployments: {
+          android: "https://play.google.com/store/apps/details?id=com.pricealerts.app",
+        },
+        tech: ["Android", "Price Tracking", "Notifications"],
+        icon: "Wallet",
+      },
+      {
+        id: "neon-rush",
+        name: "Neon Rush",
+        folderName: "Neon-Rush",
+        category: "Arcade Game",
+        description:
+          "A fast neon endless runner: switch lanes, jump energy barriers, slide under laser gates and collect orbs as the speed climbs.",
+        status: STATUS.LIVE,
+        href: "https://play.google.com/store/apps/details?id=com.shanu222.neonrush",
+        deployments: {
+          android: "https://play.google.com/store/apps/details?id=com.shanu222.neonrush",
+        },
+        tech: ["Android", "Game", "Canvas"],
+        icon: "Zap",
+      },
+      {
+        id: "color-match-rush",
+        name: "Color Match Rush",
+        folderName: "Color-Match-Rush",
+        category: "Arcade Game",
+        description:
+          "A fast reflex game: match falling colours to the right lane before they hit the bottom.",
+        status: STATUS.LIVE,
+        href: "https://play.google.com/store/apps/details?id=com.colormatchrush.game",
+        deployments: {
+          android: "https://play.google.com/store/apps/details?id=com.colormatchrush.game",
+        },
+        tech: ["Android", "Game"],
+        icon: "Palette",
+      },
+    ],
   },
   {
     id: "08_Sharing_and_Common",

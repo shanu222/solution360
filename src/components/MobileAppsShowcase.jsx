@@ -10,7 +10,7 @@ import {
   useTransform,
   useVelocity,
 } from "framer-motion";
-import { ArrowUpRight, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ShieldCheck, Zap } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FaApple, FaGooglePlay } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -18,8 +18,11 @@ import { RELEASE, appsByRelease, mobileApps } from "../data/mobileApps";
 import { Reveal, easeOut } from "./motion/primitives";
 
 const CYCLE_MS = 6500;
+const FALLBACK_ICONS = { shield: ShieldCheck, zap: Zap };
+const STAGES = Object.values(RELEASE).filter((stage) => appsByRelease(stage.id).length > 0);
 
 function AppIcon({ app, size = 40 }) {
+  const FallbackIcon = FALLBACK_ICONS[app.fallbackIcon] ?? ShieldCheck;
   if (app.icon) {
     return (
       <img
@@ -37,10 +40,10 @@ function AppIcon({ app, size = 40 }) {
   return (
     <span
       className="inline-flex shrink-0 items-center justify-center rounded-[22%] text-white"
-      style={{ width: size, height: size, background: `linear-gradient(160deg, ${app.tint}, #0c1e36)` }}
+      style={{ width: size, height: size, background: app.iconBg ?? `linear-gradient(160deg, ${app.tint}, #0c1e36)` }}
       aria-hidden="true"
     >
-      <ShieldCheck size={size * 0.5} strokeWidth={1.8} />
+      <FallbackIcon size={size * 0.5} strokeWidth={1.8} />
     </span>
   );
 }
@@ -218,7 +221,7 @@ function StoreLinks({ app }) {
 
 function MobileAppsShowcase({ heading = true }) {
   const reduce = useReducedMotion();
-  const [release, setRelease] = useState("published");
+  const [release, setRelease] = useState(STAGES[0].id);
   const apps = useMemo(() => appsByRelease(release), [release]);
   const [activeId, setActiveId] = useState(apps[0].id);
   const [paused, setPaused] = useState(false);
@@ -264,12 +267,13 @@ function MobileAppsShowcase({ heading = true }) {
               <div>
                 <h2 className="text-sm text-slate-500 dark:text-slate-400">Mobile apps</h2>
                 <p className="mt-3 max-w-[18ch] text-[clamp(30px,4vw,52px)] font-semibold leading-[1.02] tracking-[-0.03em] text-slate-900 dark:text-white">
-                  Shipped to Google Play, and what comes next
+                  {STAGES.length > 1 ? "Shipped to Google Play, and what comes next" : "Live on Google Play"}
                 </p>
               </div>
               <div className="max-w-[44ch]">
                 <p className="text-[15.5px] leading-relaxed text-slate-600 dark:text-slate-300">
-                  Every app here is designed, built and released by our own team. Published apps are live in production; the rest are with testers on Google Play.
+                  Every app here is designed, built and released by our own team.{" "}
+                  {STAGES.length > 1 ? "Published apps are live in production; the rest are with testers on Google Play." : "Each one is live on Google Play and ready to download."}
                 </p>
                 <Link to="/products#mobile-apps" className="link-slide mt-3 inline-block text-[15px] font-medium text-brand-600 dark:text-brand-300">
                   See every screen
@@ -278,33 +282,35 @@ function MobileAppsShowcase({ heading = true }) {
             </Reveal>
           )}
 
-          <div role="tablist" aria-label="Release stage" className="mt-10 inline-flex rounded-full border border-slate-900/10 bg-white p-1 dark:border-white/10 dark:bg-[#0f2440]">
-            {Object.values(RELEASE).map((stage) => {
-              const selected = stage.id === release;
-              return (
-                <button
-                  key={stage.id}
-                  role="tab"
-                  type="button"
-                  aria-selected={selected}
-                  aria-controls="mobile-apps-panel"
-                  onClick={() => switchRelease(stage.id)}
-                  className={`relative isolate inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors duration-300 ${
-                    selected ? "text-white dark:text-slate-900" : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                  }`}
-                >
-                  {selected && (
-                    <motion.span layoutId="release-pill" className="absolute inset-0 -z-10 rounded-full bg-slate-900 dark:bg-white" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
-                  )}
-                  <span className={`h-1.5 w-1.5 rounded-full ${stage.id === "published" ? "bg-emerald-500" : "bg-amber-400"}`} />
-                  {stage.label}
-                  <span className="tabular opacity-60">{appsByRelease(stage.id).length}</span>
-                </button>
-              );
-            })}
-          </div>
+          {STAGES.length > 1 && (
+            <div role="tablist" aria-label="Release stage" className="mt-10 inline-flex rounded-full border border-slate-900/10 bg-white p-1 dark:border-white/10 dark:bg-[#0f2440]">
+              {STAGES.map((stage) => {
+                const selected = stage.id === release;
+                return (
+                  <button
+                    key={stage.id}
+                    role="tab"
+                    type="button"
+                    aria-selected={selected}
+                    aria-controls="mobile-apps-panel"
+                    onClick={() => switchRelease(stage.id)}
+                    className={`relative isolate inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors duration-300 ${
+                      selected ? "text-white dark:text-slate-900" : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    }`}
+                  >
+                    {selected && (
+                      <motion.span layoutId="release-pill" className="absolute inset-0 -z-10 rounded-full bg-slate-900 dark:bg-white" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
+                    )}
+                    <span className={`h-1.5 w-1.5 rounded-full ${stage.id === "published" ? "bg-emerald-500" : "bg-amber-400"}`} />
+                    {stage.label}
+                    <span className="tabular opacity-60">{appsByRelease(stage.id).length}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
-          <div id="mobile-apps-panel" role="tabpanel" className="mt-8 grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
+          <div id="mobile-apps-panel" role={STAGES.length > 1 ? "tabpanel" : undefined} className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
             {/* App list */}
             <ul
               className="border-t border-slate-900/10 dark:border-white/10 lg:col-span-5"
