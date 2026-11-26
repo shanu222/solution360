@@ -188,6 +188,33 @@ export const domains = [
     border: "border-cyan-300/50 dark:border-cyan-400/30",
     applications: [
       {
+        id: "railguard-ai",
+        name: "RAILGUARD AI",
+        folderName: "RAILGUARD-AI",
+        category: "Railway Safety Intelligence",
+        description:
+          "AI dashboard for Pakistan Railways that monitors the condition of rail assets, scores risk along the network and improves safety at road-rail level crossings.",
+        status: STATUS.LIVE,
+        href: "https://rail-guard-ai-mu.vercel.app/",
+        featured: true,
+        sdgs: ["SDG 9", "SDG 11"],
+        tech: ["AI/ML", "Risk Scoring", "Dashboard"],
+        icon: "TrainFront",
+      },
+      {
+        id: "rwh-planner",
+        name: "RWH Planner",
+        folderName: "RWH-Planner",
+        category: "Water Resilience",
+        description:
+          "Design rooftop rainwater harvesting systems for buildings in Pakistan: size the storage tank, design the recharge well, get a bill of quantities and download a report in English and Urdu.",
+        status: STATUS.LIVE,
+        href: "https://rwh-planner.vercel.app/",
+        sdgs: ["SDG 6", "SDG 11", "SDG 13"],
+        tech: ["Engineering Calcs", "PDF Reports", "Bilingual"],
+        icon: "Droplets",
+      },
+      {
         id: "infra-resilience360",
         name: "Infra Resilience360",
         folderName: "Infra-Resilience360",
@@ -244,6 +271,20 @@ export const domains = [
     glow: "rgba(59,130,246,0.35)",
     border: "border-blue-300/50 dark:border-blue-400/30",
     applications: [
+      {
+        id: "meeto360",
+        name: "Meeto360",
+        folderName: "Meeto360",
+        category: "Live Classes & Meetings",
+        description:
+          "Live classes and meetings for up to 500 people in a shared 3D classroom: one whiteboard everyone sees instantly, slides, screen sharing, voice and chat. Participants join with a code, no account needed.",
+        status: STATUS.LIVE,
+        href: "https://www.meeto360.com/",
+        featured: true,
+        sdgs: ["SDG 4", "SDG 9"],
+        tech: ["Real-time", "3D", "WebRTC"],
+        icon: "Video",
+      },
       {
         id: "net360-preparation",
         name: "NET360 Preparation",
@@ -303,6 +344,32 @@ export const domains = [
     glow: "rgba(16,185,129,0.35)",
     border: "border-emerald-300/50 dark:border-emerald-400/30",
     applications: [
+      {
+        id: "jobradar-pk",
+        name: "JobRadar PK",
+        folderName: "JobRadar-PK",
+        category: "Jobs & Careers",
+        description:
+          "Government, private, NGO and international remote jobs in one place, with deadline reminders, a saved-jobs tracker and matches based on your uploaded CV.",
+        status: STATUS.LIVE,
+        href: "https://job-radar-pk.vercel.app/",
+        sdgs: ["SDG 8", "SDG 10"],
+        tech: ["AI Matching", "Aggregation", "Reminders"],
+        icon: "Briefcase",
+      },
+      {
+        id: "foundback",
+        name: "FoundBack",
+        folderName: "FoundBack",
+        category: "Lost & Found",
+        description:
+          "A lost-and-found platform where finders post items they have found and owners prove an item is theirs before anyone meets, keeping returns safe on both sides.",
+        status: STATUS.LIVE,
+        href: "https://lost-and-found-tau-rose.vercel.app/",
+        sdgs: ["SDG 11", "SDG 16"],
+        tech: ["Verification", "Geolocation", "Multilingual"],
+        icon: "SearchCheck",
+      },
       {
         id: "she360",
         name: "She360",
@@ -388,12 +455,39 @@ export const domains = [
     slug: "consumer-games",
     name: "Consumer Apps & Games",
     shortName: "Consumer",
-    description: "Everyday utilities and casual games published on Google Play.",
+    description: "Everyday tools, online shopping, app testing and casual games for the web and Google Play.",
     icon: "Gamepad2",
     accent: "from-fuchsia-500/20 via-pink-400/10 to-violet-400/20",
     glow: "rgba(217,70,239,0.3)",
     border: "border-fuchsia-300/50 dark:border-fuchsia-400/30",
     applications: [
+      {
+        id: "shopwalk360",
+        name: "ShopWalk 360",
+        folderName: "ShopWalk-360",
+        category: "3D Online Store",
+        description:
+          "An online store you can browse as a normal catalogue or walk through as a 3D shop with your own avatar, adding items to the same cart as you go.",
+        status: STATUS.LIVE,
+        href: "https://www.shopwalk360.com/",
+        featured: true,
+        sdgs: ["SDG 8", "SDG 9"],
+        tech: ["3D", "E-commerce", "Avatar"],
+        icon: "ShoppingBag",
+      },
+      {
+        id: "testloop",
+        name: "TestLoop",
+        folderName: "TestLoop",
+        category: "App Testing Community",
+        description:
+          "Find live Google Play testing openings, join beta programmes and track your testing work, with Google Play developer accounts linked in one place.",
+        status: STATUS.LIVE,
+        href: "https://www.testloop.org/",
+        sdgs: ["SDG 8", "SDG 9"],
+        tech: ["Google Play", "Community", "Tracking"],
+        icon: "FlaskConical",
+      },
       {
         id: "ai-phone-doctor",
         name: "AI Phone Doctor",

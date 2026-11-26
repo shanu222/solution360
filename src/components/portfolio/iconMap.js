@@ -51,6 +51,12 @@ import {
   Waypoints,
   Wheat,
   Zap,
+  Droplets,
+  FlaskConical,
+  SearchCheck,
+  ShoppingBag,
+  TrainFront,
+  Video,
 } from "lucide-react";
 
 const iconMap = {
@@ -106,6 +112,12 @@ const iconMap = {
   Waypoints,
   Wheat,
   Zap,
+  Droplets,
+  FlaskConical,
+  SearchCheck,
+  ShoppingBag,
+  TrainFront,
+  Video,
 };
 
 export function getIcon(name) {
