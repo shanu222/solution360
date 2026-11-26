@@ -4,6 +4,7 @@ import MobileAppsGallery from "../components/apps/MobileAppsGallery";
 import ClosingCTA from "../components/ClosingCTA";
 import { useLenis } from "../components/motion/SmoothScroll";
 import ProductsSection from "../components/ProductsSection";
+import WebPlatformsGallery from "../components/WebPlatformsGallery";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 
 function Products() {
@@ -32,6 +33,11 @@ function Products() {
       <section className="w-full px-5 pt-12 sm:px-6 sm:pt-20">
         <div className="mx-auto w-full max-w-7xl">
           <ProductsSection />
+        </div>
+      </section>
+      <section className="w-full px-5 sm:px-6">
+        <div className="mx-auto w-full max-w-7xl">
+          <WebPlatformsGallery />
         </div>
       </section>
       <section className="w-full px-5 sm:px-6">
